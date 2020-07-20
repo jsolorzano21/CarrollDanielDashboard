@@ -9,6 +9,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/e916d12e-aa42-4d95-9ef2-25e8540b8632/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/financial-caroll-daniel",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/e916d12e-aa42-4d95-9ef2-25e8540b8632/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/financial-carroll-daniel"
 }
