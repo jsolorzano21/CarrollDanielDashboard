@@ -15,7 +15,7 @@
     "@microsoft/microsoft-graph-client": "^1.7.0",
     "@types/jwt-decode": "^2.2.1",
     "@types/react-big-calendar": "^0.22.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-switch-button-react": "^1.2.0",
     "chart.js": "^2.9.3",
