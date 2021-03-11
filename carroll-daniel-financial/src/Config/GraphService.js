@@ -18,5 +18,9 @@ function getAuthenticatedClient(accessToken) {
 export async function getUserDetails(accessToken) {
   const client = getAuthenticatedClient(accessToken);
   const user = await client.api('/me').get();
+  console.log("getUserDetails user: ")
+  console.log(user)
+  console.log("Client: ")
+  console.log(client)
   return user;
 }

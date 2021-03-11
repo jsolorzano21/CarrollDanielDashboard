@@ -115,7 +115,7 @@ var expectedProfitFA7 = 0;
 var expectedProfitFA11 = 0;
 var expectedProfitFAOne = 0;
 var expectedProfitOne = 0;
-var expectedBacklog = 0;
+//var expectedBacklog = 0;
 var expectedFutureRev = 0;
 var expectedFutureRev2 = 0;
 var expectedFutureRev3 = 0;
@@ -232,6 +232,14 @@ var divFiveArray = [];
 var divSixArray = [];
 var divSevenArray = [];
 var divElevenArray = [];
+var div1ArrayExecAdj = [];
+var div2ArrayExecAdj = [];
+var div3ArrayExecAdj = [];
+var div4ArrayExecAdj = [];
+var div5ArrayExecAdj = [];
+var div6ArrayExecAdj = [];
+var div7ArrayExecAdj = [];
+var div11ArrayExecAdj = [];
 var divisionContractsTotal = [];
 var divisionContractsTotal2 = [];
 var divisionContractsTotal3 = [];
@@ -268,6 +276,8 @@ var divisionCombinedTotal6 = [];
 var divisionCombinedTotal7 = [];
 var divisionCombinedTotal11 = [];
 var divisionCombinedTotalOne = [];
+var divisionCombinedTotalOneExecAdj = [];
+var divisionCombinedTotalOnePercent = [];
 var divisionCombinedTotalPlan = [];
 var divisionCombinedTotalPlanPercent = [];
 var divisionCombinedTotalPlanTwo = [];
@@ -284,7 +294,7 @@ var divisionCombinedTotalPlanSeven = [];
 var divisionCombinedTotalPlanPercentSeven = [];
 var divisionCombinedTotalPlanEleven = [];
 var divisionCombinedTotalPlanPercentEleven = [];
-var divisionArray = [];
+//var divisionArray = [];
 let childrenDataContract1 = [];
 let childrenDataContract2 = [];
 let childrenDataContract3 = [];
@@ -418,7 +428,7 @@ class RevenueProfitYearThree extends Component{
     }
  }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -429,7 +439,6 @@ class RevenueProfitYearThree extends Component{
    exportToCSV = (csvData, fileName) => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
-    console.log(csvData)
     const ws = XLSX.utils.json_to_sheet(csvData);
     //this.wrapAndCenterCell(ws);
     ws["!cols"] = [{ width: 9 },{ width: 16 },{ width: 50 },{ width: 9 },{ width: 16 },{ width: 16 },{ width: 16 } ,{ width: 9 } ,{ width: 12 },{ width: 9 },{ width: 9 },{ width: 12 },{ width: 15 },{ width: 14 },{ width: 18 },{ width: 14 },{ width: 18 }];
@@ -551,14 +560,23 @@ exportAllToCSV = () => {
           "Content-Type" : "application/json"
         }
       }
+    ),
+    axios.get(
+      "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialUpdateYearThreeReportExecAdj",
+      {headers: {
+          "Authorization" : AuthStr,
+          "Content-Type" : "application/json"
+        }
+      }
     )
-  ]).then(axios.spread((response, response2, response3, response4) => {
+  ]).then(axios.spread((response, response2, response3, response4, response5) => {
 
     var userInfo = response['data'];
     var currentQuarterResponse = response2['data'];
     var divisionsResponse = response3['data'];
     var threeYearValue = response4['data'];
-    divisionArray = divisionsResponse;
+    var managementAdj = response5['data'];
+    //divisionArray = divisionsResponse;
     currentQuarterResponse.forEach(function (values){
       const { current_quarter, current_year} = values //destructing
 
@@ -567,7 +585,6 @@ exportAllToCSV = () => {
 
     })
 
-    console.log(threeYearValue)
 
     threeYearValue.forEach(function (values){
       const { year, quarter, div_1_revenue_1, div_1_profit_1, div_1_revenue_2, div_1_profit_2, div_1_revenue_3, div_1_profit_3, div_2_revenue_1, div_2_profit_1, div_2_revenue_2, div_2_profit_2, div_2_revenue_3, div_2_profit_3
@@ -576,6 +593,7 @@ exportAllToCSV = () => {
         , div_7_revenue_1, div_7_profit_1, div_7_revenue_2, div_7_profit_2, div_7_revenue_3, div_7_profit_3, div_11_revenue_1, div_11_profit_1, div_11_revenue_2, div_11_profit_2, div_11_revenue_3, div_11_profit_3} = values //destructing
 
       if(currentYearResp === year && currentQuarterResp === quarter){
+
         divOneArray.push({'div_1_revenue_1': div_1_revenue_1, 'div_1_profit_1': div_1_profit_1, 'div_1_revenue_2': div_1_revenue_2, 'div_1_profit_2': div_1_profit_2,  'div_1_revenue_3': div_1_revenue_3, 'div_1_profit_3': div_1_profit_3})
         divTwoArray.push({'div_2_revenue_1': div_2_revenue_1, 'div_2_profit_1': div_2_profit_1, 'div_2_revenue_2': div_2_revenue_2, 'div_2_profit_2': div_2_profit_2,  'div_2_revenue_3': div_2_revenue_3, 'div_2_profit_3': div_2_profit_3})
         divThreeArray.push({'div_3_revenue_1': div_3_revenue_1, 'div_3_profit_1': div_3_profit_1, 'div_3_revenue_2': div_3_revenue_2, 'div_3_profit_2': div_3_profit_2,  'div_3_revenue_3': div_3_revenue_3, 'div_3_profit_3': div_3_profit_3})
@@ -586,6 +604,16 @@ exportAllToCSV = () => {
         divElevenArray.push({'div_11_revenue_1': div_11_revenue_1, 'div_11_profit_1': div_11_profit_1, 'div_11_revenue_2': div_11_revenue_2, 'div_11_profit_2': div_11_profit_2,  'div_11_revenue_3': div_11_revenue_3, 'div_11_profit_3': div_11_profit_3})
       }
 
+    })
+
+    managementAdj.forEach(function (valuesAdj){
+      const { year, quarter, division, year_1_revenue, year_1_profit, year_2_revenue, year_2_profit,
+            year_3_revenue, year_3_profit} = valuesAdj //destructing
+
+            if(currentYearResp === year && currentQuarterResp === quarter){
+
+                div1ArrayExecAdj.push({division: division, 'div_1_revenue_1': year_1_revenue, 'div_1_profit_1': year_1_profit, 'div_1_revenue_2': year_2_revenue, 'div_1_profit_2': year_2_profit,  'div_1_revenue_3': year_3_revenue, 'div_1_profit_3': year_3_profit})
+            }
     })
 
     if(currentQuarterResp === '1'){
@@ -608,9 +636,9 @@ exportAllToCSV = () => {
     var decoded = jwt_decode(localStorage.getItem('data-token'));  
     userInfo.forEach(function (item){
       const {  useremail, userdivision } = item //destructuring
-  
-      userDivisionNumber = userdivision;
+      
       if(decoded.sub === useremail){
+       userDivisionNumber = userdivision;
         if(userdivision === "all"){
           financialString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/";
         }else{
@@ -645,7 +673,7 @@ exportAllToCSV = () => {
     if(value === 'project_report'){
       
       return this.state.ProjectReportData.map((FY19Plan, index) => {
-        const { _id, job_name, dept_job, quarter, year, division, status, bonded, contract_amount, gross_margin_percent, hit_ratio, earned_revenue_YTD, 
+        const { _id, job_name, dept_job, quarter, year, division, status, contract_amount, gross_margin_percent, hit_ratio, earned_revenue_YTD, 
               end_date, backlog, earned_revenue, start_date } = FY19Plan //destructuring
 
               if(division === '1'){
@@ -685,7 +713,7 @@ exportAllToCSV = () => {
         var checkStartValue = startDate.getMonth() - now.getMonth() + 
           (12 * (startDate.getFullYear() - now.getFullYear()))
         const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-        var totalForcastRevenue = '';
+        var totalForecastRevenue = '';
         var totalExpectedRevenue = '';
         var expectedContractAmount = '';
         var profitCurrentYear = '';
@@ -810,27 +838,27 @@ exportAllToCSV = () => {
         //profit = (parseFloat(contract_amount) * (gross_margin_percent / 100));
         //profitTotal += profit;
         if((pastDate <= now  && checkMonth === true) || pastDate <= now){
-          totalForcastRevenue = 0;
+          totalForecastRevenue = 0;
           if(quarter === '4'){
             earnedRevenueYTDValue = 0;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '3'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '2'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '1'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }
-          profitCurrentYear = (parseFloat(earnedRevenueYTDValue) * (gross_margin_percent/100)) + (parseFloat(totalForcastRevenue) * (gross_margin_percent/100));
+          profitCurrentYear = (parseFloat(earnedRevenueYTDValue) * (gross_margin_percent/100)) + (parseFloat(totalForecastRevenue) * (gross_margin_percent/100));
           expectedContractAmount = Math.round(((parseFloat(contract_amount) - parseFloat(earned_revenue))) * hit_ratio/100);
           //totalExpectedRevenue =  earned_revenue_YTD;
           currentBacklogValue = 0;
           futureBacklog = 0;
         }else {
-          totalForcastRevenue = backlog;
+          totalForecastRevenue = backlog;
           expectedContractAmount = Math.round(((parseFloat(contract_amount) - parseFloat(earned_revenue))) * hit_ratio/100);
           for(var j=0; j < global.burnOffChart.length; j++){
             if(j >= CurrentMonthOfProject && j < totalMonths){
@@ -841,7 +869,7 @@ exportAllToCSV = () => {
           }
 
           //console.log("Job Name: " + job_name + " BurnSum: " + burnOffSum)
-          //calculate Burnoff rate
+          //calculate BurnOff rate
           var checkloop = 1;
           var forecastData = 0;
           var futureForecastData = 0;
@@ -907,9 +935,9 @@ exportAllToCSV = () => {
         }
       }else{
 
-        //calculate Burnoff rate
+        //calculate BurnOff rate
         var checkloopProjected = 1;
-        var checkCompleted = 0;
+        //var checkCompleted = 0;
         var forecastDataProjected = 0;
         var futureForecastDataProjected = 0;
         var forecastNumberProjected = 0;
@@ -938,12 +966,12 @@ exportAllToCSV = () => {
           for(var il=1; il < checkStartValue; il++){
             checkloopProjected += 1;
           }
-          checkCompleted += 1;
+          //checkCompleted += 1;
         }
         
 
         //if(checkCompleted === 1){
-          //calculate burnoff sum
+          //calculate burnOff sum
           for(var jk=0; jk < global.burnOffChart.length; jk++){
             if(jk >= CurrentMonthOfProject && jk < totalMonths){
                 var objProjected = global.burnOffChart[jk][newValue]
@@ -978,7 +1006,7 @@ exportAllToCSV = () => {
         //console.log("Job Name: " + job_name + " Total: " + forecastDataProjected) 
 
         expectedContractAmount = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
-        totalForcastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
+        totalForecastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
         totalExpectedRevenue = forecastDataProjected ? forecastDataProjected : 0;
         //totalExpectedRevenue = (parseFloat(totalExpectedRevenue) * (gross_margin_percent/100));
         currentBacklogValue = (futureForecastDataProjected + futureRevenueValueProjected) ? (futureForecastDataProjected + futureRevenueValueProjected) : 0;
@@ -1005,7 +1033,7 @@ exportAllToCSV = () => {
         expectedConAmount += expectedContractAmount;
         expectedRevenue += parseFloat(totalExpectedRevenue);
         expectedProfit += profitCurrentYear;
-        expectedBacklog += parseFloat(currentBacklogValue);    
+        //expectedBacklog += parseFloat(currentBacklogValue);    
         expectedFutureRev += futureRevenue;
         expectedFutureProf += futureProfit;
         expectedFutureBack += futureRevenueThree;
@@ -1238,9 +1266,9 @@ exportAllToCSV = () => {
       'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profit).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
       Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-      Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-      'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-      'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
+      Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      'Revenue Year 2': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      'Revenue Year 3': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
         })
 
       }else if(status === 'ABNC' && division === '1'){
@@ -1268,7 +1296,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1297,7 +1325,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1326,7 +1354,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1355,7 +1383,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1384,7 +1412,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1413,7 +1441,7 @@ exportAllToCSV = () => {
         'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profit3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
         Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-        Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
   })
@@ -1442,7 +1470,7 @@ exportAllToCSV = () => {
         'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profit3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
         Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-        Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
   })
@@ -1471,7 +1499,7 @@ exportAllToCSV = () => {
         'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profit3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
         Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-        Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
   })
@@ -1500,7 +1528,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1529,7 +1557,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1558,7 +1586,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1587,7 +1615,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1616,7 +1644,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1645,7 +1673,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1674,7 +1702,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1703,7 +1731,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1732,7 +1760,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1761,7 +1789,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1790,7 +1818,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1819,7 +1847,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1848,7 +1876,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1877,7 +1905,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1906,7 +1934,7 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profit11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
@@ -1937,9 +1965,9 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 2': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 3': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
         }else if(status === 'ABNC'){
           childrenDataABNCOne.push(<tr key={_id} style={{ fontSize: '17px'}}>
@@ -1966,9 +1994,9 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 2': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 3': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
         }else if(status === 'FA'){
           childrenDataFAOne.push(<tr key={_id} style={{ fontSize: '17px'}}>
@@ -1995,9 +2023,9 @@ exportAllToCSV = () => {
             'Job Name': `${job_name}`, Status: `${status}`, 'Contract Amount': `${'$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2})}`,
             'Gross Margin': `${'$' + Math.round(profitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${gross_margin_percent + '%'}`, 'Hit Rato': `${hit_ratio + '%'}`,
             Backlog: `${'$' + (expectedContractAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': `${start_date}`, 'Months': `${totalMonths}`,
-            Revneue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 2': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-            'Revenue Year 3': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
+            Revenue: `${'$' + Math.round(totalExpectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(profitCurrentYear).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 2': `${'$' + Math.round(futureRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(futureProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+            'Revenue Year 3': `${'$' + Math.round(futureRevenueThree).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(futureProfitThree).toLocaleString(undefined, {maximumFractionDigits:2})}`
           })
         }
 
@@ -2070,7 +2098,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal) / parseFloat(contractTotal)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2097,7 +2125,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal) / parseFloat(contractTotalABNC)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2124,7 +2152,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal) / parseFloat(contractTotalFA)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2188,7 +2216,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal) + Math.round(contractTotalABNC) + Math.round(contractTotalFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal) + Math.round(profitABNCTotal) + Math.round(profitFATotal)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal) + Math.round(profitABNCTotal) + Math.round(profitFATotal)) / (Math.round(contractTotal) + Math.round(contractTotalABNC) + Math.round(contractTotalFA))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount) + Math.round(expectedContractAmountABNC) + Math.round(expectedContractAmountFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue) + Math.round(expectedRevenueABNC) + Math.round(expectedRevenueFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit) + Math.round(expectedProfitABNC) + Math.round(expectedProfitFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue) + Math.round(expectedRevenueABNC) + Math.round(expectedRevenueFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit) + Math.round(expectedProfitABNC) + Math.round(expectedProfitFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev) + Math.round(expectedFutureRevABNC) + Math.round(expectedFutureRevFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf) + Math.round(expectedFutureProfABNC) + Math.round(expectedFutureProfFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack) + Math.round(expectedFutureBackABNC) + Math.round(expectedFutureBackFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit) + Math.round(expectedFutureBackProfitABNC) + Math.round(expectedFutureBackProfitFA)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2196,7 +2224,7 @@ exportAllToCSV = () => {
       finalDivisionArray.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divOneArray[0].div_1_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divOneArray[0].div_1_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divOneArray[0].div_1_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divOneArray[0].div_1_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divOneArray[0].div_1_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divOneArray[0].div_1_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divOneArray[0].div_1_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divOneArray[0].div_1_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2204,7 +2232,7 @@ exportAllToCSV = () => {
       finalDivisionArray.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue) + Math.round(expectedRevenueABNC) + Math.round(expectedRevenueFA)) / Math.round(parseInt(divOneArray[0].div_1_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit) + Math.round(expectedProfitABNC) + Math.round(expectedProfitFA)) / Math.round(parseInt(divOneArray[0].div_1_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
+      Revenue: `${((Math.round(expectedRevenue) + Math.round(expectedRevenueABNC) + Math.round(expectedRevenueFA)) / Math.round(parseInt(divOneArray[0].div_1_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit) + Math.round(expectedProfitABNC) + Math.round(expectedProfitFA)) / Math.round(parseInt(divOneArray[0].div_1_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev) + Math.round(expectedFutureRevABNC) + Math.round(expectedFutureRevFA)) / Math.round(parseInt(divOneArray[0].div_1_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf) + Math.round(expectedFutureProfABNC) + Math.round(expectedFutureProfFA)) / Math.round(parseInt(divOneArray[0].div_1_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack) + Math.round(expectedFutureBackABNC) + Math.round(expectedFutureBackFA)) / Math.round(parseInt(divOneArray[0].div_1_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit) + Math.round(expectedFutureBackProfitABNC) + Math.round(expectedFutureBackProfitFA)) / Math.round(parseInt(divOneArray[0].div_1_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -2234,7 +2262,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal2) / parseFloat(contractTotal2)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount2).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit2).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2261,7 +2289,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal2) / parseFloat(contractTotalABNC2)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC2).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2288,7 +2316,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal2).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal2) / parseFloat(contractTotalFA2)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA2).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2353,7 +2381,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal2) + Math.round(contractTotalABNC2) + Math.round(contractTotalFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal2) + Math.round(profitABNCTotal2) + Math.round(profitFATotal2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal2) + Math.round(profitABNCTotal2) + Math.round(profitFATotal2)) / (Math.round(contractTotal2) + Math.round(contractTotalABNC2) + Math.round(contractTotalFA2))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount2) + Math.round(expectedContractAmountABNC2) + Math.round(expectedContractAmountFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue2) + Math.round(expectedRevenueABNC2) + Math.round(expectedRevenueFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit2) + Math.round(expectedProfitABNC2) + Math.round(expectedProfitFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue2) + Math.round(expectedRevenueABNC2) + Math.round(expectedRevenueFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit2) + Math.round(expectedProfitABNC2) + Math.round(expectedProfitFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev2) + Math.round(expectedFutureRevABNC2) + Math.round(expectedFutureRevFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf2) + Math.round(expectedFutureProfABNC2) + Math.round(expectedFutureProfFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack2) + Math.round(expectedFutureBackABNC2) + Math.round(expectedFutureBackFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit2) + Math.round(expectedFutureBackProfitABNC2) + Math.round(expectedFutureBackProfitFA2)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2361,7 +2389,7 @@ exportAllToCSV = () => {
       finalDivisionArray2.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divTwoArray[0].div_2_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divTwoArray[0].div_2_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divTwoArray[0].div_2_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divTwoArray[0].div_2_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divTwoArray[0].div_2_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divTwoArray[0].div_2_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divTwoArray[0].div_2_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divTwoArray[0].div_2_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2369,7 +2397,7 @@ exportAllToCSV = () => {
       finalDivisionArray2.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue2) + Math.round(expectedRevenueABNC2) + Math.round(expectedRevenueFA2)) / Math.round(parseInt(divTwoArray[0].div_2_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit2) + Math.round(expectedProfitABNC2) + Math.round(expectedProfitFA2)) / Math.round(parseInt(divTwoArray[0].div_2_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
+      Revenue: `${((Math.round(expectedRevenue2) + Math.round(expectedRevenueABNC2) + Math.round(expectedRevenueFA2)) / Math.round(parseInt(divTwoArray[0].div_2_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit2) + Math.round(expectedProfitABNC2) + Math.round(expectedProfitFA2)) / Math.round(parseInt(divTwoArray[0].div_2_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev2) + Math.round(expectedFutureRevABNC2) + Math.round(expectedFutureRevFA2)) / Math.round(parseInt(divTwoArray[0].div_2_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf2) + Math.round(expectedFutureProfABNC2) + Math.round(expectedFutureProfFA2)) / Math.round(parseInt(divTwoArray[0].div_2_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack2) + Math.round(expectedFutureBackABNC2) + Math.round(expectedFutureBackFA2)) / Math.round(parseInt(divTwoArray[0].div_2_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit2) + Math.round(expectedFutureBackProfitABNC2) + Math.round(expectedFutureBackProfitFA2)) / Math.round(parseInt(divTwoArray[0].div_2_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -2399,7 +2427,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal3) / parseFloat(contractTotal3)) * 100) ? ((parseFloat(profitTotal3) / parseFloat(contractTotal3)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount3).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit3).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2426,7 +2454,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal3) / parseFloat(contractTotalABNC3)) * 100) ? ((parseFloat(profitABNCTotal3) / parseFloat(contractTotalABNC3)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedContractAmountABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + parseFloat(Math.round(expectedRevenueABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + parseFloat(Math.round(expectedProfitABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + parseFloat(Math.round(expectedRevenueABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + parseFloat(Math.round(expectedProfitABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + parseFloat(Math.round(expectedFutureRevABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + parseFloat(Math.round(expectedFutureProfABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + parseFloat(Math.round(expectedFutureBackABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + parseFloat(Math.round(expectedFutureBackProfitABNC3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2453,7 +2481,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal3).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal3) / parseFloat(contractTotalFA3)) * 100) ? ((parseFloat(profitFATotal3) / parseFloat(contractTotalFA3)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA3).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2518,7 +2546,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal3) + Math.round(contractTotalABNC3) + Math.round(contractTotalFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal3) + Math.round(profitABNCTotal3) + Math.round(profitFATotal3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal3) + Math.round(profitABNCTotal3) + Math.round(profitFATotal3)) / (Math.round(contractTotal3) + Math.round(contractTotalABNC3) + Math.round(contractTotalFA3))) * 100) ? ((parseFloat(Math.round(profitTotal3) + Math.round(profitABNCTotal3) + Math.round(profitFATotal3)) / (Math.round(contractTotal3) + Math.round(contractTotalABNC3) + Math.round(contractTotalFA3))) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount3) + Math.round(expectedContractAmountABNC3) + Math.round(expectedContractAmountFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue3) + Math.round(expectedRevenueABNC3) + Math.round(expectedRevenueFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit3) + Math.round(expectedProfitABNC3) + Math.round(expectedProfitFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue3) + Math.round(expectedRevenueABNC3) + Math.round(expectedRevenueFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit3) + Math.round(expectedProfitABNC3) + Math.round(expectedProfitFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev3) + Math.round(expectedFutureRevABNC3) + Math.round(expectedFutureRevFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf3) + Math.round(expectedFutureProfABNC3) + Math.round(expectedFutureProfFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack3) + Math.round(expectedFutureBackABNC3) + Math.round(expectedFutureBackFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit3) + Math.round(expectedFutureBackProfitABNC3) + Math.round(expectedFutureBackProfitFA3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2526,7 +2554,7 @@ exportAllToCSV = () => {
       finalDivisionArray3.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divThreeArray[0].div_3_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divThreeArray[0].div_3_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divThreeArray[0].div_3_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divThreeArray[0].div_3_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divThreeArray[0].div_3_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divThreeArray[0].div_3_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divThreeArray[0].div_3_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divThreeArray[0].div_3_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2534,7 +2562,7 @@ exportAllToCSV = () => {
       finalDivisionArray3.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${Math.round(parseInt(divThreeArray[0].div_3_revenue_1)) ? ((Math.round(expectedRevenue3) + Math.round(expectedRevenueABNC3) + Math.round(expectedRevenueFA3)) / Math.round(parseInt(divThreeArray[0].div_3_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $': `${Math.round(parseInt(divThreeArray[0].div_3_profit_1)) ? ((Math.round(expectedProfit3) + Math.round(expectedProfitABNC3) + Math.round(expectedProfitFA3)) / Math.round(parseInt(divThreeArray[0].div_3_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
+      Revenue: `${Math.round(parseInt(divThreeArray[0].div_3_revenue_1)) ? ((Math.round(expectedRevenue3) + Math.round(expectedRevenueABNC3) + Math.round(expectedRevenueFA3)) / Math.round(parseInt(divThreeArray[0].div_3_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $': `${Math.round(parseInt(divThreeArray[0].div_3_profit_1)) ? ((Math.round(expectedProfit3) + Math.round(expectedProfitABNC3) + Math.round(expectedProfitFA3)) / Math.round(parseInt(divThreeArray[0].div_3_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
       'Revenue Year 2': `${Math.round(parseInt(divThreeArray[0].div_3_revenue_2)) ? ((Math.round(expectedFutureRev3) + Math.round(expectedFutureRevABNC3) + Math.round(expectedFutureRevFA3)) / Math.round(parseInt(divThreeArray[0].div_3_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $ Year 2': `${Math.round(parseInt(divThreeArray[0].div_3_profit_2)) ? ((Math.round(expectedFutureProf3) + Math.round(expectedFutureProfABNC3) + Math.round(expectedFutureProfFA3)) / Math.round(parseInt(divThreeArray[0].div_3_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
       'Revenue Year 3': `${Math.round(parseInt(divThreeArray[0].div_3_revenue_3)) ? ((Math.round(expectedFutureBack3) + Math.round(expectedFutureBackABNC3) + Math.round(expectedFutureBackFA3)) / Math.round(parseInt(divThreeArray[0].div_3_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $ Year 3': `${Math.round(parseInt(divThreeArray[0].div_3_profit_3)) ? ((Math.round(expectedFutureBackProfit3) + Math.round(expectedFutureBackProfitABNC3) + Math.round(expectedFutureBackProfitFA3)) / Math.round(parseInt(divThreeArray[0].div_3_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`
       })
@@ -2564,7 +2592,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal4) / parseFloat(contractTotal4)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount4).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit4).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2591,7 +2619,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal4) / parseFloat(contractTotalABNC4)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC4).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2618,7 +2646,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal4).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal4) / parseFloat(contractTotalFA4)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA4).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2684,7 +2712,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal4) + Math.round(contractTotalABNC4) + Math.round(contractTotalFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal4) + Math.round(profitABNCTotal4) + Math.round(profitFATotal4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal4) + Math.round(profitABNCTotal4) + Math.round(profitFATotal4)) / (Math.round(contractTotal4) + Math.round(contractTotalABNC4) + Math.round(contractTotalFA4))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount4) + Math.round(expectedContractAmountABNC4) + Math.round(expectedContractAmountFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue4) + Math.round(expectedRevenueABNC4) + Math.round(expectedRevenueFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit4) + Math.round(expectedProfitABNC4) + Math.round(expectedProfitFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue4) + Math.round(expectedRevenueABNC4) + Math.round(expectedRevenueFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit4) + Math.round(expectedProfitABNC4) + Math.round(expectedProfitFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev) + Math.round(expectedFutureRevABNC4) + Math.round(expectedFutureRevFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf4) + Math.round(expectedFutureProfABNC4) + Math.round(expectedFutureProfFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack4) + Math.round(expectedFutureBackABNC4) + Math.round(expectedFutureBackFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit4) + Math.round(expectedFutureBackProfitABNC4) + Math.round(expectedFutureBackProfitFA4)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2692,7 +2720,7 @@ exportAllToCSV = () => {
       finalDivisionArray4.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divFourArray[0].div_4_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divFourArray[0].div_4_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divFourArray[0].div_4_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divFourArray[0].div_4_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divFourArray[0].div_4_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divFourArray[0].div_4_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divFourArray[0].div_4_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divFourArray[0].div_4_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2700,7 +2728,7 @@ exportAllToCSV = () => {
       finalDivisionArray4.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue4) + Math.round(expectedRevenueABNC4) + Math.round(expectedRevenueFA4)) / Math.round(parseInt(divFourArray[0].div_4_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit4) + Math.round(expectedProfitABNC4) + Math.round(expectedProfitFA4)) / Math.round(parseInt(divFourArray[0].div_4_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
+      Revenue: `${((Math.round(expectedRevenue4) + Math.round(expectedRevenueABNC4) + Math.round(expectedRevenueFA4)) / Math.round(parseInt(divFourArray[0].div_4_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit4) + Math.round(expectedProfitABNC4) + Math.round(expectedProfitFA4)) / Math.round(parseInt(divFourArray[0].div_4_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev4) + Math.round(expectedFutureRevABNC4) + Math.round(expectedFutureRevFA4)) / Math.round(parseInt(divFourArray[0].div_4_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf4) + Math.round(expectedFutureProfABNC4) + Math.round(expectedFutureProfFA4)) / Math.round(parseInt(divFourArray[0].div_4_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack4) + Math.round(expectedFutureBackABNC4) + Math.round(expectedFutureBackFA4)) / Math.round(parseInt(divFourArray[0].div_4_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit4) + Math.round(expectedFutureBackProfitABNC4) + Math.round(expectedFutureBackProfitFA4)) / Math.round(parseInt(divFourArray[0].div_4_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -2730,7 +2758,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal5) / parseFloat(contractTotal5)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount5).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit5).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2757,7 +2785,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal5) / parseFloat(contractTotalABNC5)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC5).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2784,7 +2812,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal5).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal5) / parseFloat(contractTotalFA5)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA5).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2849,7 +2877,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal5) + Math.round(contractTotalABNC5) + Math.round(contractTotalFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal5) + Math.round(profitABNCTotal5) + Math.round(profitFATotal5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal5) + Math.round(profitABNCTotal5) + Math.round(profitFATotal5)) / (Math.round(contractTotal5) + Math.round(contractTotalABNC5) + Math.round(contractTotalFA5))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount5) + Math.round(expectedContractAmountABNC5) + Math.round(expectedContractAmountFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' +(Math.round(expectedRevenue5) + Math.round(expectedRevenueABNC5) + Math.round(expectedRevenueFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit5) + Math.round(expectedProfitABNC5) + Math.round(expectedProfitFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' +(Math.round(expectedRevenue5) + Math.round(expectedRevenueABNC5) + Math.round(expectedRevenueFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit5) + Math.round(expectedProfitABNC5) + Math.round(expectedProfitFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev5) + Math.round(expectedFutureRevABNC5) + Math.round(expectedFutureRevFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf5) + Math.round(expectedFutureProfABNC5) + Math.round(expectedFutureProfFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack5) + Math.round(expectedFutureBackABNC5) + Math.round(expectedFutureBackFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit5) + Math.round(expectedFutureBackProfitABNC5) + Math.round(expectedFutureBackProfitFA5)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2857,7 +2885,7 @@ exportAllToCSV = () => {
       finalDivisionArray5.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divFiveArray[0].div_5_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divFiveArray[0].div_5_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divFiveArray[0].div_5_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divFiveArray[0].div_5_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divFiveArray[0].div_5_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divFiveArray[0].div_5_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divFiveArray[0].div_5_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divFiveArray[0].div_5_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2865,7 +2893,7 @@ exportAllToCSV = () => {
       finalDivisionArray5.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue5) + Math.round(expectedRevenueABNC5) + Math.round(expectedRevenueFA5)) / Math.round(parseInt(divFiveArray[0].div_5_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit5) + Math.round(expectedProfitABNC5) + Math.round(expectedProfitFA5)) / Math.round(parseInt(divFiveArray[0].div_5_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
+      Revenue: `${((Math.round(expectedRevenue5) + Math.round(expectedRevenueABNC5) + Math.round(expectedRevenueFA5)) / Math.round(parseInt(divFiveArray[0].div_5_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit5) + Math.round(expectedProfitABNC5) + Math.round(expectedProfitFA5)) / Math.round(parseInt(divFiveArray[0].div_5_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev5) + Math.round(expectedFutureRevABNC5) + Math.round(expectedFutureRevFA5)) / Math.round(parseInt(divFiveArray[0].div_5_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf5) + Math.round(expectedFutureProfABNC5) + Math.round(expectedFutureProfFA5)) / Math.round(parseInt(divFiveArray[0].div_5_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack5) + Math.round(expectedFutureBackABNC5) + Math.round(expectedFutureBackFA5)) / Math.round(parseInt(divFiveArray[0].div_5_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit5) + Math.round(expectedFutureBackProfitABNC5) + Math.round(expectedFutureBackProfitFA5)) / Math.round(parseInt(divFiveArray[0].div_5_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -2895,7 +2923,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal6) / parseFloat(contractTotal6)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount6).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit6).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2922,7 +2950,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal6) / parseFloat(contractTotalABNC6)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC6).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -2949,7 +2977,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal6).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal6) / parseFloat(contractTotalFA6)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA6).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3015,7 +3043,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal6) + Math.round(contractTotalABNC6) + Math.round(contractTotalFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal6) + Math.round(profitABNCTotal6) + Math.round(profitFATotal6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal6) + Math.round(profitABNCTotal6) + Math.round(profitFATotal6)) / (Math.round(contractTotal6) + Math.round(contractTotalABNC6) + Math.round(contractTotalFA6))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount6) + Math.round(expectedContractAmountABNC6) + Math.round(expectedContractAmountFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue6) + Math.round(expectedRevenueABNC6) + Math.round(expectedRevenueFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit6) + Math.round(expectedProfitABNC6) + Math.round(expectedProfitFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue6) + Math.round(expectedRevenueABNC6) + Math.round(expectedRevenueFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit6) + Math.round(expectedProfitABNC6) + Math.round(expectedProfitFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev6) + Math.round(expectedFutureRevABNC6) + Math.round(expectedFutureRevFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf6) + Math.round(expectedFutureProfABNC6) + Math.round(expectedFutureProfFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack6) + Math.round(expectedFutureBackABNC6) + Math.round(expectedFutureBackFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit6) + Math.round(expectedFutureBackProfitABNC6) + Math.round(expectedFutureBackProfitFA6)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3023,7 +3051,7 @@ exportAllToCSV = () => {
       finalDivisionArray6.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divSixArray[0].div_6_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divSixArray[0].div_6_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divSixArray[0].div_6_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divSixArray[0].div_6_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divSixArray[0].div_6_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divSixArray[0].div_6_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divSixArray[0].div_6_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divSixArray[0].div_6_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3031,7 +3059,7 @@ exportAllToCSV = () => {
       finalDivisionArray6.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue6) + Math.round(expectedRevenueABNC6) + Math.round(expectedRevenueFA6)) / Math.round(parseInt(divSixArray[0].div_6_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit6) + Math.round(expectedProfitABNC6) + Math.round(expectedProfitFA6)) / Math.round(parseInt(divSixArray[0].div_6_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
+      Revenue: `${((Math.round(expectedRevenue6) + Math.round(expectedRevenueABNC6) + Math.round(expectedRevenueFA6)) / Math.round(parseInt(divSixArray[0].div_6_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${((Math.round(expectedProfit6) + Math.round(expectedProfitABNC6) + Math.round(expectedProfitFA6)) / Math.round(parseInt(divSixArray[0].div_6_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev6) + Math.round(expectedFutureRevABNC6) + Math.round(expectedFutureRevFA6)) / Math.round(parseInt(divSixArray[0].div_6_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf6) + Math.round(expectedFutureProfABNC6) + Math.round(expectedFutureProfFA6)) / Math.round(parseInt(divSixArray[0].div_6_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack6) + Math.round(expectedFutureBackABNC6) + Math.round(expectedFutureBackFA6)) / Math.round(parseInt(divSixArray[0].div_6_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit6) + Math.round(expectedFutureBackProfitABNC6) + Math.round(expectedFutureBackProfitFA6)) / Math.round(parseInt(divSixArray[0].div_6_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -3061,7 +3089,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal7) / parseFloat(contractTotal7)) * 100) ? ((parseFloat(profitTotal7) / parseFloat(contractTotal7)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount7).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit7).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3088,7 +3116,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal7) / parseFloat(contractTotalABNC7)) * 100) ? ((parseFloat(profitABNCTotal7) / parseFloat(contractTotalABNC7)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC7).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3115,7 +3143,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal7).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal7) / parseFloat(contractTotalFA7)) * 100) ? ((parseFloat(profitFATotal7) / parseFloat(contractTotalFA7)) * 100).toFixed(2) + '%' : 0}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA7).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3180,7 +3208,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal7) + Math.round(contractTotalABNC7) + Math.round(contractTotalFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal7) + Math.round(profitABNCTotal7) + Math.round(profitFATotal7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal7) + Math.round(profitABNCTotal7) + Math.round(profitFATotal7)) / (Math.round(contractTotal7) + Math.round(contractTotalABNC7) + Math.round(contractTotalFA7))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount7) + Math.round(expectedContractAmountABNC7) + Math.round(expectedContractAmountFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue7) + Math.round(expectedRevenueABNC7) + Math.round(expectedRevenueFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit7) + Math.round(expectedProfitABNC7) + Math.round(expectedProfitFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue7) + Math.round(expectedRevenueABNC7) + Math.round(expectedRevenueFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit7) + Math.round(expectedProfitABNC7) + Math.round(expectedProfitFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev7) + Math.round(expectedFutureRevABNC7) + Math.round(expectedFutureRevFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf7) + Math.round(expectedFutureProfABNC7) + Math.round(expectedFutureProfFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack7) + Math.round(expectedFutureBackABNC7) + Math.round(expectedFutureBackFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit7) + Math.round(expectedFutureBackProfitABNC7) + Math.round(expectedFutureBackProfitFA7)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3188,7 +3216,7 @@ exportAllToCSV = () => {
       finalDivisionArray7.push({Division: `Plan`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divSevenArray[0].div_7_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divSevenArray[0].div_7_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divSevenArray[0].div_7_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divSevenArray[0].div_7_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divSevenArray[0].div_7_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divSevenArray[0].div_7_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divSevenArray[0].div_7_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divSevenArray[0].div_7_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3196,7 +3224,7 @@ exportAllToCSV = () => {
       finalDivisionArray7.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${((Math.round(expectedRevenue7) + Math.round(expectedRevenueABNC7) + Math.round(expectedRevenueFA7)) / Math.round(parseInt(divSevenArray[0].div_7_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${Math.round(parseInt(divSevenArray[0].div_7_profit_1)) ? ((Math.round(expectedProfit7) + Math.round(expectedProfitABNC7) + Math.round(expectedProfitFA7)) / Math.round(parseInt(divSevenArray[0].div_7_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
+      Revenue: `${((Math.round(expectedRevenue7) + Math.round(expectedRevenueABNC7) + Math.round(expectedRevenueFA7)) / Math.round(parseInt(divSevenArray[0].div_7_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $': `${Math.round(parseInt(divSevenArray[0].div_7_profit_1)) ? ((Math.round(expectedProfit7) + Math.round(expectedProfitABNC7) + Math.round(expectedProfitFA7)) / Math.round(parseInt(divSevenArray[0].div_7_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
       'Revenue Year 2': `${((Math.round(expectedFutureRev7) + Math.round(expectedFutureRevABNC7) + Math.round(expectedFutureRevFA7)) / Math.round(parseInt(divSevenArray[0].div_7_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 2': `${((Math.round(expectedFutureProf7) + Math.round(expectedFutureProfABNC7) + Math.round(expectedFutureProfFA7)) / Math.round(parseInt(divSevenArray[0].div_7_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`,
       'Revenue Year 3': `${((Math.round(expectedFutureBack7) + Math.round(expectedFutureBackABNC7) + Math.round(expectedFutureBackFA7)) / Math.round(parseInt(divSevenArray[0].div_7_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`, 'Gross Margin $ Year 3': `${((Math.round(expectedFutureBackProfit7) + Math.round(expectedFutureBackProfitABNC7) + Math.round(expectedFutureBackProfitFA7)) / Math.round(parseInt(divSevenArray[0].div_7_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}`
       })
@@ -3226,7 +3254,7 @@ exportAllToCSV = () => {
         'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotal11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Gross Margin': `${'$' + Math.round(profitTotal11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotal11) / parseFloat(contractTotal11)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
         Backlog: `${'$' + (expectedConAmount11).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-        Revneue: `${'$' + Math.round(expectedRevenue11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+        Revenue: `${'$' + Math.round(expectedRevenue11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfit11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 2': `${'$' + Math.round(expectedFutureRev11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProf11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
         'Revenue Year 3': `${'$' + Math.round(expectedFutureBack11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfit11).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3253,7 +3281,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitABNCTotal11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotal11) / parseFloat(contractTotalABNC11)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + (expectedContractAmountABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNC11).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3280,7 +3308,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + Math.round(profitFATotal11).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotal11) / parseFloat(contractTotalFA11)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedContractAmountFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + Math.round(expectedRevenueFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + Math.round(expectedRevenueFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFA11).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3345,7 +3373,7 @@ exportAllToCSV = () => {
       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotal11) + Math.round(contractTotalABNC11) + Math.round(contractTotalFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Gross Margin': `${'$' + parseFloat(Math.round(profitTotal11) + Math.round(profitABNCTotal11) + Math.round(profitFATotal11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotal11) + Math.round(profitABNCTotal11) + Math.round(profitFATotal11)) / (Math.round(contractTotal11) + Math.round(contractTotalABNC11) + Math.round(contractTotalFA11))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
       Backlog: `${'$' + parseFloat(Math.round(expectedConAmount11) + Math.round(expectedContractAmountABNC11) + Math.round(expectedContractAmountFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (Math.round(expectedRevenue11) + Math.round(expectedRevenueABNC11) + Math.round(expectedRevenueFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit11) + Math.round(expectedProfitABNC11) + Math.round(expectedProfitFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (Math.round(expectedRevenue11) + Math.round(expectedRevenueABNC11) + Math.round(expectedRevenueFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfit11) + Math.round(expectedProfitABNC11) + Math.round(expectedProfitFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (Math.round(expectedFutureRev11) + Math.round(expectedFutureRevABNC11) + Math.round(expectedFutureRevFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProf11) + Math.round(expectedFutureProfABNC11) + Math.round(expectedFutureProfFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (Math.round(expectedFutureBack11) + Math.round(expectedFutureBackABNC11) + Math.round(expectedFutureBackFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfit11) + Math.round(expectedFutureBackProfitABNC11) + Math.round(expectedFutureBackProfitFA11)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3353,7 +3381,7 @@ exportAllToCSV = () => {
       finalDivisionArray11.push({Division: `Plan Projection`, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${'$' + (parseInt(divElevenArray[0].div_11_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divElevenArray[0].div_11_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+      Revenue: `${'$' + (parseInt(divElevenArray[0].div_11_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(divElevenArray[0].div_11_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 2': `${'$' + (parseInt(divElevenArray[0].div_11_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(divElevenArray[0].div_11_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
       'Revenue Year 3': `${'$' + (parseInt(divElevenArray[0].div_11_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(divElevenArray[0].div_11_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
       })
@@ -3361,7 +3389,7 @@ exportAllToCSV = () => {
       finalDivisionArray11.push({Division: ``, 'Department Code': ``,
       'Job Name': ``, Status: ``, 'Contract Amount': ``,'Gross Margin': ``, 'Hit Rato': ``,
       Backlog: ``,  'Start Date': ``, 'Months': ``,
-      Revneue: `${Math.round(parseInt(divElevenArray[0].div_11_revenue_1)) ? ((Math.round(expectedRevenue11) + Math.round(expectedRevenueABNC11) + Math.round(expectedRevenueFA11)) / Math.round(parseInt(divElevenArray[0].div_11_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $': `${Math.round(parseInt(divElevenArray[0].div_11_profit_1)) ? ((Math.round(expectedProfit11) + Math.round(expectedProfitABNC11) + Math.round(expectedProfitFA11)) / Math.round(parseInt(divElevenArray[0].div_11_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
+      Revenue: `${Math.round(parseInt(divElevenArray[0].div_11_revenue_1)) ? ((Math.round(expectedRevenue11) + Math.round(expectedRevenueABNC11) + Math.round(expectedRevenueFA11)) / Math.round(parseInt(divElevenArray[0].div_11_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $': `${Math.round(parseInt(divElevenArray[0].div_11_profit_1)) ? ((Math.round(expectedProfit11) + Math.round(expectedProfitABNC11) + Math.round(expectedProfitFA11)) / Math.round(parseInt(divElevenArray[0].div_11_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
       'Revenue Year 2': `${Math.round(parseInt(divElevenArray[0].div_11_revenue_2)) ? ((Math.round(expectedFutureRev11) + Math.round(expectedFutureRevABNC11) + Math.round(expectedFutureRevFA11)) / Math.round(parseInt(divElevenArray[0].div_11_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $ Year 2': `${Math.round(parseInt(divElevenArray[0].div_11_profit_2)) ? ((Math.round(expectedFutureProf11) + Math.round(expectedFutureProfABNC11) + Math.round(expectedFutureProfFA11)) / Math.round(parseInt(divElevenArray[0].div_11_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`,
       'Revenue Year 3': `${Math.round(parseInt(divElevenArray[0].div_11_revenue_3)) ? ((Math.round(expectedFutureBack11) + Math.round(expectedFutureBackABNC11) + Math.round(expectedFutureBackFA11)) / Math.round(parseInt(divElevenArray[0].div_11_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`, 'Gross Margin $ Year 3': `${Math.round(parseInt(divElevenArray[0].div_11_profit_3)) ? ((Math.round(expectedFutureBackProfit11) + Math.round(expectedFutureBackProfitABNC11) + Math.round(expectedFutureBackProfitFA11)) / Math.round(parseInt(divElevenArray[0].div_11_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0}`
       })
@@ -3387,11 +3415,11 @@ exportAllToCSV = () => {
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + parseFloat(Math.round(expectedFutureBackOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + parseFloat(Math.round(expectedFutureBackProfitOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
      </tr>)
-         divisionContractsOne.push({Division: `TOTALS`, 'Department Code': ``,
+         divisionContractsOne.push({Division: `TOTALS CONTRACT: DIVISION ` + [this.state.userDivisionNum], 'Department Code': ``,
          'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
          'Gross Margin': `${'$' + Math.round(profitTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotalOne) / parseFloat(contractTotalOne)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
          Backlog: `${'$' + (expectedConAmountOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-         Revneue: `${'$' + Math.round(expectedRevenueOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+         Revenue: `${'$' + Math.round(expectedRevenueOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
          'Revenue Year 2': `${'$' + Math.round(expectedFutureRevOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
          'Revenue Year 3': `${'$' + Math.round(expectedFutureBackOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`
        })
@@ -3414,11 +3442,11 @@ exportAllToCSV = () => {
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + parseFloat(Math.round(expectedFutureBackProfitABNCOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
      </tr>)
  
-     divisionContractsABNCOne.push({Division: `TOTALS`, 'Department Code': ``,
+     divisionContractsABNCOne.push({Division: `TOTALS ABNC: DIVISION ` + [this.state.userDivisionNum], 'Department Code': ``,
        'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-       'Gross Margin': `${'$' + Math.round(profitABNCTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitABNCTotalOne) / parseFloat(contractTotalABNCOne)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
+       'Gross Margin': `${'$' + Math.round(profitABNCTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': parseFloat(profitABNCTotalOne) ? `${((parseFloat(profitABNCTotalOne) / parseFloat(contractTotalABNCOne)) * 100).toFixed(2) + '%'}` : 0 + '%', 'Hit Rato': ``,
        Backlog: `${'$' + (expectedContractAmountABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-       Revneue: `${'$' + Math.round(expectedRevenueABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+       Revenue: `${'$' + Math.round(expectedRevenueABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
        'Revenue Year 2': `${'$' + Math.round(expectedFutureRevABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
        'Revenue Year 3': `${'$' + Math.round(expectedFutureBackABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitABNCOne).toLocaleString(undefined, {maximumFractionDigits:2})}`
        })
@@ -3441,17 +3469,17 @@ exportAllToCSV = () => {
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + parseFloat(Math.round(expectedFutureBackProfitFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
      </tr>)
  
-       divisionContractsFAOne.push({Division: `TOTALS`, 'Department Code': ``,
+       divisionContractsFAOne.push({Division: `TOTALS FA: DIVISION ` + [this.state.userDivisionNum], 'Department Code': ``,
        'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-       'Gross Margin': `${'$' + Math.round(profitFATotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitFATotalOne) / parseFloat(contractTotalFAOne)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
+       'Gross Margin': `${'$' + Math.round(profitFATotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': parseFloat(profitFATotalOne) ? `${((parseFloat(profitFATotalOne) / parseFloat(contractTotalFAOne)) * 100).toFixed(2) + '%'}` : 0 + '%', 'Hit Rato': ``,
        Backlog: `${'$' + parseFloat(Math.round(expectedContractAmountFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-       Revneue: `${'$' + Math.round(expectedRevenueFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+       Revenue: `${'$' + Math.round(expectedRevenueFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
        'Revenue Year 2': `${'$' + Math.round(expectedFutureRevFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
        'Revenue Year 3': `${'$' + Math.round(expectedFutureBackFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitFAOne).toLocaleString(undefined, {maximumFractionDigits:2})}`
        })
  
        divisionCombinedTotalOne.push(<tr key={20002} style={{ fontSize: '17px'}}>
-       <th colSpan={3} style={{ textAlign: 'center', border: '1px solid #005A8B'}}>TOTALS COMBINED: DIVISION {this.state.userDivisionNum}</th>
+       <th colSpan={3} style={{ textAlign: 'center', border: '1px solid #005A8B'}}>TOTALS COMBINED PROJECTION: DIVISION {this.state.userDivisionNum}</th>
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (Math.round(contractTotalOne) + Math.round(contractTotalABNCOne) + Math.round(contractTotalFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + parseFloat(Math.round(profitTotalOne) + Math.round(profitABNCTotalOne) + Math.round(profitFATotalOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
@@ -3467,17 +3495,79 @@ exportAllToCSV = () => {
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
        <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
      </tr>)
- 
-       var finalDivisionArrayOne = divisionContractsOne.concat(divisionContractsABNCOne).concat(divisionContractsFAOne)
- 
-       finalDivisionArrayOne.push({Division: `TOTALS`, 'Department Code': ``,
-       'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + Math.round(contractTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-       'Gross Margin': `${'$' + Math.round(profitTotalOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(profitTotalOne) / parseFloat(contractTotalOne)) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
-       Backlog: `${'$' + (expectedConAmountOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
-       Revneue: `${'$' + Math.round(expectedRevenueOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + Math.round(expectedProfitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-       'Revenue Year 2': `${'$' + Math.round(expectedFutureRevOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + Math.round(expectedFutureProfOne).toLocaleString(undefined, {maximumFractionDigits:2})}`,
-       'Revenue Year 3': `${'$' + Math.round(expectedFutureBackOne).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + Math.round(expectedFutureBackProfitOne).toLocaleString(undefined, {maximumFractionDigits:2})}`
-       })
+
+        var finalDivisionArrayOne = divisionContractsOne.concat(divisionContractsABNCOne).concat(divisionContractsFAOne)
+
+
+        div1ArrayExecAdj.forEach(function (values){
+          const { division, div_1_revenue_1, div_1_profit_1, div_1_revenue_2, div_1_profit_2, div_1_revenue_3, div_1_profit_3} = values //destructing)
+            if(division === userDivisionNumber){
+              console.log("Division: " + division + " DivisionNum: " + userDivisionNumber)
+              console.log(div1ArrayExecAdj)
+              divisionCombinedTotalOneExecAdj.push(<tr key={20002} style={{ fontSize: '17px'}}>
+              <th colSpan={3} style={{ textAlign: 'center', border: '1px solid #005A8B'}}>TOTALS COMBINED PLAN: DIVISION {userDivisionNumber}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{'$' + (parseInt(div_1_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+              </tr>)
+      
+                divisionCombinedTotalOnePercent.push(<tr key={20002} style={{ fontSize: '17px'}}>
+                <th colSpan={3} style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedRevenueOne) + Math.round(expectedRevenueABNCOne) + Math.round(expectedRevenueFAOne)) ? (((Math.round(expectedRevenueOne) + Math.round(expectedRevenueABNCOne) + Math.round(expectedRevenueFAOne)) / parseInt(div_1_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedProfitOne) + Math.round(expectedProfitABNCOne) + Math.round(expectedProfitFAOne)) ? (((Math.round(expectedProfitOne) + Math.round(expectedProfitABNCOne) + Math.round(expectedProfitFAOne)) / parseInt(div_1_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedFutureRevOne) + Math.round(expectedFutureRevABNCOne) + Math.round(expectedFutureRevFAOne)) ? (((Math.round(expectedFutureRevOne) + Math.round(expectedFutureRevABNCOne) + Math.round(expectedFutureRevFAOne)) / parseInt(div_1_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedFutureProfOne) + Math.round(expectedFutureProfABNCOne) + Math.round(expectedFutureProfFAOne)) ? (((Math.round(expectedFutureProfOne) + Math.round(expectedFutureProfABNCOne) + Math.round(expectedFutureProfFAOne)) / parseInt(div_1_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)) ? (((Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)) / parseInt(div_1_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}>{(Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)) ? (((Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)) / parseInt(div_1_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%' : 0 + '%'}</th>
+                </tr>)
+
+                  finalDivisionArrayOne.push({Division: `TOTALS COMBINED PROJECTION: DIVISION ` + userDivisionNumber, 'Department Code': ``,
+                  'Job Name': ``, Status: ``, 'Contract Amount': `${'$' + (Math.round(contractTotalOne) + Math.round(contractTotalABNCOne) + Math.round(contractTotalFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+                  'Gross Margin': `${'$' + parseFloat(Math.round(profitTotalOne) + Math.round(profitABNCTotalOne) + Math.round(profitFATotalOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,'Gross Margin %': `${((parseFloat(Math.round(profitTotalOne) + Math.round(profitABNCTotalOne) + Math.round(profitFATotalOne)) / (Math.round(contractTotalOne) + Math.round(contractTotalABNCOne) + Math.round(contractTotalFAOne))) * 100).toFixed(2) + '%'}`, 'Hit Rato': ``,
+                  Backlog: `${'$' + parseFloat(Math.round(expectedConAmountOne) + Math.round(expectedContractAmountABNCOne) + Math.round(expectedContractAmountFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,  'Start Date': ``, 'Months': ``,
+                  Revenue: `${'$' + (Math.round(expectedRevenueOne) + Math.round(expectedRevenueABNCOne) + Math.round(expectedRevenueFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (Math.round(expectedProfitOne) + Math.round(expectedProfitABNCOne) + Math.round(expectedProfitFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+                  'Revenue Year 2': `${'$' + (Math.round(expectedFutureRevOne) + Math.round(expectedFutureRevABNCOne) + Math.round(expectedFutureRevFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (Math.round(expectedFutureProfOne) + Math.round(expectedFutureProfABNCOne) + Math.round(expectedFutureProfFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+                  'Revenue Year 3': `${'$' + (Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)).toLocaleString(undefined, {maximumFractionDigits:2})}`
+                  })
+
+                  finalDivisionArrayOne.push({Division: `TOTALS COMBINED PLAN: DIVISION ` + userDivisionNumber, 'Department Code': ``,
+                'Job Name': ``, Status: ``, 'Contract Amount': ``,
+                'Gross Margin': ``,'Gross Margin %': ``, 'Hit Rato': ``,
+                Backlog: ``,  'Start Date': ``, 'Months': ``,
+                Revenue: `${'$' + (parseInt(div_1_revenue_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $': `${'$' + (parseInt(div_1_profit_1)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+                'Revenue Year 2': `${'$' + (parseInt(div_1_revenue_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 2': `${'$' + (parseInt(div_1_profit_2)).toLocaleString(undefined, {maximumFractionDigits:2})}`,
+                'Revenue Year 3': `${'$' + (parseInt(div_1_revenue_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`, 'Gross Margin $ Year 3': `${'$' + (parseInt(div_1_profit_3)).toLocaleString(undefined, {maximumFractionDigits:2})}`
+                })
+
+                finalDivisionArrayOne.push({Division: ``, 'Department Code': ``,
+                'Job Name': ``, Status: ``, 'Contract Amount': ``,
+                'Gross Margin': ``,'Gross Margin %': ``, 'Hit Rato': ``,
+                Backlog: ``,  'Start Date': ``, 'Months': ``,
+                Revenue: (Math.round(expectedRevenueOne) + Math.round(expectedRevenueABNCOne) + Math.round(expectedRevenueFAOne)) / parseInt(div_1_revenue_1) ? `${(((Math.round(expectedRevenueOne) + Math.round(expectedRevenueABNCOne) + Math.round(expectedRevenueFAOne)) / parseInt(div_1_revenue_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%', 'Gross Margin $': (Math.round(expectedProfitOne) + Math.round(expectedProfitABNCOne) + Math.round(expectedProfitFAOne)) ?  `${(((Math.round(expectedProfitOne) + Math.round(expectedProfitABNCOne) + Math.round(expectedProfitFAOne)) / parseInt(div_1_profit_1)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%',
+                'Revenue Year 2': (Math.round(expectedFutureRevOne) + Math.round(expectedFutureRevABNCOne) + Math.round(expectedFutureRevFAOne)) ? `${(((Math.round(expectedFutureRevOne) + Math.round(expectedFutureRevABNCOne) + Math.round(expectedFutureRevFAOne)) / parseInt(div_1_revenue_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%', 'Gross Margin $ Year 2': (Math.round(expectedFutureProfOne) + Math.round(expectedFutureProfABNCOne) + Math.round(expectedFutureProfFAOne)) ? `${(((Math.round(expectedFutureProfOne) + Math.round(expectedFutureProfABNCOne) + Math.round(expectedFutureProfFAOne)) / parseInt(div_1_profit_2)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%',
+                'Revenue Year 3': (Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)) ? `${(((Math.round(expectedFutureBackOne) + Math.round(expectedFutureBackABNCOne) + Math.round(expectedFutureBackFAOne)) / parseInt(div_1_revenue_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%', 'Gross Margin $ Year 3': (Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)) ? `${(((Math.round(expectedFutureBackProfitOne) + Math.round(expectedFutureBackProfitABNCOne) + Math.round(expectedFutureBackProfitFAOne)) / parseInt(div_1_profit_3)) * 100).toLocaleString(undefined, {maximumFractionDigits:2}) + '%'}` : 0 + '%'
+                })
+            }
+        })
  
        mergedCompletedSectionsOne = finalDivisionArrayOne.map((x) => x);
 
@@ -3491,7 +3581,6 @@ exportAllToCSV = () => {
 
     render(){
 
-      console.log("Rendering Revenue Profit Year Three Page!")
       const headerSection = "headerSection"
       const yearSection = "yearSection"
       const headerSectionTotal = "headerSectionTotal"
@@ -3509,7 +3598,7 @@ exportAllToCSV = () => {
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
@@ -3806,6 +3895,8 @@ exportAllToCSV = () => {
                         {childrenDataFAOne}
                         {divisionFATotalOne}
                         {divisionCombinedTotalOne}
+                        {divisionCombinedTotalOneExecAdj}
+                        {divisionCombinedTotalOnePercent}
                         </tbody>
                     </table>
                     </div>

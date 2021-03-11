@@ -43,7 +43,7 @@ var predivElevenOverhead = 0; var predivZeroOverhead = 0; var predivDeferrCompOv
 var preprofitSummary = 0; var netCostCorportate = 0; var prenetCostCorportate = 0; var netCostConsolidated = 0; var prenetCostConsolidated = 0; var netGACostDiv01 = 0; var prenetGACostDiv01 = 0;
 var netGACostDiv02 = 0; var prenetGACostDiv02 = 0; var netGACostDiv03 = 0; var prenetGACostDiv03 = 0; var netGACostDiv04 = 0; var prenetGACostDiv04 = 0; var netGACostDiv05 = 0; var prenetGACostDiv05 = 0;
 var netGACostDiv06 = 0; var prenetGACostDiv06 = 0; var netGACostDiv07 = 0; var prenetGACostDiv07 = 0; var netGACostDiv11 = 0; var prenetGACostDiv11 = 0; var effDivTotal = 0; var preeffDivTotal = 0;
-var netGACostDiv00 = 0; var prenetGACostDiv00 = 0; var IncomeOperDiv01 = 0; var preIncomeOperDiv01 = 0; var IncomeOperDiv02 = 0; var preIncomeOperDiv02 = 0; var IncomeOperDiv03 = 0; var preIncomeOperDiv03 = 0;
+var IncomeOperDiv01 = 0; var preIncomeOperDiv01 = 0; var IncomeOperDiv02 = 0; var preIncomeOperDiv02 = 0; var IncomeOperDiv03 = 0; var preIncomeOperDiv03 = 0;
 var IncomeOperDiv04 = 0; var preIncomeOperDiv04 = 0; var IncomeOperDiv05 = 0; var preIncomeOperDiv05 = 0; var IncomeOperDiv06 = 0; var preIncomeOperDiv06 = 0; var IncomeOperDiv07 = 0; var preIncomeOperDiv07 = 0;
 var IncomeOperDiv11 = 0; var preIncomeOperDiv11 = 0; var IncomeOperDiv00 = 0; var preIncomeOperDiv00 = 0; var netGACorporateCost = 0; var prenetGACorporateCost = 0; var netGAConsolidatedCost = 0;
 var prenetGAConsolidatedCost = 0; var ma_revenue_1 = 0; var ma_profit_1 = 0; var ma_revenue_2 = 0; var ma_profit_2 = 0; var ma_revenue_3 = 0; var ma_profit_3 = 0; var ma_revenue_4 = 0;
@@ -60,7 +60,7 @@ var currentQuarter = '';
 var prevcurrentQuarter = '';
 var currentDateString = '';
 var currentYearLabel = '';
-var financialString = '';
+//var financialString = '';
 var currentMonth = 0;
 var totalJobProfitOne = 0;
 var pretotalJobProfitOne = 0;
@@ -143,7 +143,7 @@ class DivIncomeYearOne extends Component{
           currentYearResp = current_year;
     
         })
-        if(currentQuarterResp === '1'){
+        if(currentQuarterResp === "1"){
           currentQuarter = new Date('3/31/' + currentYearResp)
           previousYearResp = parseInt(currentYearResp) - 1;
           prevcurrentQuarter = new Date('12/31/' + previousYearResp)
@@ -151,7 +151,7 @@ class DivIncomeYearOne extends Component{
           currentDateString = 'March 31'
           currentYearLabel = currentYearResp
           previousQuarterResp = '4';
-        }else if(currentQuarterResp === '2'){
+        }else if(currentQuarterResp === "2"){
           currentQuarter = new Date('6/30/' + currentYearResp)
           prevcurrentQuarter = new Date('3/31/' + currentYearResp)
           currentMonth = 6;
@@ -159,7 +159,7 @@ class DivIncomeYearOne extends Component{
           currentYearLabel = currentYearResp
           previousQuarterResp = '1';
           previousYearResp = currentYearResp;
-        }else if(currentQuarterResp === '3'){
+        }else if(currentQuarterResp === "3"){
           currentQuarter = new Date('9/30/' + currentYearResp)
           prevcurrentQuarter = new Date('6/30/' + currentYearResp)
           currentMonth = 9;
@@ -167,7 +167,7 @@ class DivIncomeYearOne extends Component{
           currentYearLabel = currentYearResp
           previousQuarterResp = '2';
           previousYearResp = currentYearResp;
-        }else if(currentQuarterResp === '4'){
+        }else if(currentQuarterResp === "4"){
           currentQuarter = new Date('12/31/' + currentYearResp)
           prevcurrentQuarter = new Date('9/30/' + currentYearResp)
           currentMonth = 12;
@@ -176,22 +176,25 @@ class DivIncomeYearOne extends Component{
           previousQuarterResp = '3';
           previousYearResp = currentYearResp;
         }
+
+        console.log("current quarter: " + currentQuarterResp + " Previous: " + previousQuarterResp)
+
         var decoded = jwt_decode(localStorage.getItem('data-token'));  
         userInfo.forEach(function (item){
         const {  useremail, userdivision } = item //destructuring
   
         /*if(decoded.sub === useremail){
           if(userdivision === "all"){
-            financialString = "http://localhost:8081/api/financialResultsData/";
+            financialString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/";
           }else{
-            financialString = "http://localhost:8081/api/financialResultsData/division/" + userdivision
+            financialString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/division/" + userdivision
           }
         } */ 
     })
 
     axios.all([
       axios.get(
-        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData",
+        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/",
         {headers: {
             "Authorization" : AuthStr,
             "Content-Type" : "application/json"
@@ -207,7 +210,7 @@ class DivIncomeYearOne extends Component{
         }
       ),
       axios.get(
-        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialManagementAdjustmentData",
+        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialManagementAdjustmentData/",
         {headers: {
             "Authorization" : AuthStr,
             "Content-Type" : "application/json"
@@ -344,7 +347,7 @@ if(value === 'project_report'){
     
     if(status === 'Contract'){
     //checking if the end date has already passed
-    if(pastDate <= now && checkMonth === true && parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year) || (pastDate <= now && parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year))){
+    if((pastDate <= now && checkMonth === true && parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)) || (pastDate <= now && parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year))){
         totalForcastRevenue = 0;
         if(quarter === '4'){
           earnedRevenueYTDValue = 0;
@@ -364,7 +367,7 @@ if(value === 'project_report'){
         //totalExpectedRevenue =  earned_revenue_YTD;
         currentBacklogValue = 0;
         futureBacklog = 0;
-    }else if(pastDate <= now2 && pastcheckMonth === true && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
+    }else if((pastDate <= now2 && pastcheckMonth === true && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)) || (pastDate <= now2 && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year))){
         pretotalForcastRevenue = 0;
         if(quarter === '4'){
           preearnedRevenueYTDValue = 0;
@@ -640,7 +643,6 @@ if(value === 'project_report'){
                     checkloopProjectedPrevious += 1;
                 }
                 else if(checkloopProjectedPrevious > forecastNumberProjectedPrevious && checkloopProjectedPrevious <= maxForecastNumberProjectedPrevious){
-                    console.log("Job Name: " + job_name + " Status: " + status + " Total Revenue: " + monthlyValueProjectedPast);
                     futureForecastDataProjectedPrevious += monthlyValueProjectedPast;
                     //futureRevenue += monthlyValue;
                     checkloopProjectedPrevious += 1;
@@ -700,6 +702,7 @@ if(value === 'project_report'){
         expectedProfit1 += profitCurrentYear;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
         preexpectedRevenue1 += parseFloat(pretotalExpectedRevenue) ? parseFloat(pretotalExpectedRevenue) : 0;
+        console.log("Pre Contract: " + preexpectedRevenue1 + " Job Name: " + job_name)
         preexpectedProfit1 += preprofitCurrentYear; 
       }
     }else if( status === 'ABNC'){
@@ -707,7 +710,6 @@ if(value === 'project_report'){
         expectedRevenueABNC1 += parseFloat(totalExpectedRevenue);
         expectedProfitABNC1 += profitCurrentYear;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        console.log("Job Name: " + job_name + " Revenue: " + pretotalExpectedRevenue)
         preexpectedRevenueABNC1 += parseFloat(pretotalExpectedRevenue);
         preexpectedProfitABNC1 += preprofitCurrentYear;
       }
@@ -3261,7 +3263,6 @@ this.state.OverHeadData.map((OverHeadData, index) => {
 
     render(){
 
-      console.log("Rendering Main Page!")
       const headerSection = "headerSection"
       const jobProfit = "jobProfit"
       const PercentRev = "PercentRev"
@@ -3279,7 +3280,7 @@ this.state.OverHeadData.map((OverHeadData, index) => {
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

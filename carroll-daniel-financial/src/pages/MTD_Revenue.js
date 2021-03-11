@@ -13,11 +13,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 var currentQuarter = ''
 var contractTotal = 0; var profitTotal = 0; var backlogTotal = 0; var expRevenueTotal = 0;
-var earnedReveueTotal = 0; var forecastRevenueTotal = 0; var forecastMonthOne = 0; var forecastMonthTwo = 0;
+var earnedRevenueTotal = 0; var forecastRevenueTotal = 0; var forecastMonthOne = 0; var forecastMonthTwo = 0;
 var forecastMonthThree = 0; var forecastMonthFour = 0; var forecastMonthFive = 0; var forecastMonthSix = 0;
 var forecastMonthSeven = 0; var forecastMonthEight = 0; var forecastMonthNine = 0; var forecastMonthTen = 0;
 var forecastMonthEleven = 0; var forecastMonthTwelve = 0; var forecastMonthThirteen = 0; var forecastMonthFourteen = 0;
-var forecastMonthFifthteen = 0; var forecastMonthSixteen = 0; var forecastMonthSeventeen = 0; var forecastMonthEightteen = 0;
+var forecastMonthFifteen = 0; var forecastMonthSixteen = 0; var forecastMonthSeventeen = 0; var forecastMonthEighteen = 0;
 var forecastMonthNineteen = 0; var forecastMonthTwenty = 0; var forecastMonthTwentyOne = 0; var forecastMonthTwentyTwo = 0;
 var forecastMonthTwentyThree = 0; var forecastMonthTwentyFour = 0; 
 //var forecastMonthTwentyFive = 0;
@@ -43,14 +43,14 @@ class MTD_Revenue extends Component{
       industrialSelected: true,
       atlantaSelected: true,
       ProjectReportData: [],
-      ProjectForcastData: [],
+      ProjectForecastData: [],
       data: null,
       userRole: '',
       currentDate: new Date()
     }
  }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -133,7 +133,7 @@ class MTD_Revenue extends Component{
       var dataValue = response['data'];
       var decoded = jwt_decode(localStorage.getItem('data-token'));
       this.setState({ ProjectReportData: dataValue});
-      this.setState({ ProjectForcastData: dataValue});
+      this.setState({ ProjectForecastData: dataValue});
       this.setState({ data: dataValue });
       this.setState({ userRole: decoded.roles});
 
@@ -179,9 +179,9 @@ class MTD_Revenue extends Component{
         var checkStartValue = startDate.getMonth() - now.getMonth() + 
           (12 * (startDate.getFullYear() - now.getFullYear()))
         const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-        var totalForcastRevenue = '';
+        var totalForecastRevenue = '';
         var totalExpectedRevenue = '';
-        //var grossMaringEarned = '';
+        //var grossMarginEarned = '';
         //var expectedContractAmount = '';
         //var currentBacklogValue = '';
         //var futureRevenue = 0;
@@ -198,32 +198,32 @@ class MTD_Revenue extends Component{
         if(status === 'Contract'){
           profit = (parseFloat(contract_amount) * (gross_margin_percent / 100));
           if((pastDate <= now && checkMonth === true) || (pastDate <= now)){
-            totalForcastRevenue = 0;
-            //profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForcastRevenue) * (gross_margin_percent/100));
+            totalForecastRevenue = 0;
+            //profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForecastRevenue) * (gross_margin_percent/100));
             //totalExpectedRevenue =  earned_revenue_YTD;
-            //grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+            //grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
             //earnedRevenue = earned_revenue;
             backlogValue = backlog;
             //expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
             if(quarter === '4'){
               earnedRevenueYTDValue = 0;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '3'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '2'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '1'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }
             //earnedRevenueYTDValue = earned_revenue_YTD;
           }else {
-            //totalForcastRevenue = backlog;
+            //totalForecastRevenue = backlog;
             //expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
             //totalExpectedRevenue = (parseFloat(backlog) + parseFloat(earned_revenue_YTD));
-            //grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+            //grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
             //earnedRevenue = earned_revenue;
             //backlogValue = backlog;
             backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);
@@ -271,7 +271,7 @@ class MTD_Revenue extends Component{
             }
 
             totalExpectedRevenue = parseFloat(forecastData) + parseFloat(earnedRevenueYTDValue) ? parseFloat(forecastData) + parseFloat(earnedRevenueYTDValue) : 0;
-            totalForcastRevenue = forecastData ? forecastData : 0;
+            totalForecastRevenue = forecastData ? forecastData : 0;
             //profitCurrentYear = (parseFloat(totalExpectedRevenue) * (gross_margin_percent/100));
             //futureProfit = parseFloat(futureRevenue) * (gross_margin_percent/100);
         } 
@@ -281,8 +281,8 @@ class MTD_Revenue extends Component{
         profitTotal += parseFloat(profit);
         backlogTotal += parseFloat(backlogValue) ? parseFloat(backlogValue) : 0;
         expRevenueTotal += parseFloat(totalExpectedRevenue) ? parseFloat(totalExpectedRevenue) : 0;
-        earnedReveueTotal += parseFloat(earnedRevenueYTDValue) ? parseFloat(earnedRevenueYTDValue) : 0;
-        forecastRevenueTotal += parseFloat(totalForcastRevenue) ? parseFloat(totalForcastRevenue) : 0;
+        earnedRevenueTotal += parseFloat(earnedRevenueYTDValue) ? parseFloat(earnedRevenueYTDValue) : 0;
+        forecastRevenueTotal += parseFloat(totalForecastRevenue) ? parseFloat(totalForecastRevenue) : 0;
 
         //if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
         return (
@@ -299,7 +299,7 @@ class MTD_Revenue extends Component{
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenueYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
            </tr>
         )}
        })
@@ -335,9 +335,9 @@ class MTD_Revenue extends Component{
           var checkStartValue = startDate.getMonth() - now.getMonth() + 
             (12 * (startDate.getFullYear() - now.getFullYear()))
           //const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-          var totalForcastRevenue = '';
+          var totalForecastRevenue = '';
           var totalExpectedRevenue = '';
-          //var grossMaringEarned = '';
+          //var grossMarginEarned = '';
           var expectedContractAmount = '';
           var currentBacklogValue = '';
           var futureRevenue = 0;
@@ -396,15 +396,15 @@ class MTD_Revenue extends Component{
           futureRevenue = currentBacklogValue;
           futureProfit = parseFloat(futureRevenue) * (gross_margin_percent/100);
           profit = futureProfit;
-          totalForcastRevenue = forecastDataProjected ? forecastDataProjected : 0;
-          totalExpectedRevenue = (parseFloat(totalForcastRevenue) + parseFloat(earnedRevenueYTDValue)) ? (parseFloat(totalForcastRevenue) + parseFloat(earnedRevenueYTDValue)) : 0;
+          totalForecastRevenue = forecastDataProjected ? forecastDataProjected : 0;
+          totalExpectedRevenue = (parseFloat(totalForecastRevenue) + parseFloat(earnedRevenueYTDValue)) ? (parseFloat(totalForecastRevenue) + parseFloat(earnedRevenueYTDValue)) : 0;
             
           contractTotal += parseFloat(contract_amount);
           profitTotal += parseFloat(profit);
           backlogTotal += parseFloat(backlogValue) ? parseFloat(backlogValue) : 0;
           expRevenueTotal += parseFloat(totalExpectedRevenue) ? parseFloat(totalExpectedRevenue) : 0;
-          earnedReveueTotal += parseFloat(earnedRevenueYTDValue) ? parseFloat(earnedRevenueYTDValue) : 0;
-          forecastRevenueTotal += parseFloat(totalForcastRevenue) ? parseFloat(totalForcastRevenue) : 0;
+          earnedRevenueTotal += parseFloat(earnedRevenueYTDValue) ? parseFloat(earnedRevenueYTDValue) : 0;
+          forecastRevenueTotal += parseFloat(totalForecastRevenue) ? parseFloat(totalForecastRevenue) : 0;
   
           //if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
           return (
@@ -421,13 +421,13 @@ class MTD_Revenue extends Component{
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue ? backlogValue : 0)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenueYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
              </tr>
           )}
          })
         }     
       else  if(value === 'forecast_months'){
-        return this.state.ProjectForcastData.map((FY19Plan, index) => {
+        return this.state.ProjectForecastData.map((FY19Plan, index) => {
           const { _id, end_date, start_date, quarter, year, earned_revenue, division, dept_job, job_name, status, contract_amount, hit_ratio } = FY19Plan //destructuring
           
           if(division === '1'){
@@ -460,8 +460,8 @@ class MTD_Revenue extends Component{
           (12 * (startDate.getFullYear() - now.getFullYear()))
           var converter = require('number-to-words');
           var newValue = converter.toWords(totalMonths);
-          var forcastData = [];
-          var forcastDataSum = 0;
+          var forecastData = [];
+          var forecastDataSum = 0;
           var backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);;
           var backlogFutureValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
           var burnOffSum = 0;
@@ -475,8 +475,8 @@ class MTD_Revenue extends Component{
           if(status === 'Contract'){
             if(pastDate < now && checkMonth === false){
               for (let i = 0; i < loopCount; i++) {
-                forcastData.push(0);
-                forcastDataSum += 0;
+                forecastData.push(0);
+                forecastDataSum += 0;
               }  
             }else {
                 for(var j=0; j < global.burnOffChart.length; j++){
@@ -489,7 +489,7 @@ class MTD_Revenue extends Component{
 
                 if(startDate > now){
                   for(var i=1; i < checkStartValue; i++){
-                    forcastData.push(0);
+                    forecastData.push(0);
                     projectLength += 1;
                   }
                 }
@@ -499,8 +499,8 @@ class MTD_Revenue extends Component{
                     projectLength += 1;
                     valueFound = global.burnOffChart[k][newValue];
                     monthlyValue =  (backlogValue * valueFound) / burnOffSum;
-                    forcastData.push(Math.round(parseFloat(monthlyValue)));
-                    forcastDataSum += monthlyValue;
+                    forecastData.push(Math.round(parseFloat(monthlyValue)));
+                    forecastDataSum += monthlyValue;
               }
             }
           } 
@@ -515,7 +515,7 @@ class MTD_Revenue extends Component{
 
           if(startDate > now){
             for(var m=1; m < checkStartValue; m++){
-              forcastData.push(0);
+              forecastData.push(0);
               projectLength += 1;
             }
           }
@@ -525,27 +525,27 @@ class MTD_Revenue extends Component{
                   projectLength += 1;
                   valueFound = global.burnOffChart[v][newValue];
                   monthlyValue =  (backlogFutureValue * valueFound) / burnOffSum;
-                  forcastData.push(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2});
-                  forcastDataSum += monthlyValue;
+                  forecastData.push(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2});
+                  forecastDataSum += monthlyValue;
             }
           }
         }
 
 
-          if(parseInt(forcastDataSum) > 0){
+          if(parseInt(forecastDataSum) > 0){
           
-          forecastMonthOne += parseFloat(forcastData[0]); forecastMonthTwo += parseFloat(forcastData[1]); forecastMonthThree += parseFloat(forcastData[2]); forecastMonthFour += parseFloat(forcastData[3]);
-          forecastMonthFive += parseFloat(forcastData[4]); forecastMonthSix += parseFloat(forcastData[5]); forecastMonthSeven += parseFloat(forcastData[6]); forecastMonthEight += parseFloat(forcastData[7]);
-          forecastMonthNine += parseFloat(forcastData[8]); forecastMonthTen += parseFloat(forcastData[9]); forecastMonthEleven += parseFloat(forcastData[10]); forecastMonthTwelve += parseFloat(forcastData[11]);
-          forecastMonthThirteen += parseFloat(forcastData[12]); forecastMonthFourteen += parseFloat(forcastData[13]); forecastMonthFifthteen += parseFloat(forcastData[14]); forecastMonthSixteen += parseFloat(forcastData[15]);
-          forecastMonthSeventeen += parseFloat(forcastData[16]); forecastMonthEightteen += parseFloat(forcastData[17]); forecastMonthNineteen += parseFloat(forcastData[18]); forecastMonthTwenty += parseFloat(forcastData[19]);
-          forecastMonthTwentyOne += parseFloat(forcastData[20]); forecastMonthTwentyTwo += parseFloat(forcastData[21]); forecastMonthTwentyThree += parseFloat(forcastData[22]); forecastMonthTwentyFour += parseFloat(forcastData[23]);
-          ///forecastMonthTwentyFive += parseFloat(forcastData[24]);
+          forecastMonthOne += parseFloat(forecastData[0]); forecastMonthTwo += parseFloat(forecastData[1]); forecastMonthThree += parseFloat(forecastData[2]); forecastMonthFour += parseFloat(forecastData[3]);
+          forecastMonthFive += parseFloat(forecastData[4]); forecastMonthSix += parseFloat(forecastData[5]); forecastMonthSeven += parseFloat(forecastData[6]); forecastMonthEight += parseFloat(forecastData[7]);
+          forecastMonthNine += parseFloat(forecastData[8]); forecastMonthTen += parseFloat(forecastData[9]); forecastMonthEleven += parseFloat(forecastData[10]); forecastMonthTwelve += parseFloat(forecastData[11]);
+          forecastMonthThirteen += parseFloat(forecastData[12]); forecastMonthFourteen += parseFloat(forecastData[13]); forecastMonthFifteen += parseFloat(forecastData[14]); forecastMonthSixteen += parseFloat(forecastData[15]);
+          forecastMonthSeventeen += parseFloat(forecastData[16]); forecastMonthEighteen += parseFloat(forecastData[17]); forecastMonthNineteen += parseFloat(forecastData[18]); forecastMonthTwenty += parseFloat(forecastData[19]);
+          forecastMonthTwentyOne += parseFloat(forecastData[20]); forecastMonthTwentyTwo += parseFloat(forecastData[21]); forecastMonthTwentyThree += parseFloat(forecastData[22]); forecastMonthTwentyFour += parseFloat(forecastData[23]);
+          ///forecastMonthTwentyFive += parseFloat(forecastData[24]);
 
           //if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
             let childrenDataContract = []
               for (let b = 0; b < loopCount; b++) {
-                childrenDataContract.push(<td key={b} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forcastData[b] ? forcastData[b]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
+                childrenDataContract.push(<td key={b} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastData[b] ? forecastData[b]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
               }
           return (
              <tr key={_id} style={{ fontSize: '17px'}}>
@@ -557,7 +557,7 @@ class MTD_Revenue extends Component{
           )}}
          })
         }else if(value === 'forecast_months_future'){
-          return this.state.ProjectForcastData.map((FY19Plan, index) => {
+          return this.state.ProjectForecastData.map((FY19Plan, index) => {
             const { _id, end_date, start_date, quarter, year, earned_revenue, division, dept_job, job_name, status, contract_amount, hit_ratio } = FY19Plan //destructuring
             
 
@@ -592,8 +592,8 @@ class MTD_Revenue extends Component{
             (12 * (startDate.getFullYear() - now.getFullYear()))
             var converter = require('number-to-words');
             var newValue = converter.toWords(totalMonths);
-            var forcastData = [];
-            var forcastDataSum = 0;
+            var forecastData = [];
+            var forecastDataSum = 0;
             var backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);;
             var backlogFutureValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
             var burnOffSum = 0;
@@ -605,8 +605,8 @@ class MTD_Revenue extends Component{
             if(status === 'Contract'){
               if(pastDate < now && checkMonth === false){
                 for (let i = 0; i < loopCount; i++) {
-                  forcastData.push(0);
-                  forcastDataSum += 0;
+                  forecastData.push(0);
+                  forecastDataSum += 0;
                 }  
               }else {
                   for(var j=0; j < global.burnOffChart.length; j++){
@@ -619,7 +619,7 @@ class MTD_Revenue extends Component{
   
                   if(startDate > now){
                     for(var i=1; i < checkStartValue; i++){
-                      forcastData.push(0);
+                      forecastData.push(0);
                       projectLength += 1;
                     }
                   }
@@ -629,8 +629,8 @@ class MTD_Revenue extends Component{
                       projectLength += 1;
                       valueFound = global.burnOffChart[k][newValue];
                       monthlyValue =  (backlogValue * valueFound) / burnOffSum;
-                      forcastData.push(Math.round(parseFloat(monthlyValue)));
-                      forcastDataSum += monthlyValue;
+                      forecastData.push(Math.round(parseFloat(monthlyValue)));
+                      forecastDataSum += monthlyValue;
                 }
               }
             } 
@@ -645,7 +645,7 @@ class MTD_Revenue extends Component{
   
             if(startDate > now){
               for(var m=1; m < checkStartValue; m++){
-                forcastData.push(0);
+                forecastData.push(0);
                 projectLength += 1;
               }
             }
@@ -655,27 +655,27 @@ class MTD_Revenue extends Component{
                     projectLength += 1;
                     valueFound = global.burnOffChart[v][newValue];
                     monthlyValue =  (backlogFutureValue * valueFound) / burnOffSum;
-                    forcastData.push(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2});
-                    forcastDataSum += monthlyValue;
+                    forecastData.push(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2});
+                    forecastDataSum += monthlyValue;
               }
             }
           }
   
   
-            if(parseInt(forcastDataSum) > 0){
+            if(parseInt(forecastDataSum) > 0){
        
-            forecastMonthOne += parseFloat(forcastData[0]); forecastMonthTwo += parseFloat(forcastData[1]); forecastMonthThree += parseFloat(forcastData[2]); forecastMonthFour += parseFloat(forcastData[3]);
-            forecastMonthFive += parseFloat(forcastData[4]); forecastMonthSix += parseFloat(forcastData[5]); forecastMonthSeven += parseFloat(forcastData[6]); forecastMonthEight += parseFloat(forcastData[7]);
-            forecastMonthNine += parseFloat(forcastData[8]); forecastMonthTen += parseFloat(forcastData[9]); forecastMonthEleven += parseFloat(forcastData[10]); forecastMonthTwelve += parseFloat(forcastData[11]);
-            forecastMonthThirteen += parseFloat(forcastData[12]); forecastMonthFourteen += parseFloat(forcastData[13]); forecastMonthFifthteen += parseFloat(forcastData[14]); forecastMonthSixteen += parseFloat(forcastData[15]);
-            forecastMonthSeventeen += parseFloat(forcastData[16]); forecastMonthEightteen += parseFloat(forcastData[17]); forecastMonthNineteen += parseFloat(forcastData[18]); forecastMonthTwenty += parseFloat(forcastData[19]);
-            forecastMonthTwentyOne += parseFloat(forcastData[20]); forecastMonthTwentyTwo += parseFloat(forcastData[21]); forecastMonthTwentyThree += parseFloat(forcastData[22]); forecastMonthTwentyFour += parseFloat(forcastData[23]);
-            //forecastMonthTwentyFive += parseFloat(forcastData[24]);
+            forecastMonthOne += parseFloat(forecastData[0]); forecastMonthTwo += parseFloat(forecastData[1]); forecastMonthThree += parseFloat(forecastData[2]); forecastMonthFour += parseFloat(forecastData[3]);
+            forecastMonthFive += parseFloat(forecastData[4]); forecastMonthSix += parseFloat(forecastData[5]); forecastMonthSeven += parseFloat(forecastData[6]); forecastMonthEight += parseFloat(forecastData[7]);
+            forecastMonthNine += parseFloat(forecastData[8]); forecastMonthTen += parseFloat(forecastData[9]); forecastMonthEleven += parseFloat(forecastData[10]); forecastMonthTwelve += parseFloat(forecastData[11]);
+            forecastMonthThirteen += parseFloat(forecastData[12]); forecastMonthFourteen += parseFloat(forecastData[13]); forecastMonthFifteen += parseFloat(forecastData[14]); forecastMonthSixteen += parseFloat(forecastData[15]);
+            forecastMonthSeventeen += parseFloat(forecastData[16]); forecastMonthEighteen += parseFloat(forecastData[17]); forecastMonthNineteen += parseFloat(forecastData[18]); forecastMonthTwenty += parseFloat(forecastData[19]);
+            forecastMonthTwentyOne += parseFloat(forecastData[20]); forecastMonthTwentyTwo += parseFloat(forecastData[21]); forecastMonthTwentyThree += parseFloat(forecastData[22]); forecastMonthTwentyFour += parseFloat(forecastData[23]);
+            //forecastMonthTwentyFive += parseFloat(forecastData[24]);
   
             //if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
             let childrenDataFuture = []
               for (let a = 0; a < loopCount; a++) {
-                childrenDataFuture.push(<td key={a} style={{ border: '1px solid #005A8B',textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forcastData[a] ? forcastData[a]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
+                childrenDataFuture.push(<td key={a} style={{ border: '1px solid #005A8B',textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastData[a] ? forecastData[a]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
               }
             return (
                <tr key={_id} style={{ fontSize: '17px'}}>
@@ -748,7 +748,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
                <th style={{ textAlign: 'center', border: '1px solid #005A8B'}}></th>
                <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
                <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(expRevenueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
-               <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedReveueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
+               <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
                <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(forecastRevenueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
              </>
    }else if(value === 'headerForecastTotalValue'){
@@ -768,10 +768,10 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={12} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwelve ? Math.round(forecastMonthTwelve) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={13} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthThirteen ? Math.round(forecastMonthThirteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={14} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFourteen ? Math.round(forecastMonthFourteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifteen ? Math.round(forecastMonthFifteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={19} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthNineteen ? Math.round(forecastMonthNineteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={20} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwenty ? Math.round(forecastMonthTwenty) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={21} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwentyOne ? Math.round(forecastMonthTwentyOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -793,10 +793,10 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={12} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwelve ? Math.round(forecastMonthTwelve) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={13} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthThirteen ? Math.round(forecastMonthThirteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={14} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFourteen ? Math.round(forecastMonthFourteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifteen ? Math.round(forecastMonthFifteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={19} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthNineteen ? Math.round(forecastMonthNineteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={20} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwenty ? Math.round(forecastMonthTwenty) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={21} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwentyOne ? Math.round(forecastMonthTwentyOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -815,10 +815,10 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={12} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwelve ? Math.round(forecastMonthTwelve) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={13} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthThirteen ? Math.round(forecastMonthThirteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={14} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFourteen ? Math.round(forecastMonthFourteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifteen ? Math.round(forecastMonthFifteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
     }else if(loopCount === 15){
       childrenDataContract.push(<th key={1} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthOne ? Math.round(forecastMonthOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={2} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwo ? Math.round(forecastMonthTwo) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -834,7 +834,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={12} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwelve ? Math.round(forecastMonthTwelve) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={13} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthThirteen ? Math.round(forecastMonthThirteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={14} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFourteen ? Math.round(forecastMonthFourteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifteen ? Math.round(forecastMonthFifteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
     }
     return <><th style={{ textAlign: 'center', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>TOTALS</th>
              <th style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}></th>
@@ -866,7 +866,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

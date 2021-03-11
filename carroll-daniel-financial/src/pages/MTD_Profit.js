@@ -11,18 +11,18 @@ import { Nav } from 'react-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const now1 = new Date();
-const yearData = now1.getFullYear();
+//const now1 = new Date();
+//const yearData = now1.getFullYear();
 var currentQuarter = ''
 var divisionName = '';
 
 
 var backlogValueTotal = 0; var totalExpectedProfitTotal=0;
-var earnedProfitYTDValueTotal=0; var totalForcastProfitTotal=0; var forecastMonthOne = 0; var forecastMonthTwo = 0;
+var earnedProfitYTDValueTotal=0; var totalForecastProfitTotal=0; var forecastMonthOne = 0; var forecastMonthTwo = 0;
 var forecastMonthThree = 0; var forecastMonthFour = 0; var forecastMonthFive = 0; var forecastMonthSix = 0;
 var forecastMonthSeven = 0; var forecastMonthEight = 0; var forecastMonthNine = 0; var forecastMonthTen = 0;
 var forecastMonthEleven = 0; var forecastMonthTwelve = 0; var forecastMonthThirteen = 0; var forecastMonthFourteen = 0;
-var forecastMonthFifthteen = 0; var forecastMonthSixteen = 0; var forecastMonthSeventeen = 0; var forecastMonthEightteen = 0;
+var forecastMonthFifthteen = 0; var forecastMonthSixteen = 0; var forecastMonthSeventeen = 0; var forecastMonthEighteen = 0;
 var forecastMonthNineteen = 0; var forecastMonthTwenty = 0; var forecastMonthTwentyOne = 0; var forecastMonthTwentyTwo = 0;
 var forecastMonthTwentyThree = 0; var forecastMonthTwentyFour = 0; var forecastMonthTwentyFive = 0;
 
@@ -45,14 +45,14 @@ class MTD_Profit extends Component{
       industrialSelected: true,
       atlantaSelected: true,
       ProjectReportData: [],
-      ProjectForcastData: [],
+      ProjectForecastData: [],
       data: null,
       userRole: '',
       currentDate: new Date()
     }
  }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -134,7 +134,7 @@ class MTD_Profit extends Component{
       var dataValue = response['data'];
       var decoded = jwt_decode(localStorage.getItem('data-token'));
       this.setState({ ProjectReportData: dataValue});
-      this.setState({ ProjectForcastData: dataValue});
+      this.setState({ ProjectForecastData: dataValue});
       this.setState({ data: dataValue });
       this.setState({ userRole: decoded.roles});
 
@@ -179,9 +179,9 @@ class MTD_Profit extends Component{
         const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
         var checkStartValue = startDate.getMonth() - now.getMonth() + 
           (12 * (startDate.getFullYear() - now.getFullYear()))
-        var totalForcastProfit = '';
+        var totalForecastProfit = '';
         var totalExpectedProfit = '';
-        var grossMaringEarned = '';
+        var grossMarginEarned = '';
         var expectedContractAmount = '';
         var currentBacklogValue = '';
         var futureRevenue = 0;
@@ -198,9 +198,9 @@ class MTD_Profit extends Component{
         if(status === 'Contract'){
           profit = (parseFloat(contract_amount) * (gross_margin_percent / 100));
           if((pastDate <= now && checkMonth === true) || (pastDate <= now)){
-            totalForcastProfit = 0;
-            profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForcastProfit) * (gross_margin_percent/100));
-            grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+            totalForecastProfit = 0;
+            profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForecastProfit) * (gross_margin_percent/100));
+            grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
             earnedRevenue = earned_revenue;
             backlogValue = backlog;
             expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
@@ -218,12 +218,12 @@ class MTD_Profit extends Component{
               earnedProfitYTDValue = earned_revenue_YTD * (gross_margin_percent/100);
               //totalExpectedRevenue = (parseFloat(contract_amount) - parseFloat(earned_revenue) + totalExpectedRevenue);
             }
-            totalExpectedProfit =  parseFloat(totalForcastProfit) + parseFloat(earnedProfitYTDValue);
+            totalExpectedProfit =  parseFloat(totalForecastProfit) + parseFloat(earnedProfitYTDValue);
             
           }else {
-            //totalForcastProfit = backlog * (gross_margin_percent/100);
+            //totalForecastProfit = backlog * (gross_margin_percent/100);
             expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
-            grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+            grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
             earnedRevenue = earned_revenue;
             backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);
             //earnedProfitYTDValue = earned_revenue_YTD * (gross_margin_percent/100);
@@ -240,7 +240,7 @@ class MTD_Profit extends Component{
               earnedProfitYTDValue = earned_revenue_YTD * (gross_margin_percent/100);
               //totalExpectedRevenue = (parseFloat(contract_amount) - parseFloat(earned_revenue) + totalExpectedRevenue);
             }
-            //totalExpectedProfit = parseFloat(totalForcastProfit) + parseFloat(earnedProfitYTDValue);
+            //totalExpectedProfit = parseFloat(totalForecastProfit) + parseFloat(earnedProfitYTDValue);
             var monthlyYearValue = 0;
             for(var j=0; j < global.burnOffChart.length; j++){
               if(j >= CurrentMonthOfProject && j < totalMonths){
@@ -278,13 +278,13 @@ class MTD_Profit extends Component{
               }
             }
 
-            totalForcastProfit = monthlyYearValue * (gross_margin_percent/100) ? monthlyYearValue * (gross_margin_percent/100) : 0;
-            totalExpectedProfit = parseFloat(totalForcastProfit) + parseFloat(earnedProfitYTDValue);
+            totalForecastProfit = monthlyYearValue * (gross_margin_percent/100) ? monthlyYearValue * (gross_margin_percent/100) : 0;
+            totalExpectedProfit = parseFloat(totalForecastProfit) + parseFloat(earnedProfitYTDValue);
             profitCurrentYear = (parseFloat(totalExpectedProfit) * (gross_margin_percent/100));
             futureProfit = parseFloat(futureRevenue) * (gross_margin_percent/100);
         } 
       }else{   
-          grossMaringEarned = 0;
+          grossMarginEarned = 0;
           earnedRevenue =0;
           backlogValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
           earnedProfitYTDValue = 0;
@@ -293,14 +293,14 @@ class MTD_Profit extends Component{
           futureRevenue = currentBacklogValue;
           futureProfit = parseFloat(futureRevenue) * (gross_margin_percent/100);
           profit = futureProfit;
-          totalForcastProfit = ((parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue) * (gross_margin_percent/100);
-          totalExpectedProfit = totalForcastProfit + earnedProfitYTDValue;
+          totalForecastProfit = ((parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue) * (gross_margin_percent/100);
+          totalExpectedProfit = totalForecastProfit + earnedProfitYTDValue;
         }
 
         backlogValueTotal += parseFloat(backlogValue);
         totalExpectedProfitTotal += parseFloat(totalExpectedProfit);
         earnedProfitYTDValueTotal += parseFloat(earnedProfitYTDValue);
-        totalForcastProfitTotal += parseFloat(totalForcastProfit);
+        totalForecastProfitTotal += parseFloat(totalForecastProfit);
 
         //if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
         return (
@@ -317,7 +317,7 @@ class MTD_Profit extends Component{
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedProfitYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
            </tr>
         )}
        })
@@ -352,9 +352,9 @@ class MTD_Profit extends Component{
           const pastDate = new Date(end_date);
           const startDate = new Date(start_date);
           const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-          var totalForcastProfit = '';
+          var totalForecastProfit = '';
           var totalExpectedProfit = '';
-          var grossMaringEarned = '';
+          var grossMarginEarned = '';
           var expectedContractAmount = '';
           var currentBacklogValue = '';
           var futureRevenue = 0;
@@ -375,22 +375,22 @@ class MTD_Profit extends Component{
           if(status === 'Contract'){
             profit = (parseFloat(contract_amount) * (gross_margin_percent / 100));
             if(pastDate < now && checkMonth === false){
-              totalForcastProfit = 0;
-              profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForcastProfit) * (gross_margin_percent/100));
-              grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+              totalForecastProfit = 0;
+              profitCurrentYear = (parseFloat(earned_revenue_YTD) * (gross_margin_percent/100)) + (parseFloat(totalForecastProfit) * (gross_margin_percent/100));
+              grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
               earnedRevenue = earned_revenue;
               backlogValue = backlog;
               expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
               earnedProfitYTDValue = earned_revenue_YTD * (gross_margin_percent/100);
-              totalExpectedProfit =  parseFloat(totalForcastProfit) + parseFloat(earnedProfitYTDValue);
+              totalExpectedProfit =  parseFloat(totalForecastProfit) + parseFloat(earnedProfitYTDValue);
             }else {
-              totalForcastProfit = backlog * (gross_margin_percent/100);
+              totalForecastProfit = backlog * (gross_margin_percent/100);
               expectedContractAmount = Math.round(parseFloat(earned_revenue) + parseFloat(backlog));
-              grossMaringEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
+              grossMarginEarned = (parseFloat(earned_revenue) * (gross_margin_percent/100));
               earnedRevenue = earned_revenue;
               backlogValue = backlog;
               earnedProfitYTDValue = earned_revenue_YTD * (gross_margin_percent/100);
-              totalExpectedProfit = parseFloat(totalForcastProfit) + parseFloat(earnedProfitYTDValue);
+              totalExpectedProfit = parseFloat(totalForecastProfit) + parseFloat(earnedProfitYTDValue);
               var monthlyYearValue = 0;
               for(var j=0; j < global.burnOffChart.length; j++){
                 if(j >= CurrentMonthOfProject - 1){
@@ -454,7 +454,7 @@ class MTD_Profit extends Component{
           }
 
 
-            grossMaringEarned = 0;
+            grossMarginEarned = 0;
             earnedRevenue =0;
             backlogValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
             earnedProfitYTDValue = 0;
@@ -463,14 +463,14 @@ class MTD_Profit extends Component{
             futureRevenue = currentBacklogValue;
             futureProfit = parseFloat(futureRevenue) * (gross_margin_percent/100);
             profit = futureProfit;
-            totalForcastProfit = forecastDataProjected ? forecastDataProjected * (gross_margin_percent/100): 0// * (gross_margin_percent/100) : 0;
-            totalExpectedProfit = totalForcastProfit + earnedProfitYTDValue;
+            totalForecastProfit = forecastDataProjected ? forecastDataProjected * (gross_margin_percent/100): 0// * (gross_margin_percent/100) : 0;
+            totalExpectedProfit = totalForecastProfit + earnedProfitYTDValue;
           }
   
           backlogValueTotal += parseFloat(backlogValue);
           totalExpectedProfitTotal += parseFloat(totalExpectedProfit);
           earnedProfitYTDValueTotal += parseFloat(earnedProfitYTDValue);
-          totalForcastProfitTotal += parseFloat(totalForcastProfit);
+          totalForecastProfitTotal += parseFloat(totalForecastProfit);
   
           //if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
           return (
@@ -487,14 +487,14 @@ class MTD_Profit extends Component{
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedProfitYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastProfit)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
              </tr>
           )}
          })
         }
       
       else  if(value === 'forecast_months'){
-        return this.state.ProjectForcastData.map((FY19Plan, index) => {
+        return this.state.ProjectForecastData.map((FY19Plan, index) => {
           const { _id, end_date, start_date,quarter,year,earned_revenue, division, dept_job, job_name, status, contract_amount, hit_ratio, gross_margin_percent } = FY19Plan //destructuring
       
           if(division === '1'){
@@ -525,8 +525,8 @@ class MTD_Profit extends Component{
           var CurrentMonthOfProject =  (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth() + 1);
           var converter = require('number-to-words');
           var newValue = converter.toWords(totalMonths);
-          var forcastData = [];
-          var forcastDataSum = 0;
+          var forecastData = [];
+          var forecastDataSum = 0;
           var backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);;
           var backlogFutureValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
           var burnOffSum = 0;
@@ -540,8 +540,8 @@ class MTD_Profit extends Component{
           if(status === 'Contract'){
             if(pastDate < now && checkMonth === false){
               for (let i = 0; i < loopCount; i++) {
-                forcastData.push(0);
-                forcastDataSum += 0;
+                forecastData.push(0);
+                forecastDataSum += 0;
               }  
             }else {
                 for(var j=0; j < global.burnOffChart.length; j++){
@@ -554,7 +554,7 @@ class MTD_Profit extends Component{
 
                 if(startDate > now){
                   for(var i=1; i < checkStartValue; i++){
-                    forcastData.push(0);
+                    forecastData.push(0);
                     projectLength += 1;
                   }
                 }
@@ -564,26 +564,26 @@ class MTD_Profit extends Component{
                     projectLength += 1;
                     valueFound = global.burnOffChart[k][newValue];
                     monthlyValue =  ((backlogValue * valueFound) / burnOffSum) * (gross_margin_percent/100);
-                    forcastData.push(Math.round(parseFloat(monthlyValue)));
-                    forcastDataSum += monthlyValue;
+                    forecastData.push(Math.round(parseFloat(monthlyValue)));
+                    forecastDataSum += monthlyValue;
               }
             }
           } 
         }
 
-          if(parseInt(forcastDataSum) > 0){
+          if(parseInt(forecastDataSum) > 0){
           
-            forecastMonthOne += parseFloat(forcastData[0]); forecastMonthTwo += parseFloat(forcastData[1]); forecastMonthThree += parseFloat(forcastData[2]); forecastMonthFour += parseFloat(forcastData[3]);
-            forecastMonthFive += parseFloat(forcastData[4]); forecastMonthSix += parseFloat(forcastData[5]); forecastMonthSeven += parseFloat(forcastData[6]); forecastMonthEight += parseFloat(forcastData[7]);
-            forecastMonthNine += parseFloat(forcastData[8]); forecastMonthTen += parseFloat(forcastData[9]); forecastMonthEleven += parseFloat(forcastData[10]); forecastMonthTwelve += parseFloat(forcastData[11]);
-            forecastMonthThirteen += parseFloat(forcastData[12]); forecastMonthFourteen += parseFloat(forcastData[13]); forecastMonthFifthteen += parseFloat(forcastData[14]); forecastMonthSixteen += parseFloat(forcastData[15]);
-            forecastMonthSeventeen += parseFloat(forcastData[16]); forecastMonthEightteen += parseFloat(forcastData[17]); forecastMonthNineteen += parseFloat(forcastData[18]); forecastMonthTwenty += parseFloat(forcastData[19]);
-            forecastMonthTwentyOne += parseFloat(forcastData[20]); forecastMonthTwentyTwo += parseFloat(forcastData[21]); forecastMonthTwentyThree += parseFloat(forcastData[22]); forecastMonthTwentyFour += parseFloat(forcastData[23]);
+            forecastMonthOne += parseFloat(forecastData[0]); forecastMonthTwo += parseFloat(forecastData[1]); forecastMonthThree += parseFloat(forecastData[2]); forecastMonthFour += parseFloat(forecastData[3]);
+            forecastMonthFive += parseFloat(forecastData[4]); forecastMonthSix += parseFloat(forecastData[5]); forecastMonthSeven += parseFloat(forecastData[6]); forecastMonthEight += parseFloat(forecastData[7]);
+            forecastMonthNine += parseFloat(forecastData[8]); forecastMonthTen += parseFloat(forecastData[9]); forecastMonthEleven += parseFloat(forecastData[10]); forecastMonthTwelve += parseFloat(forecastData[11]);
+            forecastMonthThirteen += parseFloat(forecastData[12]); forecastMonthFourteen += parseFloat(forecastData[13]); forecastMonthFifthteen += parseFloat(forecastData[14]); forecastMonthSixteen += parseFloat(forecastData[15]);
+            forecastMonthSeventeen += parseFloat(forecastData[16]); forecastMonthEighteen += parseFloat(forecastData[17]); forecastMonthNineteen += parseFloat(forecastData[18]); forecastMonthTwenty += parseFloat(forecastData[19]);
+            forecastMonthTwentyOne += parseFloat(forecastData[20]); forecastMonthTwentyTwo += parseFloat(forecastData[21]); forecastMonthTwentyThree += parseFloat(forecastData[22]); forecastMonthTwentyFour += parseFloat(forecastData[23]);
 
         //if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year){  
           let childrenDataContract = []
               for (let b = 0; b < loopCount; b++) {
-                childrenDataContract.push(<td key={b} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forcastData[b] ? forcastData[b]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
+                childrenDataContract.push(<td key={b} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastData[b] ? forecastData[b]: 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
               }
           return (
              <tr key={_id} style={{ fontSize: '17px'}}>
@@ -595,7 +595,7 @@ class MTD_Profit extends Component{
           )}}
          })
         }else  if(value === 'forecast_months_future'){
-          return this.state.ProjectForcastData.map((FY19Plan, index) => {
+          return this.state.ProjectForecastData.map((FY19Plan, index) => {
             const { _id, end_date, start_date, backlog, division, quarter, year, dept_job, job_name, status, contract_amount, hit_ratio, gross_margin_percent } = FY19Plan //destructuring    
 
             if(division === '1'){
@@ -626,8 +626,8 @@ class MTD_Profit extends Component{
             var CurrentMonthOfProject =  (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth() + 1);
             var converter = require('number-to-words');
             var newValue = converter.toWords(totalMonths);
-            var forcastData = [];
-            var forcastDataSum = 0;
+            var forecastData = [];
+            var forecastDataSum = 0;
             var backlogValue = backlog;
             var backlogFutureValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
             var burnOffSum = 0;
@@ -641,8 +641,8 @@ class MTD_Profit extends Component{
             if(status === 'Contract'){
               if(pastDate < now && checkMonth === false){
                 for (let i = 0; i < loopCount; i++) {
-                  forcastData.push(0);
-                  forcastDataSum += 0;
+                  forecastData.push(0);
+                  forecastDataSum += 0;
                 }  
               }else {
                   for(var j=0; j < global.burnOffChart.length; j++){
@@ -655,7 +655,7 @@ class MTD_Profit extends Component{
   
                   if(startDate > now){
                     for(var i=1; i < checkStartValue; i++){
-                      forcastData.push(0);
+                      forecastData.push(0);
                       projectLength += 1;
                     }
                   }
@@ -665,8 +665,8 @@ class MTD_Profit extends Component{
                       projectLength += 1;
                       valueFound = global.burnOffChart[k][newValue];
                       monthlyValue =  ((backlogValue * valueFound) / burnOffSum) * (gross_margin_percent/100);
-                      forcastData.push(parseFloat(monthlyValue));
-                      forcastDataSum += monthlyValue;
+                      forecastData.push(parseFloat(monthlyValue));
+                      forecastDataSum += monthlyValue;
                 }
               }
             } 
@@ -681,19 +681,19 @@ class MTD_Profit extends Component{
 
             if(startDate > now){
               for(var m=1; m < checkStartValue; m++){
-                forcastData.push(0);
+                forecastData.push(0);
                 projectLength += 1;
               }
             }
 
-            var numMonths = 0;
-            var num = (startDate.getFullYear() - now.getFullYear()) * 12 + (startDate.getMonth() - now.getMonth())
-            numMonths = num;
+            //var numMonths = 0;
+            //var num = (startDate.getFullYear() - now.getFullYear()) * 12 + (startDate.getMonth() - now.getMonth())
+            //numMonths = num;
             //check to see how many months til start date and skip until project starts
             //for (var m=0; m < global.burnOffChart.length; m++) {
               /*if(numMonths > 0){
-                forcastData.push(0);
-                forcastDataSum += 0
+                forecastData.push(0);
+                forecastDataSum += 0
                 --numMonths;
               }else */
               //if((parseInt(m) - parseInt(num)) >= CurrentMonthOfProject - 1){
@@ -701,27 +701,27 @@ class MTD_Profit extends Component{
               if(v >= CurrentMonthOfProject && projectLength < loopCount){
                 valueFound = global.burnOffChart[v][newValue];
                 monthlyValue =  ((backlogFutureValue * valueFound) / burnOffSum) * (gross_margin_percent/100);
-                forcastData.push(parseFloat(monthlyValue));
-                forcastDataSum += monthlyValue;
+                forecastData.push(parseFloat(monthlyValue));
+                forecastDataSum += monthlyValue;
               }
             }
           }
   
   
-            if(parseInt(forcastDataSum) > 0){
+            if(parseInt(forecastDataSum) > 0){
             
-              forecastMonthOne += parseFloat(forcastData[0]); forecastMonthTwo += parseFloat(forcastData[1]); forecastMonthThree += parseFloat(forcastData[2]); forecastMonthFour += parseFloat(forcastData[3]);
-              forecastMonthFive += parseFloat(forcastData[4]); forecastMonthSix += parseFloat(forcastData[5]); forecastMonthSeven += parseFloat(forcastData[6]); forecastMonthEight += parseFloat(forcastData[7]);
-              forecastMonthNine += parseFloat(forcastData[8]); forecastMonthTen += parseFloat(forcastData[9]); forecastMonthEleven += parseFloat(forcastData[10]); forecastMonthTwelve += parseFloat(forcastData[11]);
-              forecastMonthThirteen += parseFloat(forcastData[12]); forecastMonthFourteen += parseFloat(forcastData[13]); forecastMonthFifthteen += parseFloat(forcastData[14]); forecastMonthSixteen += parseFloat(forcastData[15]);
-              forecastMonthSeventeen += parseFloat(forcastData[16]); forecastMonthEightteen += parseFloat(forcastData[17]); forecastMonthNineteen += parseFloat(forcastData[18]); forecastMonthTwenty += parseFloat(forcastData[19]);
-              forecastMonthTwentyOne += parseFloat(forcastData[20]); forecastMonthTwentyTwo += parseFloat(forcastData[21]); forecastMonthTwentyThree += parseFloat(forcastData[22]); forecastMonthTwentyFour += parseFloat(forcastData[23]);
-              forecastMonthTwentyFive += parseFloat(forcastData[24]); 
+              forecastMonthOne += parseFloat(forecastData[0]); forecastMonthTwo += parseFloat(forecastData[1]); forecastMonthThree += parseFloat(forecastData[2]); forecastMonthFour += parseFloat(forecastData[3]);
+              forecastMonthFive += parseFloat(forecastData[4]); forecastMonthSix += parseFloat(forecastData[5]); forecastMonthSeven += parseFloat(forecastData[6]); forecastMonthEight += parseFloat(forecastData[7]);
+              forecastMonthNine += parseFloat(forecastData[8]); forecastMonthTen += parseFloat(forecastData[9]); forecastMonthEleven += parseFloat(forecastData[10]); forecastMonthTwelve += parseFloat(forecastData[11]);
+              forecastMonthThirteen += parseFloat(forecastData[12]); forecastMonthFourteen += parseFloat(forecastData[13]); forecastMonthFifthteen += parseFloat(forecastData[14]); forecastMonthSixteen += parseFloat(forecastData[15]);
+              forecastMonthSeventeen += parseFloat(forecastData[16]); forecastMonthEighteen += parseFloat(forecastData[17]); forecastMonthNineteen += parseFloat(forecastData[18]); forecastMonthTwenty += parseFloat(forecastData[19]);
+              forecastMonthTwentyOne += parseFloat(forecastData[20]); forecastMonthTwentyTwo += parseFloat(forecastData[21]); forecastMonthTwentyThree += parseFloat(forecastData[22]); forecastMonthTwentyFour += parseFloat(forecastData[23]);
+              forecastMonthTwentyFive += parseFloat(forecastData[24]); 
   
         //if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
           let childrenDataFuture = []
               for (let a = 0; a < loopCount; a++) {
-                childrenDataFuture.push(<td key={a} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forcastData[a] ? Math.round(forcastData[a]): 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
+                childrenDataFuture.push(<td key={a} style={{ border: '1px solid #005A8B', textAlign: 'right', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastData[a] ? Math.round(forecastData[a]): 0).toLocaleString(undefined, {maximumFractionDigits:2})}</td>)
               }
             return (
                <tr key={_id} style={{ fontSize: '17px'}}>
@@ -811,7 +811,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedProfitTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedProfitYTDValueTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastProfitTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif', textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastProfitTotal)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
              </>
    }else if(value === 'headerForecastTotalValue'){
     let childrenDataContract = []
@@ -833,7 +833,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={19} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthNineteen ? Math.round(forecastMonthNineteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={20} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwenty ? Math.round(forecastMonthTwenty) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={21} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwentyOne ? Math.round(forecastMonthTwentyOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -858,7 +858,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={19} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthNineteen ? Math.round(forecastMonthNineteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={20} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwenty ? Math.round(forecastMonthTwenty) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={21} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwentyOne ? Math.round(forecastMonthTwentyOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -880,7 +880,7 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       childrenDataContract.push(<th key={15} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthFifthteen ? Math.round(forecastMonthFifthteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={16} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSixteen ? Math.round(forecastMonthSixteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={17} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthSeventeen ? Math.round(forecastMonthSeventeen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
-      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEightteen ? Math.round(forecastMonthEightteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
+      childrenDataContract.push(<th key={18} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthEighteen ? Math.round(forecastMonthEighteen) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
     }else if(loopCount === 15){
       childrenDataContract.push(<th key={1} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthOne ? Math.round(forecastMonthOne) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
       childrenDataContract.push(<th key={2} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + (forecastMonthTwo ? Math.round(forecastMonthTwo) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>)
@@ -923,16 +923,16 @@ return <><th style={{ textAlign: 'center', backgroundColor: '#005A8B', color: 'w
       const loadedData = this.state.data;
       const headerForecastTotalValue = "headerForecastTotalValue";
 
-      var monthNames = ["January", "February", "March", "April", "May", "June",
+      /*var monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
-      ];
+      ];*/
 
       if(!loadedData) return <Container>Loading...</Container>
 
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

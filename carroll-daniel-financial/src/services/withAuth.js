@@ -12,8 +12,8 @@ export default function withAuth(AuthComponent) {
       loaded: false
     };
 
-    /* In the componentDid<ount, we would want to do a couple of important tasks in order to verify the current users authentication status
-    prior to granting them enterance into the app. */
+    /* In the componentDidMount, we would want to do a couple of important tasks in order to verify the current users authentication status
+    prior to granting them entrance into the app. */
     componentDidMount() {
       if (!Auth.loggedIn()) {
         this.props.history.replace('/financial/login');
@@ -37,7 +37,6 @@ export default function withAuth(AuthComponent) {
     render() {
       if (this.state.loaded === true) {
         if (this.state.confirm) {
-          console.log("confirmed!");
           return (
             /* component that is currently being wrapper(App.js) */
             <AuthComponent

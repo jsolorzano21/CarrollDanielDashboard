@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+//import Form from 'react-bootstrap/Form'
+//import Button from 'react-bootstrap/Button'
 import { UserAgentApplication } from 'msal'
 import axios from 'axios'
 import config from '../Config/UserConfig';
 import { getUserDetails } from '../Config/GraphService';
 import AuthHelperMethods from '../services/AuthHelperMethods';
-import { Nav } from 'react-bootstrap'
+//import { Nav } from 'react-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -28,8 +28,9 @@ export default class Login extends Component{
       }
     });
 
-    var user = this.userAgentApplication.getAccount;
+    /*var user = this.userAgentApplication.getAccount;
 
+    console.log(this.state)
     /*this.state = {
       isAuthenticated: (user !== null),
       user: {},
@@ -37,10 +38,11 @@ export default class Login extends Component{
       error: null
     };*/
 
-    if (user) {
+    /*if (user) {
+       console.log("checking if user exist")
     // Enhance user object with data from Graph
       this.getUserProfile();
-    }
+    }*/
 
     this.state = {
       email: "",
@@ -59,6 +61,8 @@ export default class Login extends Component{
           scopes: config.scopes,
           prompt: "select_account"
       }
+
+
           await this.userAgentApplication.loginPopup(loginRequest).then(
             loginResponse => this.state.adToken = "Mstoken " + loginResponse.idToken.rawIdToken     
             //login success
@@ -83,6 +87,7 @@ export default class Login extends Component{
         });
       } 
       
+      console.log(this.state)
       axios.post(
         "https://rest-site-locations-1594736464770.azurewebsites.net/api/auth/login", this.state,
         {
@@ -92,7 +97,7 @@ export default class Login extends Component{
         var dataValue = response['data'];
         this.setToken(dataValue.token);
         console.log("This is the value from azure: " + dataValue.token);
-        this.props.history.replace("/financial/main");
+        this.props.history.replace("/financial/ExecutiveDashBoard");
 
       }).catch(error => {
         console.log(error)
@@ -108,6 +113,7 @@ export default class Login extends Component{
 
     async getUserProfile() {
 
+      console.log("Entered GetUserProfile")
       try {
         // Get the access token silently
         // If the cache contains a non-expired token, this function
@@ -117,7 +123,8 @@ export default class Login extends Component{
         if (window.location.hash.includes("id_token")) {
           window.close();
         }
-        var accessToken = await this.userAgentApplication.acquireTokenSilent({
+
+        var accessToken = await this.userAgentApplication.acquireTokenPopup({
           scopes: config.scopes
         });
 
@@ -179,7 +186,7 @@ export default class Login extends Component{
         }
       if(this.state.email !== '' && this.state.password !== ''){
       console.log(this.state)
-      axios.post('http://localhost:8081/api/auth/login', this.state, {
+      axios.post('https://rest-site-locations-1594736464770.azurewebsites.net/api/auth/login', this.state, {
         headers: { 'Content-Type' : 'application/json'}
       })
       .then(response => {
@@ -214,7 +221,7 @@ export default class Login extends Component{
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}}>
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/login"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
         </Navbar>
           <Container style={{ paddingTop: '5%'}}>

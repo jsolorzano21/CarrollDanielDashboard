@@ -1,0 +1,539 @@
+ <div style={{ paddingRight: '5%',paddingLeft: '5%', paddingTop: '2%'}}>
+      { displayButton ? 
+      (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousScreenFunction} style={{ height: '50px'}} /></button>)
+      : null
+      }
+
+      {
+      checkClickCount ? null :
+      <label style={{ paddingLeft: '1%', paddingRight: '1%'}}>
+      <span>Bar</span>
+      <Toggle
+        id='biscuit-status'
+        defaultChecked={this.state.changeGraph}
+        icons={false}
+        onChange={this.handleGraphChange} 
+      />
+      <span >Line</span>
+      </label>
+      }
+
+      {
+        checkClickCount ? (<div className="tableFixHead"><table id='tableMain'>
+                        <thead>
+                        <tr>{this.renderTableHeader(headerSection)}</tr>
+                        </thead>
+                        <tbody>
+                        {combinedDivisionNumbers}
+                        </tbody>
+                    </table></div>) : (changeGraphButton ? <Line
+          data={this.state.revenueTotal}
+          //redraw={true}
+          options={{
+            responsive: true,
+            maintainAspectRatio: true,
+            bezierCurve: true,
+            enable: true,
+            title:{
+              display:true,
+              text:'Carroll Daniel Revenue',
+              fontSize:20
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    left: 15,
+                    right: 15,
+                    bottom: 15
+                }
+            },
+            legend:{
+              display:true,
+              position:'top',
+              fullWidth: true,
+            },
+            tooltips: {
+              mode: 'nearest',
+              titleAlign: 'center',
+              enabled: true,
+              callbacks: {
+                title: function(tooltipItem, data) {
+                    return data.labels[tooltipItem[0].index];
+                },
+                  label: function(tooltipItem) {
+                      return '$' + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }, },
+            },
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    beginAtZero:true,
+                    userCallback: function(value) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Total Dollars',
+                    fontSize: 30
+                }
+                }
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                    drawOnChartArea: false
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold"
+                  },
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 30
+                },
+                }
+              ]
+              },
+              onClick:(evt,item) => {
+                this.updateState(evt,item)}
+          }}
+        /> : <Bar
+          data={this.state.revenueTotal}
+          //redraw={true}
+          options={{
+            responsive: true,
+            maintainAspectRatio: true,
+            bezierCurve: true,
+            enable: true,
+            title:{
+              display:true,
+              text:'Carroll Daniel Revenue',
+              fontSize:20
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    left: 15,
+                    right: 15,
+                    bottom: 15
+                }
+            },
+            legend:{
+              display:true,
+              position:'top',
+              fullWidth: true,
+            },
+            tooltips: {
+              mode: 'nearest',
+              titleAlign: 'center',
+              enabled: true,
+              callbacks: {
+                title: function(tooltipItem, data) {
+                  console.log(tooltipItem)
+                  console.log(data)
+                    return data.labels[tooltipItem[0].index];
+                },
+                  label: function(tooltipItem) {
+                      return '$' + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }, },
+            },
+            scales: {
+              yAxes: [
+                {
+                  stacked: stackedValue,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    beginAtZero:true,
+                    userCallback: function(value) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Total Dollars',
+                    fontSize: 30
+                }
+                }
+              ],
+              xAxes: [
+                {
+                  stacked: stackedValue,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                    drawOnChartArea: false
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    callback: function(label, index, labels) {
+                      if (/\s/.test(label)) {
+                        return label.split("(");
+                      }else{
+                        return label;
+                      }              
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 30
+                },
+                }
+              ]
+              },
+              onClick:(evt,item) => {
+                this.updateState(evt,item)
+              }
+          }}
+        />)
+      }
+      </div>
+      <div style={{ paddingRight: '5%',paddingLeft: '5%', paddingTop: '2%'}}>
+      { displayButtonProfit ? 
+      (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousScreenFunctionProfit} style={{ height: '50px'}} /></button>)
+      : null
+      }
+
+      {
+        checkClickCountProfit ? null :
+      <label style={{ paddingLeft: '1%', paddingRight: '1%'}}>
+      <span>Bar</span>
+      <Toggle
+        id='biscuit-status'
+        defaultChecked={this.state.changeGraphProfit}
+        icons={false}
+        onChange={this.handleGraphChangeProfit} 
+      />
+      <span >Line</span>
+      </label>
+      }
+
+      {
+        checkClickCountProfit ? (<div className="tableFixHead"><table id='tableMain'>
+                        <thead>
+                        <tr>{this.renderTableHeader(headerSection)}</tr>
+                        </thead>
+                        <tbody>
+                        {combinedDivisionNumbers}
+                        </tbody>
+                    </table></div>) : (changeGraphButtonProfit ? <Line
+          data={this.state.revenueTotalProfit}
+          //redraw={true}
+          options={{
+            responsive: true,
+            maintainAspectRatio: true,
+            bezierCurve: true,
+            enable: true,
+            title:{
+              display:true,
+              text:'Carroll Daniel Profit',
+              fontSize:20
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    left: 15,
+                    right: 15,
+                    bottom: 15
+                }
+            },
+            legend:{
+              display:true,
+              position:'top',
+              fullWidth: true,
+            },
+            tooltips: {
+              mode: 'nearest',
+              titleAlign: 'center',
+              enabled: true,
+              callbacks: {
+                title: function(tooltipItem, data) {
+                    return data.labels[tooltipItem[0].index];
+                },
+                  label: function(tooltipItem) {
+                      return '$' + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }, },
+            },
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    beginAtZero:true,
+                    userCallback: function(value) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Total Dollars',
+                    fontSize: 30
+                }
+                }
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                    drawOnChartArea: false
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold"
+                  },
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 30
+                },
+                }
+              ]
+              },
+              onClick:(evt,item) => {
+                this.updateStateProfit(evt,item)}
+          }}
+        /> : <Bar
+          data={this.state.revenueTotalProfit}
+          //redraw={true}
+          options={{
+            responsive: true,
+            maintainAspectRatio: true,
+            bezierCurve: true,
+            enable: true,
+            title:{
+              display:true,
+              text:'Carroll Daniel Profit',
+              fontSize:20
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    left: 15,
+                    right: 15,
+                    bottom: 15
+                }
+            },
+            legend:{
+              display:true,
+              position:'top',
+              fullWidth: true,
+            },
+            tooltips: {
+              mode: 'nearest',
+              titleAlign: 'center',
+              enabled: true,
+              callbacks: {
+                title: function(tooltipItem, data) {
+                    return data.labels[tooltipItem[0].index];
+                },
+                  label: function(tooltipItem) {
+                      return '$' + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }, },
+            },
+            scales: {
+              yAxes: [
+                {
+                  stacked: stackedValueProfit,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    beginAtZero:true,
+                    userCallback: function(value) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Total Dollars',
+                    fontSize: 30
+                }
+                }
+              ],
+              xAxes: [
+                {
+                  stacked: stackedValueProfit,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                    drawOnChartArea: false
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    callback: function(label, index, labels) {
+                      if (/\s/.test(label)) {
+                        return label.split("(");
+                      }else{
+                        return label;
+                      }              
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 30
+                },
+                }
+              ]
+              },
+              onClick:(evt,item) => {
+                this.updateStateProfit(evt,item)
+              }
+          }}
+        />)
+      }
+      </div>
+      <div style={{ paddingRight: '5%',paddingLeft: '5%', paddingTop: '2%'}}>
+      { displayMonthlyButton ? 
+      (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousMonthlyScreenFunction} style={{ height: '50px'}} /></button>)
+      : null
+      }
+      <Bar
+          data={this.state.revenueMonthlyValues}
+
+          //redraw={true}
+          options={{
+            responsive: true,
+            maintainAspectRatio: true,
+            bezierCurve: true,
+            enable: true,
+            title:{
+              display:true,
+              text:'Monthly Revenue Projection',
+              fontSize:20
+            },
+            layout: {
+                padding: {
+                    top: 5,
+                    left: 15,
+                    right: 15,
+                    bottom: 15
+                }
+            },
+            legend:{
+              display:true,
+              position:'top',
+              fullWidth: true,
+              labels: {
+                filter: function(item, chart) {
+                    // Logic to remove a particular legend item goes here
+                    return !item.text.includes('Totals');
+                }
+            }
+            },
+            tooltips: {
+              mode: 'nearest',
+              titleAlign: 'center',
+              enabled: true,
+              callbacks: {
+                  label: function(tooltipItem) {
+                      return '$' + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }, },
+            },
+            scales: {
+              yAxes: [
+                {
+                  stacked: true,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold",
+                    beginAtZero:true,
+                    userCallback: function(value) {
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+                        value = value.join(',');
+                        return value;
+                    }
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Total Dollars',
+                    fontSize: 30
+                }
+                }
+              ],
+              xAxes: [
+                {
+                  stacked: true,
+                  gridLines: {
+                    drawBorder: true,
+                    color: "grey",
+                    zeroLineColor: "grey",
+                    drawOnChartArea: false
+                  },
+                  ticks: {
+                    fontSize: 15,
+                    fontStyle: "bold"
+                  },
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 30
+                },
+                }
+              ]
+              },
+              onClick:(evt,item) => {this.updateMonthlyState(evt,item)
+              }
+          }}
+        /></div>  
+            <div style={{ paddingRight: '5%',paddingLeft: '5%', paddingTop: '2%', paddingBottom: '8%'}}>      
+            <Timeline
+                  groups={groups}
+                  items={items}
+                  keys={keys}
+                  fullUpdate
+                  itemTouchSendsClick={false}
+                  stackItems
+                  itemHeightRatio={0.75}
+                  canMove={true}
+                  canResize={"both"}
+                  defaultTimeStart={defaultTimeStart}
+                  defaultTimeEnd={defaultTimeEnd}
+                  itemRenderer={this.itemRenderer}
+                  onItemMove={this.handleItemMove}
+                  onItemResize={this.handleItemResize}
+                />
+            </div>
