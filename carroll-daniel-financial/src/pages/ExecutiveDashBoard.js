@@ -41905,10 +41905,14 @@ handleYearChange(event) {
             <option value="currentYear">2020</option>
             <option value="nextYear">2021</option>
           </select>
-          <button style={{ height: '50px', fontSize: '14px', paddingBottom: '2.5%', backgroundColor: '#005A8B', color: 'white'}} type='submit' onClick={() => window.print()}>Print</button>
           </Col>
         </Row>
         <Row>
+          <Col md={tableWidthLarge}>
+          <button style={{ height: '50px', width: '60px', fontSize: '14px', paddingBottom: '2.5%', backgroundColor: '#005A8B', color: 'white'}} type='submit' onClick={() => window.print()}>Print</button>
+          </Col>
+        </Row>
+        <Row style={{ paddingTop: '2%', paddingBottom: '1%'}}>
         <Col md={tableWidthLarge}>
          <ReactTable
            data={this.state.students} 
