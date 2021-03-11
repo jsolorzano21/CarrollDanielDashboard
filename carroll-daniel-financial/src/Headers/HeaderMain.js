@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -100,7 +100,7 @@ export default class Header extends Component{
 
         return (
           <Navbar className="color-nav" expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
@@ -112,7 +112,7 @@ export default class Header extends Component{
                   <Nav.Link style={{color: 'white'}} href="/financial/ProjectReport">Project Report</Nav.Link>
                   <Nav.Link style={{color: 'white'}} href="/financial/MTD_Profit">MTD Profit</Nav.Link>
                   <Nav.Link style={{color: 'white'}} href="/financial/MTD_Revenue">MTD Revenue</Nav.Link>
-                  <Nav.Link style={{color: 'white'}} href="/financial/ForcastRevenue">Forecast Revenue</Nav.Link>
+                  <Nav.Link style={{color: 'white'}} href="/financial/ForecastRevenue">Forecast Revenue</Nav.Link>
                   <Nav.Link style={{color: 'white'}} href="/financial/future">Future Jobs</Nav.Link>
                   {
                 view ? (
@@ -125,5 +125,5 @@ export default class Header extends Component{
         )
 
     }
-}
+}*/
 

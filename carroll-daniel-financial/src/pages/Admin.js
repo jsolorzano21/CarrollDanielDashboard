@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+//import Row from 'react-bootstrap/Row'
+//import Col from 'react-bootstrap/Col'
 import AuthHelperMethods from '../services/AuthHelperMethods';
 import withAuth from '../services/withAuth';
 import "react-table/react-table.css";
@@ -156,6 +156,7 @@ updateQuarterDBRecord(id,keyValueSet){
   var tokenValue = localStorage.getItem("data-token")
   const AuthStr = 'Mstoken '.concat(tokenValue);
   var urlString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialUpdateQuarterData/" + id
+  //var urlString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialUpdateQuarterData/" + id
 
   axios.put(
     urlString,
@@ -167,6 +168,7 @@ updateQuarterDBRecord(id,keyValueSet){
     }
   ).then(response => {
     var dataValue = response['data'];
+    console.log(dataValue);
   }).catch(error => {
     console.log(error)
   })
@@ -174,6 +176,7 @@ updateQuarterDBRecord(id,keyValueSet){
 
  //year three data filter
 retrieveYearThreeReportData(newData, yearData, quarterData){
+  console.log("Entered retrieveYearThreeReportData")
   var yeaThreeDataRecords = []
   //current quarter from update-current-quarter table
   newData.map((CurrentReportData, index) => {
@@ -193,6 +196,7 @@ retrieveYearThreeReportData(newData, yearData, quarterData){
         'div_11_revenue_1': '$' + parseInt(div_11_revenue_1).toLocaleString(undefined, {maximumFractionDigits:2}) , 'div_11_profit_1': '$' + parseInt(div_11_profit_1).toLocaleString(undefined, {maximumFractionDigits:2}), 'div_11_revenue_2': '$' + parseInt(div_11_revenue_2).toLocaleString(undefined, {maximumFractionDigits:2}) , 'div_11_profit_2': '$' + parseInt(div_11_profit_2).toLocaleString(undefined, {maximumFractionDigits:2}), 'div_11_revenue_3': '$' + parseInt(div_11_revenue_3), 'div_11_profit_3': '$' + parseInt(div_11_profit_3).toLocaleString(undefined, {maximumFractionDigits:2})});
       }
 
+    console.log(yeaThreeDataRecords)
     this.setState({threeYearReportData: yeaThreeDataRecords })
     this.reloadUpdatedData(false)
   })
@@ -240,6 +244,7 @@ updateYearThreeReportDBRecord(id,keyValueSet){
     }
   ).then(response => {
     var dataValue = response['data'];
+    console.log(dataValue);
   }).catch(error => {
     console.log(error)
   })
@@ -364,7 +369,7 @@ reloadThreeYearReportData(){
   })
  }
 
- //Mangement Data DB Call
+ //Management Data DB Call
  updateDBRecordManagement(id,type,value){
   var tokenValue = localStorage.getItem("data-token")
   const AuthStr = 'Mstoken '.concat(tokenValue);
@@ -382,6 +387,7 @@ reloadThreeYearReportData(){
     }
   ).then(response => {
     var dataValue = response['data'];
+    console.log(dataValue)
   }).catch(error => {
     console.log(error)
   })
@@ -413,8 +419,8 @@ reloadThreeYearReportData(){
       
   var tokenValue = localStorage.getItem("data-token")
   const AuthStr = 'Mstoken '.concat(tokenValue);
-  var decoded = jwt_decode(localStorage.getItem('data-token'));
-  var user =  decoded.sub;
+  //var decoded = jwt_decode(localStorage.getItem('data-token'));
+  //var user =  decoded.sub;
 
   axios.all([
   axios.get(
@@ -505,7 +511,7 @@ reloadThreeYearReportData(){
 
 }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -525,7 +531,7 @@ reloadThreeYearReportData(){
         return (
           <>
           <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

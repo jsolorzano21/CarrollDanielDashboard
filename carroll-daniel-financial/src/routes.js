@@ -11,6 +11,7 @@ import Admin from './pages/Admin'
 import MTD_Revenue from './pages/MTD_Revenue'
 import MTD_Profit from './pages/MTD_Profit'
 import Graphs from './pages/Graphs'
+import ExecutiveDashBoard from './pages/ExecutiveDashBoard'
 import YearThreeProfitRevenue from './pages/RevenueProfitYearThree'
 
 
@@ -21,6 +22,7 @@ const Routes = ( { user } ) => {
       <div>
       <Switch>
         <Route exact path="/financial/login" component={Login} />
+        <Route exact path="/financial/ExecutiveDashBoard" component={ExecutiveDashBoard} />
         <Route exact path="/financial/main" component={Main} />
         <Route exact path="/financial/future" component={FutureJobs} />
         <Route exact path="/financial/DivIncomeYearOne" component={DivIncomeYearOne} />

@@ -33,14 +33,14 @@ class ForcastRevenue extends Component{
       industrialSelected: true,
       atlantaSelected: true,
       ProjectReportData: [],
-      ProjectForcastData: [],
+      ProjectForecastData: [],
       data: null,
       userRole: '',
       currentDate: new Date()
     }
  }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -115,10 +115,7 @@ class ForcastRevenue extends Component{
       }
     ).then(response => {
       var dataValue = response['data'];
-      this.setState({ ProjectReportData: dataValue});
-      this.setState({ ProjectForcastData: dataValue});
-      this.setState({ data: dataValue });
-      this.setState({ userRole: decoded.roles})
+      this.setState({ ProjectReportData: dataValue, ProjectForecastData: dataValue, data: dataValue, userRole: decoded.roles});
 
   }).catch(error => {
     console.log(error)
@@ -157,51 +154,51 @@ class ForcastRevenue extends Component{
         const now = new Date(currentQuarter);
         const pastDate = new Date(end_date);
         const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-        var totalForcastRevenue = '';
+        var totalForecastRevenue = '';
         var totalExpectedRevenue = '';
-        var grossMaringEarned = '';
+        var grossMarginEarned = '';
         var earnedRevenue = '';
         var backlogValue = '';
         var earnedRevenueYTDValue;
         if(status === 'Contract'){
           if((pastDate <= now && checkMonth === true) || pastDate <= now){
-            totalForcastRevenue = 0;
+            totalForecastRevenue = 0;
             totalExpectedRevenue =  earned_revenue_YTD;
-            grossMaringEarned = (parseFloat(contract_amount) * (gross_margin_percent/100));
+            grossMarginEarned = (parseFloat(contract_amount) * (gross_margin_percent/100));
             earnedRevenue = earned_revenue;
             backlogValue = backlog;
             if(quarter === '4'){
               earnedRevenueYTDValue = 0;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '3'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '2'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '1'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }
           }else {
             //should be 50 months of forecast
-            totalForcastRevenue = parseFloat(contract_amount) - parseFloat(earned_revenue);
+            totalForecastRevenue = parseFloat(contract_amount) - parseFloat(earned_revenue);
 
-            grossMaringEarned = (parseFloat(contract_amount) * (gross_margin_percent/100));
+            grossMarginEarned = (parseFloat(contract_amount) * (gross_margin_percent/100));
             earnedRevenue = earned_revenue;
             backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);
             if(quarter === '4'){
               earnedRevenueYTDValue = 0;
-              totalExpectedRevenue = (parseFloat(contract_amount) - parseFloat(earned_revenue) + earnedRevenueYTDValue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '3'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = (parseFloat(contract_amount) - parseFloat(earned_revenue) + earnedRevenueYTDValue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '2'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = (parseFloat(contract_amount) - parseFloat(earned_revenue) + totalExpectedRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }else if(quarter === '1'){
               earnedRevenueYTDValue = earned_revenue_YTD;
-              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+              totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
             }
         } 
       }
@@ -216,14 +213,14 @@ class ForcastRevenue extends Component{
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{start_date}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{end_date}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(contract_amount)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(grossMaringEarned)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(grossMarginEarned)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{gross_margin_percent + '%'}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{hit_ratio + '%'}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenueYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
               <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+              <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
            </tr>
         )}
        })
@@ -253,19 +250,19 @@ class ForcastRevenue extends Component{
               divisionName = 'Corporate'
             } 
               
-          var totalForcastRevenue = '';
+          var totalForecastRevenue = '';
           var totalExpectedRevenue = '';
-          var grossMaringEarned = '';
+          var grossMarginEarned = '';
           var earnedRevenue = '';
           var backlogValue = '';
           var earnedRevenueYTDValue;
 
-            grossMaringEarned = parseFloat(contract_amount) * (gross_margin_percent/100);
+            grossMarginEarned = parseFloat(contract_amount) * (gross_margin_percent/100);
             earnedRevenue =0;
             backlogValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
             earnedRevenueYTDValue = 0;
             totalExpectedRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
-            totalForcastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
+            totalForecastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
   
           if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year){
           return (
@@ -277,20 +274,20 @@ class ForcastRevenue extends Component{
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{start_date}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{end_date}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(contract_amount)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(grossMaringEarned)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(grossMarginEarned)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{gross_margin_percent + '%'}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(backlogValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{hit_ratio + '%'}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(earnedRevenueYTDValue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalExpectedRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForcastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
+                <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'right'}}>{'$' + Math.round(parseFloat(totalForecastRevenue)).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
              </tr>
           )}
          })
         }     
       else if(value === 'forecast_months'){
-        return this.state.ProjectForcastData.map((FY19Plan, index) => {
+        return this.state.ProjectForecastData.map((FY19Plan, index) => {
           const { _id, end_date, start_date, quarter, year, division, dept_job, earned_revenue, job_name, status, contract_amount } = FY19Plan //destructuring
 
 
@@ -323,8 +320,8 @@ class ForcastRevenue extends Component{
           (12 * (startDate.getFullYear() - now.getFullYear()))
           var converter = require('number-to-words');
           var newValue = converter.toWords(totalMonths);
-          var forcastData = [];
-          var forcastDataSum = 0;
+          var forecastData = [];
+          var forecastDataSum = 0;
           var backlogValue = parseFloat(contract_amount) - parseFloat(earned_revenue);
           var burnOffSum = 0;
           var valueFound = 0;
@@ -335,8 +332,8 @@ class ForcastRevenue extends Component{
           if(status === 'Contract'){
             if((pastDate < now && checkMonth === false) || (pastDate < now)){
               for (let i = 0; i < 50; i++) {
-                forcastData.push(0);
-                forcastDataSum += 0;
+                forecastData.push(0);
+                forecastDataSum += 0;
               }  
             }else {
                 for(var j=0; j < global.burnOffChart.length; j++){
@@ -349,7 +346,7 @@ class ForcastRevenue extends Component{
 
                 if(startDate > now){
                   for(var i=1; i < checkStartValue; i++){
-                  forcastData.push(0);
+                  forecastData.push(0);
                   }
                 }
                 for (var k=0; k < global.burnOffChart.length; k++) {
@@ -357,8 +354,8 @@ class ForcastRevenue extends Component{
                     projectLength += 1;
                     valueFound = global.burnOffChart[k][newValue];
                     monthlyValue =  (backlogValue * valueFound) / burnOffSum;
-                    forcastData.push(Math.round(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2}));
-                    forcastDataSum += monthlyValue;
+                    forecastData.push(Math.round(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2}));
+                    forecastDataSum += monthlyValue;
               }
             }
           } 
@@ -367,13 +364,13 @@ class ForcastRevenue extends Component{
           //Dynamically Create Table Data
           let children = []
           for (let j = 0; j < projectLength; j++) {
-            children.push(<td key={j} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + forcastData[j]}</td>)
+            children.push(<td key={j} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + forecastData[j]}</td>)
           }
 
           for (let j = projectLength; j < 50; j++) {
             children.push(<td key={j}></td>)
           }
-          if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year && parseFloat(forcastDataSum) > 0){
+          if(status === 'Contract' && currentQuarterResp === quarter && currentYearResp === year && parseFloat(forecastDataSum) > 0){
           return (
              <tr key={_id} style={{ fontSize: '17px'}}>
                 <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{divisionName}</td>
@@ -384,7 +381,7 @@ class ForcastRevenue extends Component{
           )}
          })
         }else if(value === 'forecast_months_non_contracts'){
-          return this.state.ProjectForcastData.map((FY19Plan, index) => {
+          return this.state.ProjectForecastData.map((FY19Plan, index) => {
             const { _id, end_date, start_date, year, quarter, division, dept_job, job_name, status, contract_amount, hit_ratio } = FY19Plan //destructuring
   
             if(division === '1'){
@@ -426,8 +423,8 @@ class ForcastRevenue extends Component{
             (12 * (startDate.getFullYear() - now.getFullYear()))
             var converter = require('number-to-words');
             var newValue = converter.toWords(totalMonths);
-            var forcastData = [];
-            var forcastDataSum = 0;
+            var forecastData = [];
+            var forecastDataSum = 0;
             var backlogFutureValue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
             var burnOffSum = 0;
             var valueFound = 0;
@@ -439,13 +436,13 @@ class ForcastRevenue extends Component{
   
             if(startDate > now){
               for(var m=1; m < checkStartValue; m++){
-              forcastData.push(0);
+              forecastData.push(0);
               }
               checkCompleted += 1;
             }
             
             //if(checkCompleted === 1){
-              //calculate burnoff sum
+              //calculate burnOff sum
               for(var l=0; l < global.burnOffChart.length; l++){
                 if(l  >= CurrentMonthOfProject && l < totalMonths){
                     obj = global.burnOffChart[l][newValue]
@@ -460,8 +457,8 @@ class ForcastRevenue extends Component{
                         projectLength += 1;
                         valueFound = global.burnOffChart[v][newValue];
                         monthlyValue =  (backlogFutureValue * valueFound) / burnOffSum;
-                        forcastData.push(Math.round(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2}));
-                        forcastDataSum += monthlyValue;
+                        forecastData.push(Math.round(parseFloat(monthlyValue)).toLocaleString(undefined, {maximumFractionDigits:2}));
+                        forecastDataSum += monthlyValue;
                   }
                 }
             //}
@@ -469,13 +466,13 @@ class ForcastRevenue extends Component{
             //Dynamically Create Table Data
             let children = []
             for (let j = 0; j < projectLength; j++) {
-              children.push(<td key={j} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + forcastData[j]}</td>)
+              children.push(<td key={j} style={{ textAlign: 'right', border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif'}}>{'$' + forecastData[j]}</td>)
             }
   
             for (let j = projectLength; j < 50; j++) {
               children.push(<td key={j}></td>)
             }
-            if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year && parseFloat(forcastDataSum) > 0){
+            if(status !== 'Contract' && currentQuarterResp === quarter && currentYearResp === year && parseFloat(forecastDataSum) > 0){
             return (
                <tr key={_id} style={{ fontSize: '17px'}}>
                   <td style={{ border: '1px solid #005A8B', fontFamily: '"Trebuchet MS", Arial, Helvetica, sans-serif',textAlign: 'center'}}>{divisionName}</td>
@@ -557,7 +554,7 @@ class ForcastRevenue extends Component{
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

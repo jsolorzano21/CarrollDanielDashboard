@@ -49,7 +49,7 @@ class ProjectReport extends Component{
     }
  }
 
-   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+   /* Create a new instance of the 'AuthHelperMethods' component*/
    Auth = new AuthHelperMethods();
 
    _handleLogout = () => {
@@ -178,7 +178,7 @@ class ProjectReport extends Component{
         var checkStartValue = startDate.getMonth() - now.getMonth() + 
           (12 * (startDate.getFullYear() - now.getFullYear()))
         const checkMonth = now.getMonth() === pastDate.getMonth() && now.getFullYear() === pastDate.getFullYear();
-        var totalForcastRevenue = '';
+        var totalForecastRevenue = '';
         var totalExpectedRevenue = '';
         var expectedContractAmount = '';
         var profitCurrentYear = '';
@@ -199,27 +199,27 @@ class ProjectReport extends Component{
         profit = (parseFloat(contract_amount) * (gross_margin_percent / 100));
         profitTotal += profit;
         if((pastDate <= now  && checkMonth === true) || pastDate <= now){
-          totalForcastRevenue = 0;
+          totalForecastRevenue = 0;
           if(quarter === '4'){
             earnedRevenueYTDValue = 0;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '3'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '2'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }else if(quarter === '1'){
             earnedRevenueYTDValue = earned_revenue_YTD;
-            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForcastRevenue);
+            totalExpectedRevenue = parseFloat(earnedRevenueYTDValue) + parseFloat(totalForecastRevenue);
           }
-          profitCurrentYear = (parseFloat(earnedRevenueYTDValue) * (gross_margin_percent/100)) + (parseFloat(totalForcastRevenue) * (gross_margin_percent/100));
+          profitCurrentYear = (parseFloat(earnedRevenueYTDValue) * (gross_margin_percent/100)) + (parseFloat(totalForecastRevenue) * (gross_margin_percent/100));
           expectedContractAmount = Math.round((parseFloat(earned_revenue) + (parseFloat(contract_amount) - parseFloat(earned_revenue))) * hit_ratio/100);
           //totalExpectedRevenue =  earned_revenue_YTD;
-          currentBacklogValue = 0;
-          futureBacklog = 0;
+          currentBacklogValue = backlog;
+          futureBacklog = backlog;
         }else {
-          totalForcastRevenue = backlog;
+          totalForecastRevenue = backlog;
           expectedContractAmount = Math.round((parseFloat(earned_revenue) + (parseFloat(contract_amount) - parseFloat(earned_revenue))) * hit_ratio/100);
           for(var j=0; j < global.burnOffChart.length; j++){
             if(j >= CurrentMonthOfProject && j < totalMonths){
@@ -229,7 +229,7 @@ class ProjectReport extends Component{
 
           }
 
-          //calculate Burnoff rate
+          //calculate BurnOff rate
           var checkloop = 1;
           var forecastData = 0;
           var futureForecastData = 0;
@@ -286,9 +286,9 @@ class ProjectReport extends Component{
         }
       }else{
 
-        //calculate Burnoff rate
+        //calculate BurnOff rate
         var checkloopProjected = 1;
-        var checkCompleted = 0;
+        //var checkCompleted = 0;
         var forecastDataProjected = 0;
         var futureForecastDataProjected = 0;
         var forecastNumberProjected = 0;
@@ -312,12 +312,12 @@ class ProjectReport extends Component{
           for(var il=1; il < checkStartValue; il++){
             checkloopProjected += 1;
           }
-          checkCompleted += 1;
+          //checkCompleted += 1;
         }
         
 
         //if(checkCompleted === 1){
-          //calculate burnoff sum
+          //calculate burnOff sum
           for(var jk=0; jk < global.burnOffChart.length; jk++){
             if(jk >= CurrentMonthOfProject && jk < totalMonths){
                 var objProjected = global.burnOffChart[jk][newValue]
@@ -349,7 +349,7 @@ class ProjectReport extends Component{
       }
 
         expectedContractAmount = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100));
-        totalForcastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
+        totalForecastRevenue = (parseFloat(contract_amount) * (parseInt(hit_ratio)/100)) - earned_revenue;
         totalExpectedRevenue = forecastDataProjected ? forecastDataProjected : 0;
         //totalExpectedRevenue = (parseFloat(totalExpectedRevenue) * (gross_margin_percent/100));
         currentBacklogValue = (futureForecastDataProjected + futureRevenueValueProjected) ? (futureForecastDataProjected + futureRevenueValueProjected) : 0;
@@ -370,7 +370,7 @@ class ProjectReport extends Component{
       expectedFutureProf += futureProfit;
       expectedFutureBack += futureBacklog;
 
-      if(year == "2019" && division == "1"){
+      if(year === "2019" && division === "1"){
         valuesChecked += parseFloat(totalExpectedRevenue)
       }
 
@@ -482,7 +482,7 @@ class ProjectReport extends Component{
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

@@ -54,6 +54,7 @@ var prev_ma_profit_7 = 0;var prev_ma_revenue_11 = 0; var prev_ma_profit_11 = 0; 
 var expectedFutureBack = 0; var profitTotal = 0; var expectedBacklog = 0; var expectedConAmount = 0;
 var currentQuarterResp = '';
 var currentYearResp = '';
+var currentYearTwoResp = '';
 var previousQuarterResp = '';
 var previousYearResp = '';
 var currentQuarter = '';
@@ -140,6 +141,7 @@ class DivIncomeYearTwo extends Component{
     
           currentQuarterResp = current_quarter;
           currentYearResp = current_year;
+          currentYearTwoResp = parseInt(current_year) + 1
     
         })
         if(currentQuarterResp === '1'){
@@ -185,16 +187,16 @@ class DivIncomeYearTwo extends Component{
   
         /*if(decoded.sub === useremail){
           if(userdivision === "all"){
-            financialString = "http://localhost:8081/api/financialResultsData/";
+            financialString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/";
           }else{
-            financialString = "http://localhost:8081/api/financialResultsData/division/" + userdivision
+            financialString = "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/division/" + userdivision
           }
         } */ 
     })
 
     axios.all([
       axios.get(
-        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData",
+        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialResultsData/",
         {headers: {
             "Authorization" : AuthStr,
             "Content-Type" : "application/json"
@@ -210,7 +212,7 @@ class DivIncomeYearTwo extends Component{
         }
       ),
       axios.get(
-        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialManagementAdjustmentData",
+        "https://rest-site-locations-1594736464770.azurewebsites.net/api/financialManagementAdjustmentData/",
         {headers: {
             "Authorization" : AuthStr,
             "Content-Type" : "application/json"
@@ -241,7 +243,7 @@ if(value === 'project_report'){
   this.state.ManagementAdjData.map((ManagementAdjData, index) => {
     const {  year, quarter, ma_revenue, ma_profit, division } = ManagementAdjData //destructuring
   
-      if(parseInt(2021) === parseInt(year) && parseInt(quarter) === parseInt(currentQuarterResp)){
+      if(parseInt(currentYearTwoResp) === parseInt(year) && parseInt(quarter) === parseInt(currentQuarterResp)){
         if(division === '1'){
           ma_revenue_1 = parseFloat(ma_revenue);
           ma_profit_1 = parseFloat(ma_profit);
@@ -270,7 +272,7 @@ if(value === 'project_report'){
           ma_revenue_00 = parseFloat(ma_revenue);
           ma_profit_00 = parseFloat(ma_profit);
         }
-      }else if(parseInt(quarter) === parseInt(4) && parseInt(year) === parseInt(2020)){
+      }else if(parseInt(quarter) === parseInt(previousQuarterResp) && parseInt(year) === parseInt(previousYearResp)){
         if(division === '1'){
           prev_ma_revenue_1 = parseFloat(ma_revenue);
           prev_ma_profit_1 = parseFloat(ma_profit);
@@ -367,7 +369,7 @@ if(value === 'project_report'){
         //totalExpectedRevenue =  earned_revenue_YTD;
         currentBacklogValue = 0;
         futureBacklog = 0;
-    }else if(pastDate <= now2 && pastcheckMonth === true && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
+    }else if((pastDate <= now2 && pastcheckMonth === true && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)) || (pastDate <= now2 && parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year))){
         pretotalForcastRevenue = 0;
         if(quarter === '4'){
           preearnedRevenueYTDValue = 0;
@@ -391,6 +393,7 @@ if(value === 'project_report'){
     else {
         //calculate Burnoff rate
         var checkloop = 1;
+        var checkloopPast = 1;
         var forecastData = 0;
         var preforecastData = 0;
         var futureForecastData = 0;
@@ -487,7 +490,7 @@ if(value === 'project_report'){
 
         if(startDate > now2){
           for(var y=1; y < checkStartValuePast; y++){
-            checkloop += 1;
+            checkloopPast += 1;
           }
         }
 
@@ -495,14 +498,14 @@ if(value === 'project_report'){
           if(t >= CurrentMonthOfProjectPast){
             var valueFoundTwo = global.burnOffChart[t][newValue];
             var monthlyValueTwo =  (backlogValue * valueFoundTwo) / preburnOffSum;
-            if(checkloop <= preforecastNumber){
+            if(checkloopPast <= preforecastNumber){
               preforecastData += monthlyValueTwo;
-              checkloop += 1;
+              checkloopPast += 1;
             }
-            else if(checkloop > preforecastNumber && checkloop <= premaxForecastNumber){
+            else if(checkloopPast > preforecastNumber && checkloopPast <= premaxForecastNumber){
               prefutureForecastData += monthlyValueTwo;
-              checkloop += 1;
-            }else if(checkloop > premaxForecastNumber){
+              checkloopPast += 1;
+            }else if(checkloopPast > premaxForecastNumber){
               futureRevenueValue += monthlyValueTwo;
             }
 
@@ -697,25 +700,25 @@ if(value === 'project_report'){
         expectedRevenue1 += parseFloat(futureRevenue);
         expectedProfit1 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue1 += parseFloat(pretotalExpectedRevenue) ? parseFloat(pretotalExpectedRevenue) : 0;
-        console.log(" Contract 1 Pre Year Two: " + preexpectedRevenue1)
-        preexpectedProfit1 += preprofitCurrentYear; 
+        preexpectedRevenue1 += parseFloat(prefutureRevenue);
+        console.log(" Contract 1 Pre Year Two: " + preexpectedRevenue1 + " Prev Q: " + previousQuarterResp + " Year: " + previousYearResp)
+        preexpectedProfit1 += futureProfit; 
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC1 += parseFloat(futureRevenue);
         expectedProfitABNC1 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC1 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC1 += preprofitCurrentYear;
+        preexpectedRevenueABNC1 += parseFloat(futureRevenue);
+        preexpectedProfitABNC1 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA1 += parseFloat(futureRevenue);
         expectedProfitFA1 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA1 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA1 += preprofitCurrentYear;
+        preexpectedRevenueFA1 += parseFloat(futureRevenue);
+        preexpectedProfitFA1 += futureProfit;
       }
     }
 
@@ -725,24 +728,24 @@ if(value === 'project_report'){
         expectedRevenue2 += parseFloat(futureRevenue);
         expectedProfit2 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue2 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit2 += preprofitCurrentYear;
+        preexpectedRevenue2 += parseFloat(prefutureRevenue);
+        preexpectedProfit2 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC2 += parseFloat(futureRevenue);
         expectedProfitABNC2 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC2 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC2 += preprofitCurrentYear;
+        preexpectedRevenueABNC2 += parseFloat(futureRevenue);
+        preexpectedProfitABNC2 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA2 += parseFloat(futureRevenue);
         expectedProfitFA2 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA2 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA2 += preprofitCurrentYear;
+        preexpectedRevenueFA2 += parseFloat(futureRevenue);
+        preexpectedProfitFA2 += futureProfit;
       }
     }
 
@@ -752,24 +755,24 @@ if(value === 'project_report'){
         expectedRevenue3 += parseFloat(futureRevenue);
         expectedProfit3 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue3 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit3 += preprofitCurrentYear;
+        preexpectedRevenue3 += parseFloat(prefutureRevenue);
+        preexpectedProfit3 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC3 += parseFloat(futureRevenue);
         expectedProfitABNC3 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC3 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC3 += preprofitCurrentYear;
+        preexpectedRevenueABNC3 += parseFloat(futureRevenue);
+        preexpectedProfitABNC3 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA3 += parseFloat(futureRevenue);
         expectedProfitFA3 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA3 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA3 += preprofitCurrentYear;
+        preexpectedRevenueFA3 += parseFloat(futureRevenue);
+        preexpectedProfitFA3 += futureProfit;
       }
     }
 
@@ -779,24 +782,24 @@ if(value === 'project_report'){
         expectedRevenue4 += parseFloat(futureRevenue);
         expectedProfit4 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue4 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit4 += preprofitCurrentYear;
+        preexpectedRevenue4 += parseFloat(prefutureRevenue);
+        preexpectedProfit4 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC4 += parseFloat(futureRevenue);
         expectedProfitABNC4 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC4 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC4 += preprofitCurrentYear;
+        preexpectedRevenueABNC4 += parseFloat(futureRevenue);
+        preexpectedProfitABNC4 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA4 += parseFloat(futureRevenue);
         expectedProfitFA4 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA4 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA4 += preprofitCurrentYear;
+        preexpectedRevenueFA4 += parseFloat(futureRevenue);
+        preexpectedProfitFA4 += futureProfit;
       }
     }
 
@@ -806,24 +809,24 @@ if(value === 'project_report'){
         expectedRevenue5 += parseFloat(futureRevenue);
         expectedProfit5 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue5 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit5 += preprofitCurrentYear;
+        preexpectedRevenue5 += parseFloat(prefutureRevenue);
+        preexpectedProfit5 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC5 += parseFloat(futureRevenue);
         expectedProfitABNC5 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC5 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC5 += preprofitCurrentYear;
+        preexpectedRevenueABNC5 += parseFloat(futureRevenue);
+        preexpectedProfitABNC5 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA5 += parseFloat(futureRevenue);
         expectedProfitFA5 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA5 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA5 += preprofitCurrentYear;
+        preexpectedRevenueFA5 += parseFloat(futureRevenue);
+        preexpectedProfitFA5 += futureProfit;
       }
     }
 
@@ -833,24 +836,24 @@ if(value === 'project_report'){
         expectedRevenue6 += parseFloat(futureRevenue);
         expectedProfit6 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue6 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit6 += preprofitCurrentYear;
+        preexpectedRevenue6 += parseFloat(prefutureRevenue);
+        preexpectedProfit6 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC6 += parseFloat(futureRevenue);
         expectedProfitABNC6 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC6 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC6 += preprofitCurrentYear;
+        preexpectedRevenueABNC6 += parseFloat(futureRevenue);
+        preexpectedProfitABNC6 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA6 += parseFloat(futureRevenue);
         expectedProfitFA6 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA6 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA6 += preprofitCurrentYear;
+        preexpectedRevenueFA6 += parseFloat(futureRevenue);
+        preexpectedProfitFA6 += futureProfit;
       }
     }
 
@@ -860,24 +863,24 @@ if(value === 'project_report'){
         expectedRevenue7 += parseFloat(futureRevenue);
         expectedProfit7 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue7 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit7 += preprofitCurrentYear;
+        preexpectedRevenue7 += parseFloat(prefutureRevenue);
+        preexpectedProfit7 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC7 += parseFloat(futureRevenue);
         expectedProfitABNC7 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC7 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC7 += preprofitCurrentYear;
+        preexpectedRevenueABNC7 += parseFloat(futureRevenue);
+        preexpectedProfitABNC7 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA7 += parseFloat(futureRevenue);
         expectedProfitFA7 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA7 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA7 += preprofitCurrentYear;
+        preexpectedRevenueFA7 += parseFloat(futureRevenue);
+        preexpectedProfitFA7 += futureProfit;
       }
     }
 
@@ -887,24 +890,24 @@ if(value === 'project_report'){
         expectedRevenue11 += parseFloat(futureRevenue);
         expectedProfit11 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue11 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit11 += preprofitCurrentYear;
+        preexpectedRevenue11 += parseFloat(prefutureRevenue);
+        preexpectedProfit11 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC11 += parseFloat(futureRevenue);
         expectedProfitABNC11 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC11 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC11 += preprofitCurrentYear;
+        preexpectedRevenueABNC11 += parseFloat(futureRevenue);
+        preexpectedProfitABNC11 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA11 += parseFloat(futureRevenue);
         expectedProfitFA11 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA11 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA11 += preprofitCurrentYear;
+        preexpectedRevenueFA11 += parseFloat(futureRevenue);
+        preexpectedProfitFA11 += futureProfit;
       }
     }
 
@@ -914,24 +917,24 @@ if(value === 'project_report'){
         expectedRevenue00 += parseFloat(futureRevenue);
         expectedProfit00 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenue00 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfit00 += preprofitCurrentYear;
+        preexpectedRevenue00 += parseFloat(prefutureRevenue);
+        preexpectedProfit00 += futureProfit;
       }
     }else if( status === 'ABNC'){
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueABNC00 += parseFloat(futureRevenue);
         expectedProfitABNC00 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueABNC00 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitABNC00 += preprofitCurrentYear;
+        preexpectedRevenueABNC00 += parseFloat(futureRevenue);
+        preexpectedProfitABNC00 += futureProfit;
       }
     }else{
       if(parseInt(currentQuarterResp) === parseInt(quarter) && parseInt(currentYearResp) === parseInt(year)){
         expectedRevenueFA00 += parseFloat(futureRevenue);
         expectedProfitFA00 += futureProfit;
       }else if(parseInt(previousQuarterResp) === parseInt(quarter) && parseInt(previousYearResp) === parseInt(year)){
-        preexpectedRevenueFA00 += parseFloat(pretotalExpectedRevenue);
-        preexpectedProfitFA00 += preprofitCurrentYear;
+        preexpectedRevenueFA00 += parseFloat(futureRevenue);
+        preexpectedProfitFA00 += futureProfit;
       }
     }
 
@@ -2673,7 +2676,7 @@ this.state.OverHeadData.map((OverHeadData, index) => {
             <th style={{ textAlign: 'center'}}>{Math.sign(IncomeOperDiv00 - (parseFloat(divDeferrCompOverhead)*1.03 + parseFloat(divProfZeroOverhead)*1.03 + parseFloat(divInvestCompOverhead)*1.03)) > 0 ? '$' + Math.round(IncomeOperDiv00 - (parseFloat(divDeferrCompOverhead)*1.03 + parseFloat(divProfZeroOverhead)*1.03 + parseFloat(divInvestCompOverhead)*1.03)).toLocaleString(undefined, {maximumFractionDigits:2}) : '($' + Math.round(IncomeOperDiv00 - (parseFloat(divDeferrCompOverhead)*1.03 + parseFloat(divProfZeroOverhead)*1.03 + parseFloat(divInvestCompOverhead)*1.03)).toLocaleString(undefined, {maximumFractionDigits:2}) + ')'}</th>
             <th style={{ textAlign: 'center'}}>{Math.sign(preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03)) > 0 ? '$' + Math.round(preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03)).toLocaleString(undefined, {maximumFractionDigits:2}) : '($' + Math.round(preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03)).toLocaleString(undefined, {maximumFractionDigits:2}) + ')'}</th>
             <th style={{ textAlign: 'center'}}>{Math.round((IncomeOperDiv00 - (parseFloat(divDeferrCompOverhead)*1.03 + parseFloat(divProfZeroOverhead)*1.03 + parseFloat(divInvestCompOverhead)*1.03)) + (parseFloat(totalJobProfitOne) - parseFloat(netGACostDiv01) - parseFloat(divProfOneOverhead)*1.03) + (parseFloat(totalJobProfitTwo) - parseFloat(netGACostDiv02) - parseFloat(divProfTwoOverhead)*1.03) + (parseFloat(totalJobProfitThree) - parseFloat(netGACostDiv03) - parseFloat(divProfThreeOverhead)*1.03) + (parseFloat(totalJobProfitFour) - parseFloat(netGACostDiv04) - parseFloat(divProfFourOverhead)*1.03) + (parseFloat(totalJobProfitFive) - parseFloat(netGACostDiv05) - parseFloat(divProfFiveOverhead)*1.03) + (parseFloat(totalJobProfitSix) - parseFloat(netGACostDiv06) - parseFloat(divProfSixOverhead)*1.03) + (parseFloat(totalJobProfitSeven) - parseFloat(netGACostDiv07) - parseFloat(divProfSevenOverhead)*1.03) + (parseFloat(totalJobProfitEleven) - parseFloat(netGACostDiv11) - parseFloat(divProfElevenOverhead)*1.03) ? (IncomeOperDiv00 - (parseFloat(divDeferrCompOverhead)*1.03 + parseFloat(divProfZeroOverhead)*1.03 + parseFloat(divInvestCompOverhead)*1.03)) + (parseFloat(totalJobProfitOne) - parseFloat(netGACostDiv01) - parseFloat(divProfOneOverhead)*1.03) + (parseFloat(totalJobProfitTwo) - parseFloat(netGACostDiv02) - parseFloat(divProfTwoOverhead)*1.03) + (parseFloat(totalJobProfitThree) - parseFloat(netGACostDiv03) - parseFloat(divProfThreeOverhead)*1.03) + (parseFloat(totalJobProfitFour) - parseFloat(netGACostDiv04) - parseFloat(divProfFourOverhead)*1.03) + (parseFloat(totalJobProfitFive) - parseFloat(netGACostDiv05) - parseFloat(divProfFiveOverhead)*1.03) + (parseFloat(totalJobProfitSix) - parseFloat(netGACostDiv06) - parseFloat(divProfSixOverhead)*1.03) + (parseFloat(totalJobProfitSeven)*1.03 - parseFloat(netGACostDiv07) - parseFloat(divProfSevenOverhead)) + (parseFloat(totalJobProfitEleven) - parseFloat(netGACostDiv11) - parseFloat(divProfElevenOverhead)*1.03) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th>
-            <th style={{ textAlign: 'center'}}>{Math.round((preIncomeOperDiv01 - predivProfOneOverhead*1.03) + (preIncomeOperDiv02 - predivProfTwoOverhead*1.03) + (preIncomeOperDiv03 - predivProfThreeOverhead*1.03) + (preIncomeOperDiv04 - predivProfFourOverhead*1.03) + (preIncomeOperDiv05 - predivProfFiveOverhead*1.03) + (preIncomeOperDiv06 - predivProfSixOverhead*1.03) + (preIncomeOperDiv07 - predivProfSevenOverhead*1.03) + (preIncomeOperDiv11 - predivProfElevenOverhead*1.03) + (preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03)) ? (preIncomeOperDiv01 - predivProfOneOverhead*1.03) + (preIncomeOperDiv02 - predivProfTwoOverhead*1.03) + (preIncomeOperDiv03 - predivProfThreeOverhead*1.03) + (preIncomeOperDiv04 - predivProfFourOverhead*1.03) + (preIncomeOperDiv05 - predivProfFiveOverhead*1.03) + (preIncomeOperDiv06 - predivProfSixOverhead*1.03) + (preIncomeOperDiv07 - predivProfSevenOverhead*1.03) + (preIncomeOperDiv11 - predivProfElevenOverhead*1.03) + (preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03)) : 0).toLocaleString(undefined, {maximumFractionDigits:2})}</th> 
+            <th style={{ textAlign: 'center'}}>{Math.round(Math.round(parseFloat(pretotalJobProfitOne) - parseFloat(prenetGACostDiv01) - parseFloat(predivProfOneOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitTwo) - parseFloat(prenetGACostDiv02) - parseFloat(predivProfTwoOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitThree) - parseFloat(prenetGACostDiv03) - parseFloat(predivProfThreeOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitFour) - parseFloat(prenetGACostDiv04) - parseFloat(predivProfFourOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitFive) - parseFloat(prenetGACostDiv05) - parseFloat(predivProfFiveOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitSix) - parseFloat(prenetGACostDiv06) - parseFloat(predivProfSixOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitSeven) - parseFloat(prenetGACostDiv07) - parseFloat(predivProfSevenOverhead)*1.03) + Math.round(parseFloat(pretotalJobProfitEleven) - parseFloat(prenetGACostDiv11) - parseFloat(predivProfElevenOverhead)*1.03) + Math.round(preIncomeOperDiv00 - (parseFloat(predivDeferrCompOverhead)*1.03 + parseFloat(predivProfZeroOverhead)*1.03 + parseFloat(predivInvestCompOverhead)*1.03))).toLocaleString(undefined, {maximumFractionDigits:2})}</th> 
         </tr>
   </>
 }
@@ -2700,7 +2703,7 @@ this.state.OverHeadData.map((OverHeadData, index) => {
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">

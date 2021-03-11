@@ -107,14 +107,14 @@ class FutureJobs extends Component{
     //if(currentUserDiv === 'all'){
   if(currentQuarterResp === quarter && currentYearResp === year){
       div.push(division);
-      //var distinctDivions = div.filter(distinct);
+      //var distinctDivisions = div.filter(distinct);
         dataRecordID.push({_id});
         futureDataRecords.push({'id':_id,'division': division, 'job_name':job_name, 'status': status, 'contract_amount': '$' + Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2}), 'gross_margin_percent': gross_margin_percent + '%','hit_ratio':hit_ratio + '%','start_date':start_date,'end_date':end_date,'bonded':bonded});
   }
     //}else{
         //if(status !== 'Contract'){
           //div.push(division);
-          //var distinctDivions = div.filter(distinct);
+          //var distinctDivisions = div.filter(distinct);
            // dataRecordID.push({_id});
            // futureDataRecords.push({'id':_id,'division': division, 'job_name':job_name, 'status': status, 'contract_amount': Math.round(contract_amount).toLocaleString(undefined, {maximumFractionDigits:2}), 'gross_margin_percent': gross_margin_percent,'hit_ratio':hit_ratio,'start_date':start_date,'end_date':end_date,'bonded':bonded});
          // }
@@ -122,9 +122,9 @@ class FutureJobs extends Component{
   });
   this.setState({futureDataID: [dataRecordID],futureForecastData: futureDataRecords })
   //this.setState({futureForecastData: futureDataRecords })
-  var distinctDivions = div.filter(distinct);
-  for(var i = 0; i < distinctDivions.length; i++){
-    jsonObj[distinctDivions[i]] = distinctDivions[i];
+  var distinctDivisions = div.filter(distinct);
+  for(var i = 0; i < distinctDivisions.length; i++){
+    jsonObj[distinctDivisions[i]] = distinctDivisions[i];
   }
 
   if(checkCall === true && currentUserDiv === 'all'){
@@ -257,7 +257,7 @@ class FutureJobs extends Component{
     this.setState({ job_name: evt.target.value });
   };
 
-  handlecontract_amountChange = evt => {
+  handleContract_amountChange = evt => {
     this.setState({ contract_amount: evt.target.value.replace(/[^\d.-]/g, '') });
   };
 
@@ -265,11 +265,11 @@ class FutureJobs extends Component{
     this.setState({ gross_margin_percent: evt.target.value.replace(/[^\d.-]/g, '') });
   }
 
-  handlehit_ratioChange = evt => {
+  handleHit_ratioChange = evt => {
     this.setState({ hit_ratio: evt.target.value.replace(/[^\d.-]/g, '') });
   }
 
-  handlestart_dateChange = evt => {
+  handleStart_dateChange = evt => {
     const now = new Date(); 
     const qetYear = now.getFullYear()
     var quarter = ''
@@ -297,14 +297,14 @@ class FutureJobs extends Component{
     this.setState({ quarter: quarter });
   }
 
-  handleend_dateChange = evt => {
+  handleEnd_dateChange = evt => {
     const setNewEndDate = new Date(evt);
     const newEndDate =  setNewEndDate.getMonth() + '/' + setNewEndDate.getDate() + '/' + setNewEndDate.getFullYear()
     this.setState({ end_date: newEndDate });
     this.setState({ endDateDummyValue: evt});
   }
 
-  handlebondedChange = evt => {
+  handleBondedChange = evt => {
     this.setState({ bonded: evt.target.value });
   }
 
@@ -483,7 +483,7 @@ reloadFutureData(checkValue){
         return (
           <>
           <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand href="http://localhost:3000/financial/main"><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/main"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
@@ -548,7 +548,7 @@ reloadFutureData(checkValue){
                   type="text"
                   placeholder="Example: 1000000"
                   value={this.state.contract_amount}
-                  onChange={this.handlecontract_amountChange}
+                  onChange={this.handleContract_amountChange}
                 /></Col>
             </Row>
             <Row style={{ paddingTop: '1%'}}>
@@ -584,7 +584,7 @@ reloadFutureData(checkValue){
                   type="text"
                   placeholder="Example: 100"
                   value={this.state.hit_ratio}
-                  onChange={this.handlehit_ratioChange}
+                  onChange={this.handleHit_ratioChange}
                 /> </Col>
             </Row>
             <Row style={{ paddingTop: '1%'}}>
@@ -593,7 +593,7 @@ reloadFutureData(checkValue){
                   style={{ borderColor: shouldMarkError('bonded') ? "#b94a48" : "#aaa", width: '40%'}}
                   onBlur={this.handleBlur('bonded')}
                   value={this.state.bonded} 
-                  onChange={this.handlebondedChange}>
+                  onChange={this.handleBondedChange}>
                   <option disabled value=''></option>
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
@@ -607,7 +607,7 @@ reloadFutureData(checkValue){
                   dateFormat="MM/dd/yyyy"
                   placeholderText="select a date"
                   selected={this.state.startDateDummyValue}
-                  onChange={this.handlestart_dateChange}
+                  onChange={this.handleStart_dateChange}
                 /></Col>
             </Row>
             <Row style={{ paddingTop: '1%'}}>
@@ -619,7 +619,7 @@ reloadFutureData(checkValue){
                   dateFormat="MM/dd/yyyy"
                   placeholderText="select a date"
                   selected={this.state.endDateDummyValue}
-                  onChange={this.handleend_dateChange}
+                  onChange={this.handleEnd_dateChange}
                 />
               </Col>
             </Row>
