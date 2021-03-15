@@ -532,6 +532,14 @@ class ExecutiveDashBoard extends Component{
       safetyTotal: {},
       gAndA: {},
       noi: {},
+      cumulativeYTDRevenue: 0,
+      projectedFYERevenue: 0,
+      cumulativeYTDProfit: 0,
+      projectedFYEProfit: 0,
+      cumulativeYTDGA: 0,
+      projectedFYEGA: 0,
+      cumulativeYTDNOI: 0,
+      projectedFYENOI: 0,
       revenue: {},
       profit: {},
       revenueHome: {},
@@ -595,6 +603,14 @@ class ExecutiveDashBoard extends Component{
       yearValuePick: '2020',
       yearLableValue: '2020',
       yearMonthLabel: 'December',
+      cumulativeYTDRevenue: '442,122,728',
+      projectedFYERevenue: '442,122,728',
+      cumulativeYTDProfit: '27,436,641',
+      projectedFYEProfit: '27,436,641',
+      cumulativeYTDGA: '12,795,455',
+      projectedFYEGA: '12,795,455',
+      cumulativeYTDNOI: '14,641,186',
+      projectedFYENOI: '14,641,186',
       students: [
         { financial: 'Revenue', currentYTDBudget: '$415,000,000', currentYTDActual: '$442,122,728', V: '$27,122,728', current_month: '$31,849,954', budgetFYE: '$415,000,000', projectedFYE: '$442,122,728', diff: '$27,122,728' },
         { financial: 'Gross Margin', currentYTDBudget: '$22,384,000', currentYTDActual: '$27,436,641', V: '$5,052,641', current_month: '$2,420,743', budgetFYE: '$22,384,000', projectedFYE: '$27,436,641', diff: '$5,052,641' },
@@ -41160,7 +41176,9 @@ handleYearChange(event) {
   console.log(event.target.value)
   console.log(event)
   if(event.target.value === 'nextYear'){
-    this.setState({ futureYear: true, futureYearProfit: true, revenue: {
+    this.setState({ cumulativeYTDRevenue: '32,670,657', projectedFYERevenue: '505,296,538', cumulativeYTDProfit: '1,196,893',
+     projectedFYEProfit: '19,808,758', cumulativeYTDGA: '1,300,785', projectedFYEGA: '13,326,187', cumulativeYTDNOI: '(103,892)', projectedFYENOI: '2,963,789',
+     futureYear: true, futureYearProfit: true, revenue: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
@@ -41398,7 +41416,7 @@ handleYearChange(event) {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
-          label: 'Current Year - 2020',
+          label: 'Past Year - 2020',
           backgroundColor: '#B1B3B3',
           borderColor: '#B1B3B3',
           borderWidth: 1,
@@ -41408,7 +41426,7 @@ handleYearChange(event) {
           data: [0,0,0,0,0,0,0,0.66,0.58,0.52,0.48,0.44]
         },
         {
-          label: 'Past Year - 2021',
+          label: 'Current Year - 2021',
           backgroundColor: '#005A8B',
           borderColor: '#005A8B',
           borderWidth: 1,
@@ -41443,8 +41461,11 @@ handleYearChange(event) {
     { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(103,892)', V: '$(644,106)', current_month: '$(103,892)', budgetFYE: '$6,400,000', projectedFYE: '$2,963,789', diff: '$(3,436,211)' },
     { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(0.40)%', V: '(1.7)%', current_month: '(0.40)%', budgetFYE: '1.26%', projectedFYE: '0.59%', diff: '(0.67)%' },
  ], yearValuePick: event.target.value, yearLableValue: '2021', yearMonthLabel: 'January', gAndAvalue: 'gadollar', noivalue: 'noidollar'})    
-  }else if(event.target.value === 'currentYear'){
-    this.setState({ futureYear: false, futureYearProfit: false, revenue: {
+  }
+  else if(event.target.value === 'currentYear'){
+    this.setState({ cumulativeYTDRevenue: '442,122,728', projectedFYERevenue: '442,122,728', cumulativeYTDProfit: '27,436,641',
+    projectedFYEProfit: '27,436,641', cumulativeYTDGA: '12,795,455', projectedFYEGA: '12,795,455', cumulativeYTDNOI: '14,641,186', projectedFYENOI: '14,641,186',
+     futureYear: false, futureYearProfit: false, revenue: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
@@ -41733,6 +41754,327 @@ handleYearChange(event) {
       { financial: 'NOI', currentYTDBudget: '$9,405,625', currentYTDActual: '$14,641,186', V: '$5,235,561', current_month: '$1,798,068', budgetFYE: '$9,405,625', projectedFYE: '$14,641,186', diff: '$5,235,561' },
       { financial: 'NOI %', currentYTDBudget: '2.27%', currentYTDActual: '3.31%', V: '1.04%', current_month: '5.65%', budgetFYE: '2.27%', projectedFYE: '3.31%', diff: '1.04%' },
    ], revenueDisplayButton: false, stackedRevenueValue: true, stackedProfitValue: true, yearValuePick: event.target.value, yearLableValue: '2020', yearMonthLabel: 'December', gAndAvalue: 'gadollar', noivalue: 'noidollar'})
+  }else if(event.target.value === 'nextYearTwo'){
+    this.setState({ cumulativeYTDRevenue: '', projectedFYERevenue: '304,793,942', cumulativeYTDProfit: '', 
+    projectedFYEProfit: '12,959,518', cumulativeYTDGA: '', projectedFYEGA: '13,512,174', cumulativeYTDNOI: '', projectedFYENOI: '(552,656)',
+    futureYear: true, futureYearProfit: true, revenue: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Actual',
+          data: [0,0,0,0,0,0,0,0,0 ,0,0,0],
+          backgroundColor: '#00558C', // green
+          fill: false
+        },
+        {
+          label: 'Contracted',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#888B8D', // yellow
+          fill: false
+        },
+        {
+          label: 'ABNC',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#298FC2', // yellow
+          fill: false
+        },
+        {
+          label: 'FA',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#002B49', // red
+          fill: false
+        },
+        {
+          label: 'MA',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#8B0000', // red
+          fill: false
+        }
+      ]
+    }, profit: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Actual',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#00558C', // green
+          fill: false
+        },
+        {
+          label: 'Contracted',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#888B8D', // yellow
+          fill: false
+        },
+        {
+          label: 'ABNC',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#298FC2', // yellow
+          fill: false
+        },
+        {
+          label: 'FA',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#002B49', // red
+          fill: false
+        },
+        {
+          label: 'MA',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#8B0000', // red
+          fill: false
+        }
+      ]
+    },gAndA: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Actual $',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#00558C', // green
+          fill: false
+        },
+        {
+          label: 'Projected $',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#888B8D', // green
+          fill: false
+        }
+      ]
+    },noi: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Actual $',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0],
+          backgroundColor: '#00558C', // green
+          fill: false
+        },
+        {
+          label: 'Projected $',
+          data: [0,0,0,0,0,0,0 ,0,0,0,0,0],
+          backgroundColor: '#888B8D', // green
+          fill: false
+        }
+      ]
+    },qrNumbers: [
+      { name: 'QUICK RATIO', amount: '' },
+      { name: 'ROA', amount: '' },
+      { name: 'ROE', amount: '' },
+      { name: 'CURRENT RATIO', amount: '' },
+      { name: 'WORKING CAPITAL', amount: '' },
+      { name: 'EQUITY', amount: '' }
+    ],
+    financeBacklogYTDData: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Backlog',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: [0,0,0,0,0,0,0,0,0,0,0,0]
+        }
+      ]
+    },
+    financeOverUnderData: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Over/Under',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      ]
+    },
+    humanResourceNumbers: [
+      { name: 'Employees', amount: '' },
+      { name: 'PT Employees', amount: '' },
+      { name: 'FT Employees', amount: '' },
+      { name: 'New Hires YTD', amount: '' },
+      { name: 'Turnover Rate', amount: '' },
+      { name: 'Voluntary Turnover', amount: '' },
+      { name: 'Involuntary Turnover', amount: '' },
+      { name: 'People Needs', amount: '' }
+   ],
+   humanResourceHeadCountData: {
+    labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+    datasets: [
+        {
+          label: 'Head Count',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: [, , , , , , , , , ,, ]
+        }
+      ]
+    },
+    humanResourceHireData: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Hires',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: [, , , , , , , , , , , ]
+        }
+      ]
+    },
+    safetyNumbers: [
+      { name: '', amount: '2022', amount_past: '2021' },
+      { name: 'MH YTD', amount: '', amount_past: '37,973' },
+      { name: 'EMR', amount: '', amount_past: '0.68' },
+      { name: 'RIR', amount: '', amount_past: '2.66' },
+      { name: 'Dart', amount: '', amount_past: '0' },
+      { name: 'LTIR', amount: '', amount_past: '0' },
+  ],
+    manHoursYTD : {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Past Year - 2021',
+          backgroundColor: '#B1B3B3',
+          borderColor: '#B1B3B3',
+          borderWidth: 1,
+          hoverBackgroundColor: '#B1B3B3',
+          hoverBorderColor: '#B1B3B3',
+          data: [37043,37973],
+          fill: false
+        },
+        {
+          label: 'Current Year - 2022',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: [,,,,,,,,,,,], //0,0,0,0,0],
+          fill: false
+        }
+      ]
+    },
+    emrRateNumbers: {
+      labels: ['2016','2017','2018','2019','2020','2021','2022'],
+      datasets: [
+        {
+          label: 'EMR',
+          backgroundColor: '#005A8B',
+          borderColor: '#005A8B',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#005A8B',
+          hoverBorderColor: '#005A8B',
+          data: [0.75,0.72,0.68,0.67,0.68,0.68]
+        }
+      ]
+    },
+    rirRateNumbers: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Past Year - 2021',
+          backgroundColor: '#B1B3B3',
+          borderColor: '#B1B3B3',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#B1B3B3',
+          hoverBorderColor: '#B1B3B3',
+          data: [5.39,2.66]
+        },
+        {
+          label: 'Current Year - 2022',
+          backgroundColor: '#005A8B',
+          borderColor: '#005A8B',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#005A8B',
+          hoverBorderColor: '#005A8B',
+          data: []
+        }
+      ]
+    },
+    ltirRateNumbers: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Past Year - 2021',
+          backgroundColor: '#B1B3B3',
+          borderColor: '#B1B3B3',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#B1B3B3',
+          hoverBorderColor: '#B1B3B3',
+          data: [0,0]
+        },
+        {
+          label: 'Current Year - 2022',
+          backgroundColor: '#005A8B',
+          borderColor: '#005A8B',
+          borderWidth: 1,
+          fill: false,
+          hoverBackgroundColor: '#005A8B',
+          hoverBorderColor: '#005A8B',
+          data: []
+        }
+      ]
+    },
+    receivablesNumbers: [
+      { name: 'Current', amount: '' },
+      { name: '31-60', amount: '' },
+      { name: '61-90', amount: '' },
+      { name: '90+', amount: '' },
+      { name: 'Total', amount: ''}
+    ],
+    humanResourceHireData: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+        {
+          label: 'Hires',
+          backgroundColor: '#00558C',
+          borderColor: '#00558C',
+          borderWidth: 1,
+          hoverBackgroundColor: '#00558C',
+          hoverBorderColor: '#00558C',
+          data: []
+        }
+      ]
+    },
+    humanResourceHeadCountData: {
+      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+      datasets: [
+          {
+            label: 'Head Count',
+            backgroundColor: '#00558C',
+            borderColor: '#00558C',
+            borderWidth: 1,
+            fill: false,
+            hoverBackgroundColor: '#00558C',
+            hoverBorderColor: '#00558C',
+            data: []
+          }
+        ]
+    }
+    ,students: [
+      { financial: 'Revenue', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$441,500,000', projectedFYE: '$304,793,942', diff: '($136,706,058)' },
+      { financial: 'Gross Margin', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$21,412,750', projectedFYE: '$12,959,518', diff: '($8,453,232)' },
+      { financial: 'Gross Margin % ', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '4.85%', projectedFYE: '4.25%', diff: '(0.6)%' },
+      { financial: 'G & A', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$13,100,000', projectedFYE: '$13,512,174', diff: '$412,174' },
+      { financial: 'G & A %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '2.97%', projectedFYE: '4.43%', diff: '1.46%' },
+      { financial: 'NOI', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$8,315,000', projectedFYE: '$(552,656)', diff: '$(8,867,656)' },
+      { financial: 'NOI %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '1.88%', projectedFYE: '(0.18)%', diff: '(2.06)%' },
+   ], revenueDisplayButton: false, stackedRevenueValue: true, stackedProfitValue: true, yearValuePick: event.target.value, yearLableValue: '2022', yearMonthLabel: 'January', gAndAvalue: 'gadollar', noivalue: 'noidollar'})
   }
 }
 
@@ -41904,6 +42246,7 @@ handleYearChange(event) {
           <select value={this.state.yearValuePick} onChange={this.handleYearChange} style={{ height: '50px', paddingBottom: '2.5%'}}>
             <option value="currentYear">2020</option>
             <option value="nextYear">2021</option>
+            <option value="nextYearTwo">2022</option>
           </select>
           </Col>
         </Row>
@@ -42026,7 +42369,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Cumulative YTD: $442,122,728"
+                    labelString: "Cumulative YTD: $" + this.state.cumulativeYTDRevenue
                   },
                 },
                 {
@@ -42046,7 +42389,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $442,122,728"
+                    labelString: "Projected FYE: $" + this.state.projectedFYERevenue
                   },
                 }
               ]
@@ -42307,7 +42650,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $27,436,641'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDProfit
                 },
                 },
                 {
@@ -42327,7 +42670,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $27,436,641"
+                    labelString: "Projected FYE: $" + this.state.projectedFYEProfit
                   },
                 }
               ]
@@ -42431,7 +42774,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $12,795,455'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDGA
                 },
                 },
                 {
@@ -42451,7 +42794,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $12,795,455"
+                    labelString: "Projected FYE: $" + this.state.projectedFYEGA
                   },
                 }
               ]
@@ -42559,7 +42902,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $4,887,885'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDNOI
                 },
                 },
                 {
@@ -42579,7 +42922,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $14,641,186"
+                    labelString: "Projected FYE: $" + this.state.projectedFYENOI
                   },
                 }
               ]
@@ -43335,6 +43678,7 @@ handleYearChange(event) {
           <select value={this.state.yearValuePick} onChange={this.handleYearChange} style={{ height: '50px'}}>
             <option value="currentYear">2020</option>
             <option value="nextYear">2021</option>
+            <option value="nextYearTwo">2022</option>
           </select>
           <button style={{ height: '.5px', fontSize: '14px', paddingTop:'1%', paddingBottom: '2.5%', backgroundColor: '#005A8B', color: 'white'}} type='submit' onClick={() => window.print()}>Print</button>
           </Col>
@@ -43452,7 +43796,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Cumulative YTD: $442,122,728"
+                    labelString: "Cumulative YTD: $" + this.state.cumulativeYTDRevenue
                   },
                 },
                 {
@@ -43472,7 +43816,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $442,122,728"
+                    labelString: "Projected FYE: $" + this.state.projectedFYERevenue
                   },
                 }
               ]
@@ -43603,7 +43947,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $27,436,641'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDProfit
                 },
                 },
                 {
@@ -43623,7 +43967,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $27,436,641"
+                    labelString: "Projected FYE: $" + this.state.projectedFYEProfit
                   },
                 }
               ]
@@ -43725,7 +44069,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $12,795,455'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDGA
                 },
                 },
                 {
@@ -43745,7 +44089,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $12,795,455"
+                    labelString: "Projected FYE: $" + this.state.projectedFYEGA
                   },
                 }
               ]
@@ -43851,7 +44195,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: 'Cumulative YTD: $14,641,186'
+                    labelString: 'Cumulative YTD: $' + this.state.cumulativeYTDNOI
                 },
                 },
                 {
@@ -43871,7 +44215,7 @@ handleYearChange(event) {
                     display: true,
                     fontSize: 12,
                     fontStyle: "bold",
-                    labelString: "Projected FYE: $14,641,186"
+                    labelString: "Projected FYE: $" + this.state.projectedFYENOI
                   },
                 }
               ]
