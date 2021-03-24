@@ -16,6 +16,7 @@ export default class AuthHelperMethods {
   logout = () => {
     // Clear user token and profile data from localStorage
     localStorage.clear();
+    window.localStorage.clear();
   };
 
   getConfirm = () => {
