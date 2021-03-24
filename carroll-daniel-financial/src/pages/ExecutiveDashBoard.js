@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import React, { Component } from 'react'
-import { Bar, Pie, Line } from 'react-chartjs-2'
+import { Bar, Line } from 'react-chartjs-2'
 import 'chartjs-plugin-trendline';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -25,10 +25,12 @@ import 'react-table/react-table.css'
 import withFixedColumns from "react-table-hoc-fixed-columns";
 import "react-table-hoc-fixed-columns/lib/styles.css";
 
-import Table from 'react-bootstrap/Table'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import { Document, Page, pdfjs } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
+import logo from '../images/logo.png'
+import triangle from '../images/triangle.png'
+import backbutton from '../images/back-button-FINAL.png'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 //import { Container, Box} from "./HomeStyles";
 
@@ -114,7 +116,7 @@ const revenueData = {
   ]
 };
 
-const profitPercentProjectedData = {
+/*const profitPercentProjectedData = {
   labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   datasets: [
     {
@@ -148,7 +150,7 @@ const profitPercentProjectedData = {
       fill: false
     }
   ]
-};
+};*/
 
 const profitPercentData = {
   labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
@@ -209,13 +211,13 @@ const noiProjectedData = {
   datasets: [
     {
       label: 'Actual $',
-      data: [-103892,0,0,0,0,0,0,0,0,0,0,0],
+      data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
       backgroundColor: '#00558C', // green
       fill: false
     },
     {
       label: 'Projected $',
-      data: [0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+      data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
       backgroundColor: '#888B8D', // green
       fill: false
     }
@@ -227,13 +229,13 @@ const noiDataProjectedPercent = {
   datasets: [
     {
       label: 'Actual %',
-      data: [-0.40,0,0,0,0,0,0,0,0,0,0,0],
+      data: [-0.40,-2.30,0,0,0,0,0,0,0,0,0,0],
       backgroundColor: '#00558C', // green
       fill: false
     },
     {
       label: 'Projected %',
-      data: [0,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59],
+      data: [0,0,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59],
       backgroundColor: '#888B8D', // green
       fill: false
     }
@@ -263,13 +265,13 @@ const gAndAProjectedData = {
   datasets: [
     {
       label: 'Actual $',
-      data: [1300785,0,0,0,0,0,0,0,0,0,0,0],
+      data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
       backgroundColor: '#00558C', // green
       fill: false
     },
     {
       label: 'Projected $',
-      data: [0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+      data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
       backgroundColor: '#888B8D', // green
       fill: false
     }
@@ -317,13 +319,13 @@ const gAndADataProjectedPercent = {
   datasets: [
     {
       label: 'Actual %',
-      data: [3.98,0,0,0,0,0,0,0,0,0,0,0],
+      data: [3.98,3.99,0,0,0,0,0,0,0,0,0,0],
       backgroundColor: '#00558C', // green
       fill: false
     },
     {
       label: 'Projected %',
-      data: [0,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64],
+      data: [0,0,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64],
       backgroundColor: '#888B8D', // green
       fill: false
     }
@@ -839,7 +841,7 @@ class ExecutiveDashBoard extends Component{
             borderRightWidth: itemContext.selected ? 3 : 1
           },
           onMouseDown: () => {
-            console.log("on item click", item);
+            //console.log("on item click", item);
           }
         })}
       >
@@ -882,7 +884,7 @@ class ExecutiveDashBoard extends Component{
       )
     });
 
-    console.log("Moved", itemId, dragTime, newGroupOrder);
+    //console.log("Moved", itemId, dragTime, newGroupOrder);
   };
 
   handleItemResize = (itemId, time, edge) => {
@@ -899,14 +901,14 @@ class ExecutiveDashBoard extends Component{
       )
     });
 
-    console.log("Resized", itemId, time, edge);
+    //console.log("Resized", itemId, time, edge);
   };
 
   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
   Auth = new AuthHelperMethods();
 
   onDragStart = (ev, id) => {
-    console.log('dragstart:',id);
+    //console.log('dragstart:',id);
     ev.dataTransfer.setData("id", id);
   }
 
@@ -916,8 +918,8 @@ class ExecutiveDashBoard extends Component{
 
   onDrop = (ev, cat) => {
     let id = ev.dataTransfer.getData("id");
-    console.log("dropped id: " + id)
-    console.log(cat)
+    //console.log("dropped id: " + id)
+    //console.log(cat)
     var obj = []
     let tasks = this.state.tasks.filter((task) => {
         if (task.name == id) {
@@ -928,13 +930,13 @@ class ExecutiveDashBoard extends Component{
           //console.log(newState)
           //console.log(id)
         }
-        console.log(task)
+        //console.log(task)
         return task;
     });
 
-    console.log(tasks)
+    //console.log(tasks)
     var obj3 = obj.concat(tasks); 
-    console.log(obj3)
+    //console.log(obj3)
 
     this.setState({ tasks: obj3});
  }
@@ -964,11 +966,11 @@ class ExecutiveDashBoard extends Component{
         if(countMonthlyClicks === 1){
           selectedValue = e._model.label;
         }
-          console.log("1st entered")
+          //console.log("1st entered")
           if(e !== undefined && countMonthlyClicks === 1){
             countMonthlyClicks++;
             let dataCompany = Object.assign({}, this.state.monthlyDataSetRecord);
-            console.log(dataCompany)
+            //console.log(dataCompany)
             this.setState({ revenueMonthlyValues: dataCompany, displayMonthlyButton: true })//, displayButton: true, currentYearLabel: selectedValue})
           }
 
@@ -976,25 +978,25 @@ class ExecutiveDashBoard extends Component{
   }
 
   previousMonthlyScreenFunction(){
-    console.log("click count: " + countMonthlyClicks)
+    //console.log("click count: " + countMonthlyClicks)
     if(countMonthlyClicks === 2){
       countMonthlyClicks--;
       let dataMonthly = Object.assign({}, this.state.homeMonthlyDataSetRecord);
-      console.log("Click 2 entered" + countMonthlyClicks)
+      //console.log("Click 2 entered" + countMonthlyClicks)
       this.setState({ revenueMonthlyValues: dataMonthly, displayMonthlyButton: false})
     }
   }
 
   updateSafetyState(element, element2){
-    console.log(element)
-    console.log(element2)
+    //console.log(element)
+    //console.log(element2)
     var e = element2[element];
-    console.log(e)
+    //console.log(e)
     if(e !== undefined){
         if(countClicksSafety === 1){
           selectedValueSafety = e._model.datasetLabel;
-          console.log("selected Value: " + selectedValueSafety)
-            console.log("Last value entered")
+          //console.log("selected Value: " + selectedValueSafety)
+            //console.log("Last value entered")
             if(selectedValueSafety.includes("2019")){
               alert("No Drill Down")
               //let dataCompany = Object.assign({}, this.state.safetyTotalEmpty);
@@ -1004,7 +1006,7 @@ class ExecutiveDashBoard extends Component{
               let dataCompanyNext = Object.assign({}, this.state.combinedSafetyDivisionDataSet);
               this.setState({ safetyTotal: dataCompanyNext, safetyDisplayButton: true}) //, displayButton: true, currentYearLabel: selectedValue})
               countClicksSafety++;
-              console.log("task completed")
+              //console.log("task completed")
             }
           
         }
@@ -1015,8 +1017,8 @@ class ExecutiveDashBoard extends Component{
     var e = element2[element];
     var indexValue = [];
     var checkUndefined = element2[0];
-    console.log("Click Count: " + countClicksRevenue)
-    console.log(e)
+    //console.log("Click Count: " + countClicksRevenue)
+    //console.log(e)
     if(checkUndefined !== undefined || element2.length !== 0){
         if(countClicksRevenue === 1){
           if(this.state.futureYear === false){
@@ -1024,10 +1026,10 @@ class ExecutiveDashBoard extends Component{
             element2.forEach((user =>//console.log(user._datasetIndex,user._model.datasetLabel)
               {  loopccount++
               if(titleValue === user._model.datasetLabel){
-                console.log("loop entered")
-                console.log("loop count " + loopccount)
+                //console.log("loop entered")
+                //console.log("loop count " + loopccount)
                 var num = user._datasetIndex
-                console.log(num)
+                //console.log(num)
                 indexValue = element2[loopccount-1]
                 selectedValueSafety = indexValue._model.datasetLabel;
               }})
@@ -1035,9 +1037,9 @@ class ExecutiveDashBoard extends Component{
             //selectedValueSafety = e._model.datasetLabel;
             //console.log(e)
             //console.log("selected Value: " + selectedValueSafety)
-            console.log("selected index: " + indexValue._index)
+            //console.log("selected index: " + indexValue._index)
             if(indexValue._index === 0){
-              console.log("Index equals zero")
+              //console.log("Index equals zero")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1080,7 +1082,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 1){
-              console.log("Index equals one")
+              //console.log("Index equals one")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1123,7 +1125,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 2){
-              console.log("Index equals two")
+              //console.log("Index equals two")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1166,7 +1168,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 3){
-              console.log("Index equals three")
+              //console.log("Index equals three")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1209,7 +1211,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 4){
-              console.log("Index equals four")
+              //console.log("Index equals four")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1252,7 +1254,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 5){
-              console.log("Index equals five")
+              //console.log("Index equals five")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1295,7 +1297,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 6){
-              console.log("Index equals six")
+              //console.log("Index equals six")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1338,7 +1340,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 7){
-              console.log("Index equals seven")
+              //console.log("Index equals seven")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1381,7 +1383,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 8){
-              console.log("Index equals eight")
+              //console.log("Index equals eight")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1424,8 +1426,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 9){
-              console.log("Index equals nine")
-              console.log(indexValue._index)
+              //console.log("Index equals nine")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1474,8 +1476,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 10){
-              console.log("Index equals ten")
-              console.log(indexValue._index)
+              //console.log("Index equals ten")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1524,8 +1526,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 11){
-              console.log("Index equals eleven")
-              console.log(indexValue._index)
+              //console.log("Index equals eleven")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1580,19 +1582,19 @@ class ExecutiveDashBoard extends Component{
             element2.forEach((user =>//console.log(user._datasetIndex,user._model.datasetLabel)
               {  loopccountFuture++
               if(titleValue === user._model.datasetLabel){
-                console.log("loop entered")
-                console.log("loop count " + loopccountFuture)
+                //console.log("loop entered")
+                //console.log("loop count " + loopccountFuture)
                 var num = user._datasetIndex
-                console.log(num)
+                //console.log(num)
                 indexValue = element2[loopccountFuture-1]
                 selectedValueSafety = indexValue._model.datasetLabel;
               }})
             ); 
             selectedValueSafety = indexValue._model.datasetLabel;
-            console.log("selected Value: " + selectedValueSafety)
-            console.log("selected index: " + indexValue._index)
+            //console.log("selected Value: " + selectedValueSafety)
+            //console.log("selected index: " + indexValue._index)
             if(indexValue._index === 0){
-              console.log("Index equals zero")
+              //console.log("Index equals zero")
               this.setState({ revenue: {
                 labels: ['Actual'],
                 datasets: [
@@ -1641,56 +1643,56 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 1){
-              console.log("Index equals one")
+              //console.log("Index equals one")
               this.setState({ revenue: {
-                labels: ['Contracted','ABNC','FA','MA'],
+                labels: ['Actual'],
                 datasets: [
                   {
                     label: 'Wiley',
-                    data: [13227727,0,0,0],
+                    data: [14562220],
                     backgroundColor: '#dff4ff', // green
                     fill: false
                   },
                   {
                     label: 'Haynes',
-                    data: [9002060,0,40000,0],
+                    data: [2948777],
                     backgroundColor: '#b1b9cb', // yellow
                     fill: false
                   },
                   {
                     label: 'Broadwell',
-                    data: [5238288,264483,102170,0],
+                    data: [2991390],
                     backgroundColor: '#298fc2', // red
                     fill: false
                   },
                   {
                     label: 'Stone',
-                    data: [10259410,0,0,0],
+                    data: [7505673],
                     backgroundColor: '#f5a900', // red
                     fill: false
                   },
                   {
                     label: 'Kitchin',
-                    data: [1594070,0,0,0],
+                    data: [357304],
                     backgroundColor: '#86888B', // red
                     fill: false
                   },
                   {
                     label: 'Gowens',
-                    data: [575828,0,0,0],
+                    data: [205885],
                     backgroundColor: '#002B49', // red
                     fill: false
                   },
                   {
                     label: 'Misc',
-                    data: [0,0,0,0],
+                    data: [0],
                     backgroundColor: '#CBCCCD', // redS
                     fill: false
                   }
                 ]
-              }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
+              }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 2){
-              console.log("Index equals two")
+              //console.log("Index equals two")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1739,7 +1741,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 3){
-              console.log("Index equals three")
+              //console.log("Index equals three")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1788,7 +1790,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 4){
-              console.log("Index equals four")
+              //console.log("Index equals four")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1837,7 +1839,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 5){
-              console.log("Index equals five")
+              //console.log("Index equals five")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1886,7 +1888,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 6){
-              console.log("Index equals six")
+              //console.log("Index equals six")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1935,7 +1937,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 7){
-              console.log("Index equals seven")
+              //console.log("Index equals seven")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -1984,7 +1986,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 8){
-              console.log("Index equals eight")
+              //console.log("Index equals eight")
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -2033,8 +2035,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 9){
-              console.log("Index equals nine")
-              console.log(indexValue._index)
+              //console.log("Index equals nine")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -2083,8 +2085,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 10){
-              console.log("Index equals ten")
-              console.log(indexValue._index)
+              //console.log("Index equals ten")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -2133,8 +2135,8 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 11){
-              console.log("Index equals eleven")
-              console.log(indexValue._index)
+              //console.log("Index equals eleven")
+              //console.log(indexValue._index)
               this.setState({ revenue: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -2186,9 +2188,9 @@ class ExecutiveDashBoard extends Component{
             countClicksRevenue++;
           }
         }else if(countClicksRevenue === 2){
-          console.log("Month Index: " + this.state.monthRevenueIndexValue)
-          console.log("Modal Index: " + element)
-          console.log("title Value: " + titleValue)
+          //console.log("Month Index: " + this.state.monthRevenueIndexValue)
+          //console.log("Modal Index: " + element)
+          //console.log("title Value: " + titleValue)
           //console.log(element2[element]._model.datasetLabel)
           if(this.state.monthRevenueIndexValue === 0 && titleValue.includes('Wiley') && this.state.futureYear === false){
             this.setState({ modalRevenueData: [
@@ -18616,25 +18618,25 @@ class ExecutiveDashBoard extends Component{
           datasets: [
             {
               label: 'Actual',
-              data: [32670657,0,0,0,0,0,0,0,0,0,0,0],
+              data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
               backgroundColor: '#00558C', // yellow
               fill: false
             },
             {
               label: 'Contracted',
-              data: [0,39897563,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+              data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
               backgroundColor: '#888B8D', // yellow
               fill: false
             },
             {
               label: 'ABNC',
-              data: [0,264483,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+              data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
               backgroundColor: '#298FC2', // yellow
               fill: false
             },
             {
               label: 'FA',
-              data: [0,142170,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+              data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
               backgroundColor: '#002B49', // red
               fill: false
             },
@@ -18655,10 +18657,10 @@ class ExecutiveDashBoard extends Component{
     if(e !== undefined){
         if(countClicksGA === 1){
               let dataCompanyNext = Object.assign({}, this.state.gAndAPercent);
-              console.log(this.state.gAndA)
+              //console.log(this.state.gAndA)
               this.setState({ gAndA: dataCompanyNext, gAndADisplayButton: true}) //, displayButton: true, currentYearLabel: selectedValue})
               countClicksGA++;
-              console.log("task completed")          
+              //console.log("task completed")          
         }
       }
   }
@@ -18684,7 +18686,7 @@ class ExecutiveDashBoard extends Component{
           }
         ]
       }, gAndADisplayButton: false})
-      console.log(this.state.gAndA)
+      //console.log(this.state.gAndA)
       countClicksGA--;
     }
   }
@@ -18693,7 +18695,7 @@ class ExecutiveDashBoard extends Component{
     if(countClicksSafety === 2){
       countClicksSafety--;
       let dataYearly = Object.assign({}, this.state.homeSafetyState);
-      console.log(this.state.homeSafetyState)
+      //console.log(this.state.homeSafetyState)
       this.setState({ safetyTotal: dataYearly, safetyDisplayButton: false})
     }
   }
@@ -18714,13 +18716,13 @@ class ExecutiveDashBoard extends Component{
 
         if(distinctYears[distinctYears.length - 1] === selectedValue){
           //this.state.combinedDivisionDataSet
-          console.log("1st entered")
+          //console.log("1st entered")
           if(e !== undefined && countClicks === 1){
             countClicks++;
             stackedValue = true;
-            console.log("StackedValue true")
+            //console.log("StackedValue true")
             let dataCompany = Object.assign({}, this.state.combinedDivisionDataSet);
-            console.log("DataCompany: " + dataCompany)
+            //console.log("DataCompany: " + dataCompany)
             this.setState({ revenueTotal: dataCompany, displayButton: true, currentYearLabel: selectedValue})
           }else if(e !== undefined && countClicks === 2){
             countClicks++;
@@ -18744,7 +18746,7 @@ class ExecutiveDashBoard extends Component{
                   labelValue.push(value);
                   for (const [index2, value] of dataCompany.datasets.entries()) {
                     if(index == index2){
-                      console.log(value.data[index]);
+                      //console.log(value.data[index]);
                     }
                   }  
                 }
@@ -18782,11 +18784,11 @@ class ExecutiveDashBoard extends Component{
   updateStateProfit(element, element2, titleValue){
     var e = element2[element];
     var indexValueProfit = [];
-    console.log("Click COunt Profit: " + countClicksProfit)
-    console.log("Profit Index" + this.state.monthProfitIndexValue + "Title Value: " + titleValue + "Future Year: " +  this.state.futureYearProfit + "Title Value: " +  titleValue)
-    console.log(element2)
-    console.log(element)
-    console.log(e)
+    //console.log("Click COunt Profit: " + countClicksProfit)
+    //console.log("Profit Index" + this.state.monthProfitIndexValue + "Title Value: " + titleValue + "Future Year: " +  this.state.futureYearProfit + "Title Value: " +  titleValue)
+    //console.log(element2)
+    //console.log(element)
+    //console.log(e)
     if(e !== undefined || element2.length !== 0){
         if(countClicksProfit === 1){
           if(this.state.futureYearProfit === false){
@@ -18794,17 +18796,17 @@ class ExecutiveDashBoard extends Component{
             element2.forEach((user =>//console.log(user._datasetIndex,user._model.datasetLabel)
               {  loopccountProfit++
               if(titleValue === user._model.datasetLabel){
-                console.log("loop entered")
-                console.log("loop count " + loopccountProfit)
+                //console.log("loop entered")
+                //console.log("loop count " + loopccountProfit)
                 var num = user._datasetIndex
-                console.log(num)
+                //console.log(num)
                 indexValueProfit = element2[loopccountProfit-1]
                 //selectedValueSafety = indexValueProfit._model.datasetLabel;
               }})
             ); 
-            console.log("selected index: " + indexValueProfit._index)
+            //console.log("selected index: " + indexValueProfit._index)
             if(indexValueProfit._index === 0){
-              console.log("Index equals zero")
+              //console.log("Index equals zero")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -18847,7 +18849,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 1){
-              console.log("Index equals one")
+              //console.log("Index equals one")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -18890,7 +18892,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 2){
-              console.log("Index equals two")
+              //console.log("Index equals two")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -18933,7 +18935,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 3){
-              console.log("Index equals three")
+              //console.log("Index equals three")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -18976,7 +18978,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 4){
-              console.log("Index equals four")
+              //console.log("Index equals four")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19019,7 +19021,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 5){
-              console.log("Index equals five")
+              //console.log("Index equals five")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19062,7 +19064,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 6){
-              console.log("Index equals six")
+              //console.log("Index equals six")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19105,7 +19107,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 7){
-              console.log("Index equals seven")
+              //console.log("Index equals seven")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19148,7 +19150,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 8){
-              console.log("Index equals eight")
+              //console.log("Index equals eight")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19191,7 +19193,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 9){
-              console.log("Index equals nine")
+              //console.log("Index equals nine")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19240,7 +19242,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 10){
-              console.log("Index equals ten")
+              //console.log("Index equals ten")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19289,7 +19291,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 11){
-              console.log("Index equals eleven")
+              //console.log("Index equals eleven")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19344,17 +19346,17 @@ class ExecutiveDashBoard extends Component{
             element2.forEach((user =>//console.log(user._datasetIndex,user._model.datasetLabel)
               {  loopccountProfitFuture++
               if(titleValue === user._model.datasetLabel){
-                console.log("loop entered")
-                console.log("loop count " + loopccountProfitFuture)
+                //console.log("loop entered")
+                //console.log("loop count " + loopccountProfitFuture)
                 var num = user._datasetIndex
-                console.log(num)
+                //console.log(num)
                 indexValueProfit = element2[loopccountProfitFuture-1]
                 //selectedValueSafety = indexValueProfit._model.datasetLabel;
               }})
             ); 
-            console.log("selected index: " + indexValueProfit._index)
+            //console.log("selected index: " + indexValueProfit._index)
             if(indexValueProfit._index === 0){
-              console.log("Index equals zero")
+              //console.log("Index equals zero")
               this.setState({ profit: {
                 labels: ['Actual'],
                 datasets: [
@@ -19403,56 +19405,56 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 1){
-              console.log("Index equals one")
+              //console.log("Index equals one")
               this.setState({ profit: {
-                labels: ['Contracted','ABNC','FA','MA'],
+                labels: ['Actual'],
                 datasets: [
                   {
                     label: 'Wiley',
-                    data: [522677,0,0,0],
+                    data: [-66144],
                     backgroundColor: '#dff4ff', // green
                     fill: false
                   },
                   {
                     label: 'Haynes',
-                    data: [395180,0,1600,0],
+                    data: [115449],
                     backgroundColor: '#b1b9cb', // yellow
                     fill: false
                   },
                   {
                     label: 'Broadwell',
-                    data: [269947,11902,15325,0],
+                    data: [49369],
                     backgroundColor: '#298fc2', // red
                     fill: false
                   },
                   {
                     label: 'Stone',
-                    data: [384828,0,0,0],
+                    data: [231153],
                     backgroundColor: '#f5a900', // red
                     fill: false
                   },
                   {
                     label: 'Kitchin',
-                    data: [75653,0,0,0],
+                    data: [17875],
                     backgroundColor: '#86888B', // red
                     fill: false
                   },
                   {
                     label: 'Gowens',
-                    data: [3570,0,0,0],
+                    data: [344],
                     backgroundColor: '#002B49', // red
                     fill: false
                   },
                   {
                     label: 'Misc',
-                    data: [0,0,0,0],
+                    data: [136557],
                     backgroundColor: '#CBCCCD', // redS
                     fill: false
                   }
                 ]
-              }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
+              }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 2){
-              console.log("Index equals two")
+              //console.log("Index equals two")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19501,7 +19503,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 3){
-              console.log("Index equals three")
+              //console.log("Index equals three")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19550,7 +19552,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 4){
-              console.log("Index equals four")
+              //console.log("Index equals four")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19599,7 +19601,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 5){
-              console.log("Index equals five")
+              //console.log("Index equals five")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19648,7 +19650,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 6){
-              console.log("Index equals six")
+              //console.log("Index equals six")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19697,7 +19699,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 7){
-              console.log("Index equals seven")
+              //console.log("Index equals seven")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19746,7 +19748,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 8){
-              console.log("Index equals eight")
+              //console.log("Index equals eight")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19795,7 +19797,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 9){
-              console.log("Index equals nine")
+              //console.log("Index equals nine")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19844,7 +19846,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 10){
-              console.log("Index equals ten")
+              //console.log("Index equals ten")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19893,7 +19895,7 @@ class ExecutiveDashBoard extends Component{
                 ]
               }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 11){
-              console.log("Index equals eleven")
+              //console.log("Index equals eleven")
               this.setState({ profit: {
                 labels: ['Contracted','ABNC','FA','MA'],
                 datasets: [
@@ -19946,9 +19948,9 @@ class ExecutiveDashBoard extends Component{
           }
         
         }else if(countClicksProfit === 2){
-            console.log("Month Index: " + this.state.monthProfitIndexValue)
-            console.log("Modal Index: " + element)
-            console.log("title Value: " + titleValue)
+            //console.log("Month Index: " + this.state.monthProfitIndexValue)
+            //console.log("Modal Index: " + element)
+            //console.log("title Value: " + titleValue)
             //console.log(element2[element]._model.datasetLabel)
             if(this.state.monthProfitIndexValue === 0 && titleValue.includes('Wiley') && this.state.futureYearProfit === false){
               this.setState({ modalProfitData: [
@@ -38595,7 +38597,7 @@ class ExecutiveDashBoard extends Component{
               ], modalProfitDataColumns : [{fixed: "left",columns: [{Header: "Dept Job",accessor: "deptJob",width: 100},{Header: "Dept Name Job Name",accessor: "deptName",width: 300}]},{columns: [{Header: "Contract Amount",accessor: "contractAmount",width: 150,},{Header: "Project Cost",accessor: "projectCost",width: 150},{Header: "Gross Margin",accessor: "grossMargin",id: "grossMargin",width: 150},{Header: "GM %",accessor: "gmPercent",id: "gmPercent",width: 150},{Header: "Actual Cost To Date",accessor: "actualCostToDate",id: "actualCostToDate",width: 150},{Header: "% Complete",accessor: "percentComplete",id: "percentComplete",width: 150},{Header: "Cost to Complete",accessor: "costToComplete",id: "costToComplete",width: 150},{Header: "Gross Margin Earned",accessor: "grossMarginEarned",id: "grossMarginEarned",width: 170},{Header: "Earned Revenue",accessor: "earnedRevenue",id: "earnedRevenue",width: 150},{Header: "Billed To Date",accessor: "billedToDate",id: "billedToDate",width: 150},{Header: "Billed Over/Under",accessor: "billedOverUnder",id: "billedOverUnder",width: 150},{Header: "GM Earned Curr Period",accessor: "gmEarnedCurrPeriod",id: "gmEarnedCurrPeriod",width: 180},{Header: "GM Earned YTD",accessor: "gmEarnedYTD",id: "gmEarnedYTD",width: 150},{Header: "Earned Revenue Curr Period",accessor: "earnedRevenueCurrPeriod",id: "earnedRevenueCurrPeriod",width: 220},{Header: "Earned Revenue YTD",accessor: "earnedRevenueYTD",id: "earnedRevenueYTD",width: 180},{Header: "Current Period Cost",accessor: "currentPeriodCost",id: "currentPeriodCost",width: 150},{Header: "Current Period Billing",accessor: "currentPeriodBilling",id: "currentPeriodBilling",width: 170}]},]
               , showProfit: true })
             }else if(this.state.monthProfitIndexValue === 0 && titleValue.includes('Wiley') && this.state.futureYearProfit === true){
-              console.log("entered area: " + this.state.futureYearProfit)
+              //console.log("entered area: " + this.state.futureYearProfit)
               this.setState({ modalProfitData: [
                 {deptJob: '18-165',deptName: 'Pooles Mill Elementary School',contractAmount: '22,252,023.30',projectCost: '21,904,066.31',grossMargin: '347,956.99',gmPercent: '1.56',actualCostToDate: '21,904,066.31',percentComplete: '100.00',costToComplete: '0.00',grossMarginEarned: '347,956.99',earnedRevenue: '22,252,023.30',billedToDate: '22,252,023.30',billedOverUnder: '0.00',gmEarnedCurrPeriod: '(66,028.08)',gmEarnedYTD: '(66,028.08)',earnedRevenueCurrPeriod: '0.00',earnedRevenueYTD: '0.00',currentPeriodCost: '66,028.08',currentPeriodBilling: '0.00'},
                 {deptJob: '19-126',deptName: 'RCPS Central Office - Project A',contractAmount: '15,400,000.00',projectCost: '14,500,583.95',grossMargin: '899,416.05',gmPercent: '5.84',actualCostToDate: '14,204,139.91',percentComplete: '97.96',costToComplete: '296,444.04',grossMarginEarned: '881,028.39',earnedRevenue: '15,085,168.30',billedToDate: '14,950,823.00',billedOverUnder: '(134,345.30)',gmEarnedCurrPeriod: '68,613.56',gmEarnedYTD: '68,613.56',earnedRevenueCurrPeriod: '1,078,957.69',earnedRevenueYTD: '1,078,957.69',currentPeriodCost: '1,010,344.13',currentPeriodBilling: '1,073,933.00'},             
@@ -39016,25 +39018,25 @@ class ExecutiveDashBoard extends Component{
           datasets: [
             {
               label: 'Actual',
-              data: [1196893,0,0,0,0,0,0,0,0,0,0,0],
+              data: [1196893,484603,0,0,0,0,0,0,0,0,0,0],
               backgroundColor: '#00558C', // green
               fill: false
             },
             {
               label: 'Contracted',
-              data: [0,1651867,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
+              data: [0,0,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
               backgroundColor: '#888B8D', // yellow
               fill: false
             },
             {
               label: 'ABNC',
-              data: [0,11902,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
+              data: [0,0,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
               backgroundColor: '#298FC2', // yellow
               fill: false
             },
             {
               label: 'FA',
-              data: [0,16925,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
+              data: [0,0,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
               backgroundColor: '#002B49', // red
               fill: false
             },
@@ -39077,8 +39079,8 @@ class ExecutiveDashBoard extends Component{
       countClicks--;
       stackedValue = false;
       let dataYearly = Object.assign({}, this.state.homeState);
-      console.log("Click 2 entered" + countClicks)
-      console.log(this.state.homeState)
+      //console.log("Click 2 entered" + countClicks)
+      //console.log(this.state.homeState)
       this.setState({ revenueTotal: dataYearly, displayButton: false, checkClicks: false})
     }
   }
@@ -39211,11 +39213,11 @@ class ExecutiveDashBoard extends Component{
       var yearlyQuarterLabel = response4['data'];
 
       var optionsLabels = [];
-      console.log("Values Loaded")
+      //console.log("Values Loaded")
       yearlyQuarterLabel.forEach(function (values){
         const { label } = values
         optionsLabels.push(label)
-        console.log("Labels: " + label)
+        //console.log("Labels: " + label)
 
       })
 
@@ -41041,11 +41043,11 @@ renderTableHeaderModel() {
 onRowClick = (state, rowInfo, column, instance) => {
   return {
       onClick: e => {
-          console.log('A Td Element was clicked!')
-          console.log('it produced this event:', e)
-          console.log('It was in this column:', column)
-          console.log('It was in this row:', rowInfo)
-          console.log('It was in this table instance:', instance)
+          //console.log('A Td Element was clicked!')
+          //console.log('it produced this event:', e)
+          //console.log('It was in this column:', column)
+          //console.log('It was in this row:', rowInfo)
+          //console.log('It was in this table instance:', instance)
       }
   }
 }
@@ -41100,16 +41102,16 @@ handleProfitClose = () => this.setState({showProfit: false});
 handleProfitShow = () => this.setState({showProfit: true});
 
 handleChange(event) {
-  console.log(event.target.value)
-  console.log(this.state.yearLableValue)
+  //console.log(event.target.value)
+  //console.log(this.state.yearLableValue)
   if(this.state.yearLableValue == 2021 && event.target.value === 'gapercent'){
     this.setState({ gAndA: gAndADataProjectedPercent, gAndAvalue: event.target.value})
   }
   else if(this.state.yearLableValue == 2020 && event.target.value === 'gapercent'){
     let dataCompanyNext = Object.assign({}, this.state.gAndAPercent);
-    console.log(this.state.gAndA)
+    //console.log(this.state.gAndA)
     this.setState({ gAndA: dataCompanyNext, gAndAvalue: event.target.value}) //, displayButton: true, currentYearLabel: selectedValue})
-    console.log("task completed")          
+    //console.log("task completed")          
   }else if(this.state.yearLableValue == 2021 && event.target.value === 'gadollar'){
     this.setState({ gAndA: gAndAProjectedData, gAndAvalue: event.target.value})
   }else if(this.state.yearLableValue == 2020 && event.target.value === 'gadollar'){
@@ -41140,12 +41142,12 @@ onDocumentLoad = ({ numPages, pageNumber }) =>
     })
 
 handleNOIChange(event) {
-  console.log(event.target.value)
+  //console.log(event.target.value)
   if(this.state.yearLableValue == 2020 && event.target.value === 'noipercent'){
     let dataCompanyNext = Object.assign({}, this.state.noiPercent);
-    console.log(this.state.noi)
+    //console.log(this.state.noi)
     this.setState({ noi: dataCompanyNext, noivalue: event.target.value}) //, displayButton: true, currentYearLabel: selectedValue})
-    console.log("task completed")          
+    //console.log("task completed")          
   }if(this.state.yearLableValue == 2021 && event.target.value === 'noipercent'){
     this.setState({ noi: noiDataProjectedPercent, noivalue: event.target.value}) //, displayButton: true, currentYearLabel: selectedValue})
   }else if(this.state.yearLableValue == 2020 && event.target.value === 'noidollar'){
@@ -41173,35 +41175,35 @@ handleNOIChange(event) {
 }
 
 handleYearChange(event) {
-  console.log(event.target.value)
-  console.log(event)
+  //console.log(event.target.value)
+  //console.log(event)
   if(event.target.value === 'nextYear'){
-    this.setState({ cumulativeYTDRevenue: '32,670,657', projectedFYERevenue: '505,296,538', cumulativeYTDProfit: '1,196,893',
-     projectedFYEProfit: '19,808,758', cumulativeYTDGA: '1,300,785', projectedFYEGA: '13,326,187', cumulativeYTDNOI: '(103,892)', projectedFYENOI: '2,963,789',
+    this.setState({ cumulativeYTDRevenue: '61,241,909', projectedFYERevenue: '503,754,692', cumulativeYTDProfit: '1,681,498',
+     projectedFYEProfit: '20,073,089', cumulativeYTDGA: '2,441,493', projectedFYEGA: '13,373,669', cumulativeYTDNOI: '(759,995)', projectedFYENOI: '6,699,420',
      futureYear: true, futureYearProfit: true, revenue: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Actual',
-          data: [32670657,0,0,0,0,0,0,0,0,0,0,0],
+          data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // yellow
           fill: false
         },
         {
           label: 'Contracted',
-          data: [0,39897563,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+          data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
           backgroundColor: '#888B8D', // yellow
           fill: false
         },
         {
           label: 'ABNC',
-          data: [0,264483,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+          data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
           backgroundColor: '#298FC2', // yellow
           fill: false
         },
         {
           label: 'FA',
-          data: [0,142170,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+          data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
           backgroundColor: '#002B49', // red
           fill: false
         },
@@ -41217,25 +41219,25 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual',
-          data: [1196893,0,0,0,0,0,0,0,0,0,0,0],
+          data: [1196893,484603,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Contracted',
-          data: [0,1651867,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
+          data: [0,0,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
           backgroundColor: '#888B8D', // yellow
           fill: false
         },
         {
           label: 'ABNC',
-          data: [0,11902,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
+          data: [0,0,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
           backgroundColor: '#298FC2', // yellow
           fill: false
         },
         {
           label: 'FA',
-          data: [0,16925,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
+          data: [0,0,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
           backgroundColor: '#002B49', // red
           fill: false
         },
@@ -41251,39 +41253,39 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual $',
-          data: [1300785,0,0,0,0,0,0,0,0,0,0,0],
+          data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+          data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
           backgroundColor: '#888B8D', // green
           fill: false
         }
       ]
     }, 
     qrNumbers: [
-      { name: 'QUICK RATIO', amount: '1.22' },
-      { name: 'ROA', amount: '(0.10)%' },
-      { name: 'ROE', amount: '(0.56)%' },
-      { name: 'CURRENT RATIO', amount: '1.22' },
-      { name: 'WORKING CAPITAL', amount: '$22,803,761' },
-      { name: 'EQUITY', amount: '$22,979,883' }
+      { name: 'QUICK RATIO', amount: '1.214' },
+      { name: 'ROA', amount: '(0.36)%' },
+      { name: 'ROE', amount: '(2.02)%' },
+      { name: 'CURRENT RATIO', amount: '1.214' },
+      { name: 'WORKING CAPITAL', amount: '$22,500,054' },
+      { name: 'EQUITY', amount: '$22,676,176' }
     ],
     receivablesNumbers: [
-      { name: 'Current', amount: '$32,525,561' },
-      { name: '31-60', amount: '$7,846,406' },
-      { name: '61-90', amount: '$2,361,227' },
-      { name: '90+', amount: '$860,417' },
-      { name: 'Total', amount: '$43,593,611'}
+      { name: 'Current', amount: '$42,428,247' },
+      { name: '31-60', amount: '$1,946,399' },
+      { name: '61-90', amount: '$972,308' },
+      { name: '90+', amount: '$875,540' },
+      { name: 'Total', amount: '$46,222,494'}
     ],
     financeBacklogYTDData: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Backlog',
-          data: [513904626,0,0,0,0,0,0,0,0,0,0,0],
+          data: [513904626,530765956,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         }
@@ -41294,7 +41296,7 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Over/Under',
-          data: [15773690,0,0,0,0,0,0,0,0,0,0,0],
+          data: [15773690,19519878,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         }
@@ -41442,25 +41444,25 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual $',
-          data: [-103892,0,0,0,0,0,0,0,0,0,0,0],
+          data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+          data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
           backgroundColor: '#888B8D', // green
           fill: false
         }
       ]
-    },students: [{ financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$32,670,657', V: '$(9,437,388)', current_month: '$32,670,657', budgetFYE: '$507,000,000', projectedFYE: '$505,296,538', diff: '$(1,703,462)' },
-    { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$1,196,893', V: '$(453,837)', current_month: '$1,196,893', budgetFYE: '$20,400,000', projectedFYE: '$19,808,758', diff: '$(591,242)' },
-    { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '3.66%', V: '(0.24)%', current_month: '3.66%', budgetFYE: '4.0%', projectedFYE: '3.92%', diff: '(0.08)%' },
-    { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$1,300,785', V: '$190,269', current_month: '$1,300,785', budgetFYE: '$13,900,000', projectedFYE: '$13,326,187', diff: '$(573,813)' },
-    { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.98%', V: '(0.24)%', current_month: '3.98%', budgetFYE: '2.74%', projectedFYE: '2.64%', diff: '(0.1)%' },
-    { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(103,892)', V: '$(644,106)', current_month: '$(103,892)', budgetFYE: '$6,400,000', projectedFYE: '$2,963,789', diff: '$(3,436,211)' },
-    { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(0.40)%', V: '(1.7)%', current_month: '(0.40)%', budgetFYE: '1.26%', projectedFYE: '0.59%', diff: '(0.67)%' },
- ], yearValuePick: event.target.value, yearLableValue: '2021', yearMonthLabel: 'January', gAndAvalue: 'gadollar', noivalue: 'noidollar'})    
+    },students: [{ financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$61,241,909', V: '$19,133,864', current_month: '$28,571,252', budgetFYE: '$507,000,000', projectedFYE: '$503,754,692', diff: '$(3,245,308)' },
+    { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$1,681,498', V: '$30,768', current_month: '$484,603', budgetFYE: '$20,400,000', projectedFYE: '$20,073,089', diff: '$(326,911)' },
+    { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '2.75%', V: '(1.15)%', current_month: '1.7%', budgetFYE: '4.0%', projectedFYE: '3.98%', diff: '(0.02)%' },
+    { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$2,441,493', V: '$1,330,977', current_month: '$1,140,701', budgetFYE: '$13,900,000', projectedFYE: '$13,373,669', diff: '$(526,331)' },
+    { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.99%', V: '1.39%', current_month: '3.99%', budgetFYE: '2.74%', projectedFYE: '2.65%', diff: '(0.09)%' },
+    { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(759,995)', V: '$(1,300,209)', current_month: '$(656,098)', budgetFYE: '$6,400,000', projectedFYE: '$6,699,420', diff: '$299,420' },
+    { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(1.24)%', V: '(2.54)%', current_month: '(2.30)%', budgetFYE: '1.26%', projectedFYE: '1.33%', diff: '0.07%' },
+ ], yearValuePick: event.target.value, yearLableValue: '2021', yearMonthLabel: 'February', gAndAvalue: 'gadollar', noivalue: 'noidollar'})    
   }
   else if(event.target.value === 'currentYear'){
     this.setState({ cumulativeYTDRevenue: '442,122,728', projectedFYERevenue: '442,122,728', cumulativeYTDProfit: '27,436,641',
@@ -42107,7 +42109,7 @@ handleYearChange(event) {
         accessor: 'currentYTDActual',
         Cell: row => <div style={{ textAlign: "right", fontSize: 12 }}>{row.value}</div>
       },{
-        Header:()=><small style={{ textAlign: "center", fontSize: 12 }}>{<img src={ require('../images/triangle.png')} style={{ height: 20, width: 20}} alt="triangle" />}</small>,
+        Header:()=><small style={{ textAlign: "center", fontSize: 12 }}>{<img src={triangle} style={{ height: 20, width: 20}} alt="triangle" />}</small>,
         accessor: 'V',
         Cell: row => <div style={{ textAlign: "right", fontSize: 12 }}>{row.value}</div>
       }]
@@ -42123,7 +42125,7 @@ handleYearChange(event) {
         accessor: 'projectedFYE',
         Cell: row => <div style={{ textAlign: "right", fontSize: 12 }}>{row.value}</div>
       },{
-        Header:()=><small style={{ textAlign: "center", fontSize: 12 }}>{<img src={ require('../images/triangle.png')} style={{ height: 20, width: 20}} alt="triangle" />}</small>,
+        Header:()=><small style={{ textAlign: "center", fontSize: 12 }}>{<img src={triangle} style={{ height: 20, width: 20}} alt="triangle" />}</small>,
         accessor: 'diff',
         Cell: row => <div style={{ textAlign: "right", fontSize: 12 }}>{row.value}</div>
       }]
@@ -42229,7 +42231,7 @@ handleYearChange(event) {
     return (
       <>
         <Navbar className="color-nav" style={{paddingBottom: '1%', paddingTop: '2%'}} expand="lg">
-          <Navbar.Brand><img src={ require('../images/logo.png') } alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand><img src={logo} alt="carolldaniellogo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
@@ -42279,7 +42281,7 @@ handleYearChange(event) {
         <Row>
         <Col md={tableWidthLarge} style={{ paddingLeft: '2.6%', paddingRight: '2%'}}>
         { revenueDisplayButton ? 
-                  (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousRevenueScreenFunction} style={{ height: '30px'}} /></button>)
+                  (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousRevenueScreenFunction} style={{ height: '30px'}} /></button>)
                   : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
                 }
         <Bar
@@ -42310,8 +42312,8 @@ handleYearChange(event) {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
                   titleValue = data.datasets[titleindex].label
-                  console.log(data.datasets[titleindex].label)
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex].label)
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -42561,7 +42563,7 @@ handleYearChange(event) {
           <Row>
           <Col md={tableWidthLarge} style={{ paddingLeft: '3.5%', paddingRight: '2%'}}>
         { profitDisplayButton ? 
-                  (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousScreenFunctionProfit} style={{ height: '30px'}} /></button>)
+                  (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousScreenFunctionProfit} style={{ height: '30px'}} /></button>)
                   : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
                 }
         <Bar
@@ -42592,7 +42594,7 @@ handleYearChange(event) {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
                   grossTitleValue = data.datasets[titleindex].label
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -42710,7 +42712,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                   gAndACheck = data.datasets[titleindex].label
                     return data.datasets[titleindex].label;
                 },
@@ -42838,7 +42840,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                   noiCheck = data.datasets[titleindex].label
                     return data.datasets[titleindex].label;
                 },
@@ -42975,7 +42977,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43066,7 +43068,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43171,7 +43173,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43263,7 +43265,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43329,7 +43331,7 @@ handleYearChange(event) {
           <Row>
           <Col md={tableWidthLarge} style={{ paddingLeft: '3.2%', paddingRight: '4%'}}>
             { safetyDisplayButton ? 
-              (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousSafetyScreenFunction} style={{ height: '30px'}} /></button>)
+              (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousSafetyScreenFunction} style={{ height: '30px'}} /></button>)
               : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
             }
             <Bar
@@ -43359,7 +43361,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43530,7 +43532,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43615,7 +43617,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43706,7 +43708,7 @@ handleYearChange(event) {
         <Row>
         <Col md="auto">
         { revenueDisplayButton ? 
-                  (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousRevenueScreenFunction} style={{ height: '30px'}} /></button>)
+                  (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousRevenueScreenFunction} style={{ height: '30px'}} /></button>)
                   : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
                 }
         <Bar
@@ -43737,8 +43739,8 @@ handleYearChange(event) {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
                   titleValue = data.datasets[titleindex].label
-                  console.log(data.datasets[titleindex].label)
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex].label)
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -43828,7 +43830,7 @@ handleYearChange(event) {
         <Modal.Body style={{ overflow: 'auto'}}>
         <ReactTableFixedColumns
           data={this.state.modalRevenueData}
-          columns={this.state.modalRevenueDataColumns}
+          columns={[this.state.modalRevenueDataColumns]}
           defaultPageSize={20}
           style={{ height: 500 }}
           className="-striped"
@@ -43844,7 +43846,7 @@ handleYearChange(event) {
         <Modal.Body style={{ overflow: 'auto'}}>
         <ReactTableFixedColumns
           data={this.state.modalProfitData}
-          columns={this.state.modalProfitDataColumns}
+          columns={[this.state.modalProfitDataColumns]}
           defaultPageSize={20}
           style={{ height: 500 }}
           className="-striped"
@@ -43858,7 +43860,7 @@ handleYearChange(event) {
       </Modal>
       <Col md="auto">
         { profitDisplayButton ? 
-                  (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousScreenFunctionProfit} style={{ height: '30px'}} /></button>)
+                  (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousScreenFunctionProfit} style={{ height: '30px'}} /></button>)
                   : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
                 }
         <Bar
@@ -43889,7 +43891,7 @@ handleYearChange(event) {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
                   grossTitleValue = data.datasets[titleindex].label
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44005,7 +44007,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                   gAndACheck = data.datasets[titleindex].label
                     return data.datasets[titleindex].label;
                 },
@@ -44131,7 +44133,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                   noiCheck = data.datasets[titleindex].label
                     return data.datasets[titleindex].label;
                 },
@@ -44267,7 +44269,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44356,7 +44358,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44462,7 +44464,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44551,7 +44553,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44615,7 +44617,7 @@ handleYearChange(event) {
             </Col>
             <Col md="auto" style={{ paddingLeft: '.5%'}}>
             { safetyDisplayButton ? 
-              (<button style={{ border: 'none', background: 'none'}}><img src={ require('../images/back-button-FINAL.png') } alt="backButton" onClick={this.previousSafetyScreenFunction} style={{ height: '30px'}} /></button>)
+              (<button style={{ border: 'none', background: 'none'}}><img src={backbutton} alt="backButton" onClick={this.previousSafetyScreenFunction} style={{ height: '30px'}} /></button>)
               : <button disabled={true} style={{ border: 'none', background: 'none', height: '30px'}}></button>
             }
             <Bar
@@ -44645,7 +44647,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44814,7 +44816,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {
@@ -44897,7 +44899,7 @@ handleYearChange(event) {
               callbacks: {
                 title: function(tooltipItem, data) {
                   var titleindex = tooltipItem[0].datasetIndex;
-                  console.log(data.datasets[titleindex])
+                  //console.log(data.datasets[titleindex])
                     return data.datasets[titleindex].label;
                 },
                   label: function(tooltipItem) {

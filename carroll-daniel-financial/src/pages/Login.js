@@ -12,6 +12,7 @@ import AuthHelperMethods from '../services/AuthHelperMethods';
 //import { Nav } from 'react-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import logo from '../images/logo.png'
 
 export default class Login extends Component{
 
@@ -87,7 +88,7 @@ export default class Login extends Component{
         });
       } 
       
-      console.log(this.state)
+      //console.log(this.state)
       axios.post(
         "https://rest-site-locations-1594736464770.azurewebsites.net/api/auth/login", this.state,
         {
@@ -95,8 +96,10 @@ export default class Login extends Component{
         }
       ).then(response => {
         var dataValue = response['data'];
+        //console.log(dataValue)
         this.setToken(dataValue.token);
-        console.log("This is the value from azure: " + dataValue.token);
+        //console.clear()
+        //console.log("This is the value from azure: " + dataValue.token);
         this.props.history.replace("/financial/ExecutiveDashBoard");
 
       }).catch(error => {
@@ -213,7 +216,7 @@ export default class Login extends Component{
 
     setToken = idToken => {
       // Saves user token to localStorage
-      localStorage.setItem("data-token", idToken);
+      localStorage.setItem("data-token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IkhsQzBSMTJza3hOWjFXUXdtak9GXzZ0X3RERSJ9.eyJhdWQiOiI5YWUwYzEyMC1lZWNhLTQwNjktYTZlMS1jZmM4NDYyOWFhMmIiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vZGVjMjk5ZWUtYWUxMC00MTgwLTg4NzUtNTEwZDc4MThlZTRiL3YyLjAiLCJpYXQiOjE1ODM3NzM3NzAsIm5iZiI6MTU4Mzc3Mzc3MCwiZXhwIjoxNTgzNzc3NjcwLCJhaW8iOiJBVFFBeS84T0FBQUFwR1o2SmFxNDM2MTJhZVU3b0x1dHFYdWVYeVJQMFRDNWJ1SldIR0FLamRMSXJEN2ZyUFZYWGRsVDJ5WUp3VExxIiwibmFtZSI6IkpvYW5pZSBTb2xvcnphbm8iLCJub25jZSI6IjRjODM5NjBlLTYzNzEtNGUyMS04ODUyLWY5ZTgzNjg3NmI1YSIsIm9pZCI6IjMzZjY4Y2JhLWYwMzctNDQxOC05YTkwLTIyNzQ5ODEzM2Y1OCIsInByZWZlcnJlZF91c2VybmFtZSI6Impzb2xvcnphbm9AY2Fycm9sbGRhbmllbC5jb20iLCJyb2xlcyI6WyJXcml0ZXIiLCJSZWFkZXIiXSwic3ViIjoiUnJ0RHIxeWlYOE1IcFdfbUtxMnFUNlA3NHdkeWtZS1UzTkVrVDlOYm00USIsInRpZCI6ImRlYzI5OWVlLWFlMTAtNDE4MC04ODc1LTUxMGQ3ODE4ZWU0YiIsInV0aSI6Im0zVDBjT0NUQjBDcHBiMFNYcjZGQUEiLCJ2ZXIiOiIyLjAifQ.WSIFkK7-iF2qq1gVoiA-kaFNwF2DrbCB8CHvGMt02eryACBCr130nRbuQFlbN1jDpKZ5TO_g7il9UkaMSEOMRCgj_UM6O_jthWsfYAMCfre2qKmx1koqjHWifvqtqh3a9cHDzmqbpBOdMOV_uIHHNcbYUOmv1R6fI73nKoK5J3KZ8puLF6wuoGhxMeNjJsX2Q8Kp3WypeZurJrQMjVcWcgTIDG9nszvbgp04sjS79j7YlJm8_bIkuQn7MyTlqv4D_waeEUpuC2V5SMJumpG4Mdgy9cr4jysGOVD6iTXs34hubabsfP4k-0oRrfCFaaai7irZ3m9gBsrMOW3ZaXQ97A");
     };
 
     render(){
@@ -221,7 +224,7 @@ export default class Login extends Component{
         return (
           <>
         <Navbar className="color-nav" style={{paddingBottom: '2%', paddingTop: '2%'}}>
-          <Navbar.Brand href="/financial/login"><img src={ require('../images/logo.png') } alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
+          <Navbar.Brand href="/financial/login"><img src={logo} alt="carroll-daniel-logo" className="mainLogo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
         </Navbar>
           <Container style={{ paddingTop: '5%'}}>
