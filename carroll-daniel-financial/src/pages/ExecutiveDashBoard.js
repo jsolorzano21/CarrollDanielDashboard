@@ -85,7 +85,7 @@ const items = [
   datasets: [
     {
       label: 'Actual',
-      data: [1196893,0,0,0,0,0,0,0,0,0,0,0],
+      data: [1195746,0,0,0,0,0,0,0,0,0,0,0],
       backgroundColor: '#00558C', // green
       fill: false
     },
@@ -326,7 +326,7 @@ class ExecutiveDashBoard extends Component{
       yearValuePick: '2021',
       yearSelectionPick: 'nextYear',
       yearLableValue: '2021',
-      yearMonthLabel: 'February',
+      yearMonthLabel: 'March',
       cumulativeYTDRevenue: '442,122,728',
       projectedFYERevenue: '442,122,728',
       cumulativeYTDProfit: '27,436,641',
@@ -1240,52 +1240,52 @@ class ExecutiveDashBoard extends Component{
             }else if(indexValue._index === 2){
               //console.log("Index equals two")
               this.setState({ revenue: {
-                labels: ['Contracted','ABNC','FA','MA'],
+                labels: ['Actual'],
                 datasets: [
                   {
                     label: 'Wiley',
-                    data: [12444592,0,0,0],
+                    data: [12959789],
                     backgroundColor: '#dff4ff', // green
                     fill: false
                   },
                   {
                     label: 'Haynes',
-                    data: [1837657,0,125000,0],
+                    data: [2160500],
                     backgroundColor: '#b1b9cb', // yellow
                     fill: false
                   },
                   {
                     label: 'Broadwell',
-                    data: [4937163,913670,296844,0],
+                    data: [4571078],
                     backgroundColor: '#298fc2', // red
                     fill: false
                   },
                   {
                     label: 'Stone',
-                    data: [9483163,0,0,0],
+                    data: [9018431],
                     backgroundColor: '#f5a900', // red
                     fill: false
                   },
                   {
                     label: 'Kitchin',
-                    data: [1579471,0,0,0],
+                    data: [513195],
                     backgroundColor: '#86888B', // red
                     fill: false
                   },
                   {
                     label: 'Gowens',
-                    data: [954527,0,0,0],
+                    data: [1494550],
                     backgroundColor: '#002B49', // red
                     fill: false
                   },
                   {
                     label: 'Misc',
-                    data: [0,0,0,0],
+                    data: [0],
                     backgroundColor: '#CBCCCD', // redS
                     fill: false
                   }
                 ]
-              }, revenueDisplayButton: true, stackedRevenueValue: true, monthRevenueIndexValue: indexValue._index})
+              }, revenueDisplayButton: true, stackedRevenueValue: false, monthRevenueIndexValue: indexValue._index})
             }else if(indexValue._index === 3){
               //console.log("Index equals three")
               this.setState({ revenue: {
@@ -18159,30 +18159,30 @@ class ExecutiveDashBoard extends Component{
       //}
       countClicksRevenue--;
       }else if(this.state.futureYear === true){
-        this.setState({ revenue: {
+        this.setState({ cumulativeYTDRevenue: '91,963,590', projectedFYERevenue: '466,831,053', revenue: {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
           datasets: [
             {
               label: 'Actual',
-              data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
+              data: [32670657,28571252,30721679,0,0,0,0,0,0,0,0,0],
               backgroundColor: '#00558C', // yellow
               fill: false
             },
             {
               label: 'Contracted',
-              data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+              data: [0,0,0,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
               backgroundColor: '#888B8D', // yellow
               fill: false
             },
             {
               label: 'ABNC',
-              data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+              data: [0,0,0,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
               backgroundColor: '#298FC2', // yellow
               fill: false
             },
             {
               label: 'FA',
-              data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+              data: [0,0,0,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
               backgroundColor: '#002B49', // red
               fill: false
             },
@@ -19003,52 +19003,52 @@ class ExecutiveDashBoard extends Component{
             }else if(indexValueProfit._index === 2){
               //console.log("Index equals two")
               this.setState({ profit: {
-                labels: ['Contracted','ABNC','FA','MA'],
+                labels: ['Actual'],
                 datasets: [
                   {
                     label: 'Wiley',
-                    data: [488472,0,0,0],
+                    data: [-78308],
                     backgroundColor: '#dff4ff', // green
                     fill: false
                   },
                   {
                     label: 'Haynes',
-                    data: [71680,0,5000,0],
+                    data: [68752],
                     backgroundColor: '#b1b9cb', // yellow
                     fill: false
                   },
                   {
                     label: 'Broadwell',
-                    data: [191613,41115,34016,0],
+                    data: [161769],
                     backgroundColor: '#298fc2', // red
                     fill: false
                   },
                   {
                     label: 'Stone',
-                    data: [331108,0,0,0],
+                    data: [299981],
                     backgroundColor: '#f5a900', // red
                     fill: false
                   },
                   {
                     label: 'Kitchin',
-                    data: [65582,0,0,0],
+                    data: [15379],
                     backgroundColor: '#86888B', // red
                     fill: false
                   },
                   {
                     label: 'Gowens',
-                    data: [7185,0,0,0],
+                    data: [20153],
                     backgroundColor: '#002B49', // red
                     fill: false
                   },
                   {
                     label: 'Misc',
-                    data: [0,0,0,0],
+                    data: [2268],
                     backgroundColor: '#CBCCCD', // redS
                     fill: false
                   }
                 ]
-              }, profitDisplayButton: true, stackedProfitValue: true, monthProfitIndexValue: indexValueProfit._index})
+              }, profitDisplayButton: true, stackedProfitValue: false, monthProfitIndexValue: indexValueProfit._index})
             }else if(indexValueProfit._index === 3){
               //console.log("Index equals three")
               this.setState({ profit: {
@@ -38561,30 +38561,30 @@ class ExecutiveDashBoard extends Component{
       //}
       countClicksProfit--;
       }else if(this.state.futureYearProfit === true){
-        this.setState({ profit: {
+        this.setState({ cumulativeYTDProfit: '2,171,490', projectedFYEProfit: '17,560,476', profit: {
           labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
           datasets: [
             {
               label: 'Actual',
-              data: [1196893,484603,0,0,0,0,0,0,0,0,0,0],
+              data: [1195746,485711,489994,0,0,0,0,0,0,0,0,0],
               backgroundColor: '#00558C', // green
               fill: false
             },
             {
               label: 'Contracted',
-              data: [0,0,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
+              data: [0,0,0,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
               backgroundColor: '#888B8D', // yellow
               fill: false
             },
             {
               label: 'ABNC',
-              data: [0,0,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
+              data: [0,0,0,83450,147062,243886,360354,384661,343191,283518,204546,210520],
               backgroundColor: '#298FC2', // yellow
               fill: false
             },
             {
               label: 'FA',
-              data: [0,0,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
+              data: [0,0,0,77512,133086,238748,407938,593969,714747,666481,507984,453660],
               backgroundColor: '#002B49', // red
               fill: false
             },
@@ -38784,32 +38784,33 @@ class ExecutiveDashBoard extends Component{
       var actualRevenueValue = response5['data']
       var decoded = jwt_decode(localStorage.getItem('data-token'));
       this.setState({ 
+        cumulativeYTDNOI: '(1,395,569)', projectedFYENOI: '4,154,461',
         modalRevenueDataColumns: [{fixed: "left",columns: [{Header: "Dept Job",accessor: "deptJob",width: 100},{Header: "Dept Name Job Name",accessor: "deptName",width: 300}]},{columns: [{Header: "Status",accessor: "status",width: 150,},{Header: "Contract Amount",accessor: "contractAmount",width: 150,},{Header: "Start Date",accessor: "startDate",width: 150},{Header: "End Date",accessor: "endDate",id: "endDate",width: 150},{Header: "Gross Margin Earned",accessor: "grossMarginEarned",id: "grossMarginEarned",width: 150},{Header: "GM %",accessor: "gmPercent",id: "gmPercent",width: 150},{Header: "Earned Revenue",accessor: "earnedRevenue",id: "earnedRevenue",width: 150},{Header: "Backlog",accessor: "backlog",id: "backlog",width: 170}]},],
         modalProfitDataColumns: [{fixed: "left",columns: [{Header: "Dept Job",accessor: "deptJob",width: 100},{Header: "Dept Name Job Name",accessor: "deptName",width: 300}]},{columns: [{Header: "Status",accessor: "status",width: 150,},{Header: "Contract Amount",accessor: "contractAmount",width: 150,},{Header: "Start Date",accessor: "startDate",width: 150},{Header: "End Date",accessor: "endDate",id: "endDate",width: 150},{Header: "Gross Margin Earned",accessor: "grossMarginEarned",id: "grossMarginEarned",width: 150},{Header: "GM %",accessor: "gmPercent",id: "gmPercent",width: 150},{Header: "Earned Revenue",accessor: "earnedRevenue",id: "earnedRevenue",width: 150},{Header: "Backlog",accessor: "backlog",id: "backlog",width: 170}]},],
         dataLoadCheck: dataValue, userRole: decoded.roles, students: [
-        { financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$61,241,909', V: '$19,133,864', current_month: '$28,571,252', budgetFYE: '$507,000,000', projectedFYE: '$503,754,692', diff: '$(3,245,308)' },
-        { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$1,681,498', V: '$30,768', current_month: '$484,603', budgetFYE: '$20,400,000', projectedFYE: '$20,073,089', diff: '$(326,911)' },
-        { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '2.75%', V: '(1.15)%', current_month: '1.7%', budgetFYE: '4.0%', projectedFYE: '3.98%', diff: '(0.02)%' },
-        { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$2,441,493', V: '$1,330,977', current_month: '$1,140,701', budgetFYE: '$13,900,000', projectedFYE: '$13,373,669', diff: '$(526,331)' },
-        { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.99%', V: '1.39%', current_month: '3.99%', budgetFYE: '2.74%', projectedFYE: '2.65%', diff: '(0.09)%' },
-        { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(759,995)', V: '$(1,300,209)', current_month: '$(656,098)', budgetFYE: '$6,400,000', projectedFYE: '$6,699,420', diff: '$299,420' },
-        { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(1.24)%', V: '(2.54)%', current_month: '(2.30)%', budgetFYE: '1.26%', projectedFYE: '1.33%', diff: '0.07%' },
+        { financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$91,963,590', V: '$49,855,545', current_month: '$30,721,679', budgetFYE: '$507,000,000', projectedFYE: '$466,831,053', diff: '$(40,168,947)' },
+        { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$2,171,490', V: '$520,760', current_month: '$489,994', budgetFYE: '$20,400,000', projectedFYE: '$17,560,476', diff: '$(2,839,524)' },
+        { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '2.36%', V: '(1.54)%', current_month: '1.59%', budgetFYE: '4.0%', projectedFYE: '3.76%', diff: '(0.24)%' },
+        { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$3,567,059', V: '$2,456,543', current_month: '$1,125,566', budgetFYE: '$13,900,000', projectedFYE: '$13,406,015', diff: '$(493,985)' },
+        { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.88%', V: '1.28%', current_month: '3.66%', budgetFYE: '2.74%', projectedFYE: '2.87%', diff: '0.13%' },
+        { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(1,395,569)', V: '$(1,935,783)', current_month: '$(635,572)', budgetFYE: '$6,400,000', projectedFYE: '$4,154,461', diff: '(2,245,539)' },
+        { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(1.52)%', V: '(2.82)%', current_month: '(2.07)%', budgetFYE: '1.26%', projectedFYE: '0.89%', diff: '(0.37)%' },
       ],
       safetyNumbers: [
         { name: '', amount: '2021', amount_past: '2020' },
-        { name: 'MH YTD', amount: '37,973', amount_past: '449,810' },
+        { name: 'MH YTD', amount: '122,405', amount_past: '449,810' },
         { name: 'EMR', amount: '0.68', amount_past: '0.68' },
-        { name: 'RIR', amount: '2.66', amount_past: '1.33' },
-        { name: 'Dart', amount: '0', amount_past: '0.88' },
+        { name: 'RIR', amount: '3.27', amount_past: '1.33' },
+        { name: 'Dart', amount: '0.44', amount_past: '0.88' },
         { name: 'LTIR', amount: '0', amount_past: '0.44' },
     ],
     qrNumbers: [
-      { name: 'QUICK RATIO', amount: '1.214' },
-      { name: 'ROA', amount: '(0.36)%' },
-      { name: 'ROE', amount: '(2.02)%' },
-      { name: 'CURRENT RATIO', amount: '1.214' },
-      { name: 'WORKING CAPITAL', amount: '$22,500,054' },
-      { name: 'EQUITY', amount: '$22,676,176' }
+      { name: 'QUICK RATIO', amount: '1.211' },
+      { name: 'ROA', amount: '(0.60)%' },
+      { name: 'ROE', amount: '(3.35)%' },
+      { name: 'CURRENT RATIO', amount: '1.211' },
+      { name: 'WORKING CAPITAL', amount: '$22,148,223' },
+      { name: 'EQUITY', amount: '$22,324,345' }
     ],
     financeBacklogYTDData: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
@@ -38821,7 +38822,7 @@ class ExecutiveDashBoard extends Component{
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [513904626,530765956,0,0,0,0,0,0,0,0,0,0]
+          data: [513904626,530765956,544077568,0,0,0,0,0,0,0,0,0]
         }
       ]
     },
@@ -38835,25 +38836,25 @@ class ExecutiveDashBoard extends Component{
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [15773690,19519878,0,0,0,0,0,0,0,0,0,0]
+          data: [15773690,19519878,22506466,0,0,0,0,0,0,0,0,0]
         }
       ]
     },
     receivablesNumbers: [
-      { name: 'Current', amount: '$42,428,247' },
-      { name: '31-60', amount: '$1,946,399' },
-      { name: '61-90', amount: '$972,308' },
-      { name: '90+', amount: '$875,540' },
-      { name: 'Total', amount: '$46,222,494'}
+      { name: 'Current', amount: '$30,732,734' },
+      { name: '31-60', amount: '$11,594,473' },
+      { name: '61-90', amount: '$1,008,512' },
+      { name: '90+', amount: '$1,846,848' },
+      { name: 'Total', amount: '$45,182,567'}
     ],
     humanResourceNumbers: [
-      { name: 'Employees', amount: '241' },
-      { name: 'PT Employees', amount: '19' },
-      { name: 'FT Employees', amount: '222' },
-      { name: 'New Hires YTD', amount: '15' },
-      { name: 'Turnover Rate', amount: '15.22%' },
-      { name: 'Voluntary Turnover', amount: '6' },
-      { name: 'Involuntary Turnover', amount: '7' },
+      { name: 'Employees', amount: '242' },
+      { name: 'PT Employees', amount: '18' },
+      { name: 'FT Employees', amount: '224' },
+      { name: 'New Hires YTD', amount: '22' },
+      { name: 'Turnover Rate', amount: '17.23%' },
+      { name: 'Voluntary Turnover', amount: '9' },
+      { name: 'Involuntary Turnover', amount: '8' },
       { name: 'People Needs', amount: '7' }
    ],
    humanResourceHeadCountData: {
@@ -38867,7 +38868,7 @@ class ExecutiveDashBoard extends Component{
           fill: false,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [235, 241]
+          data: [235, 241, 242]
         }
       ]
     },
@@ -38881,7 +38882,7 @@ class ExecutiveDashBoard extends Component{
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          data: [7, 8, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
       ]
     },
@@ -38905,7 +38906,7 @@ class ExecutiveDashBoard extends Component{
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [37043,37973], //0,0,0,0,0],
+          data: [37043,37973,122405], //0,0,0,0,0],
           fill: false
         }
       ]
@@ -38946,7 +38947,7 @@ class ExecutiveDashBoard extends Component{
           fill: false,
           hoverBackgroundColor: '#005A8B',
           hoverBorderColor: '#005A8B',
-          data: [5.39,2.66]
+          data: [5.39,2.66,3.27]
         }
       ]
     },
@@ -38971,7 +38972,7 @@ class ExecutiveDashBoard extends Component{
           fill: false,
           hoverBackgroundColor: '#005A8B',
           hoverBorderColor: '#005A8B',
-          data: [0,0,,,,,,,,,,]
+          data: [0,0,0,,,,,,,,,]
         }
       ]
     },
@@ -38980,13 +38981,13 @@ class ExecutiveDashBoard extends Component{
       datasets: [
         {
           label: 'Actual $',
-          data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
+          data: [-104546,-657139,-635572,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+          data: [0,0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -40553,18 +40554,18 @@ class ExecutiveDashBoard extends Component{
       datasets: this.state.revenueYearRecord
     }})*/
 
-    this.setState({ safetyTotal: data2, gAndA : {
+    this.setState({ cumulativeYTDNOI: '(1,395,569)', projectedFYENOI: '4,154,461', cumulativeYTDGA: '3,567,059', projectedFYEGA: '13,406,015', cumulativeYTDProfit: '2,171,490',projectedFYEProfit: '17,560,476', cumulativeYTDRevenue: '91,963,590', projectedFYERevenue: '466,831,053', safetyTotal: data2, gAndA : {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Actual $',
-          data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
+          data: [1300785,1140701,1125566,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+          data: [0,0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -40574,13 +40575,13 @@ class ExecutiveDashBoard extends Component{
       datasets: [
         {
           label: 'Actual $',
-          data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
+          data: [-104546,-657139,-635572,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+          data: [0,0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -40590,25 +40591,25 @@ class ExecutiveDashBoard extends Component{
     datasets: [
       {
         label: 'Actual',
-        data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
+        data: [32670657,28571252,30721679,0,0,0,0,0,0,0,0,0],
         backgroundColor: '#00558C', // yellow
         fill: false
       },
       {
         label: 'Contracted',
-        data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+        data: [0,0,0,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
         backgroundColor: '#888B8D', // yellow
         fill: false
       },
       {
         label: 'ABNC',
-        data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+        data: [0,0,0,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
         backgroundColor: '#298FC2', // yellow
         fill: false
       },
       {
         label: 'FA',
-        data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+        data: [0,0,0,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
         backgroundColor: '#002B49', // red
         fill: false
       },
@@ -40624,25 +40625,25 @@ class ExecutiveDashBoard extends Component{
     datasets: [
       {
         label: 'Actual',
-        data: [1196893,484603,0,0,0,0,0,0,0,0,0,0],
+        data: [1195746,485711,489994,0,0,0,0,0,0,0,0,0],
         backgroundColor: '#00558C', // green
         fill: false
       },
       {
         label: 'Contracted',
-        data: [0,0,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
+        data: [0,0,0,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
         backgroundColor: '#888B8D', // yellow
         fill: false
       },
       {
         label: 'ABNC',
-        data: [0,0,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
+        data: [0,0,0,83450,147062,243886,360354,384661,343191,283518,204546,210520],
         backgroundColor: '#298FC2', // yellow
         fill: false
       },
       {
         label: 'FA',
-        data: [0,0,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
+        data: [0,0,0,77512,133086,238748,407938,593969,714747,666481,507984,453660],
         backgroundColor: '#002B49', // red
         fill: false
       },
@@ -40658,25 +40659,25 @@ class ExecutiveDashBoard extends Component{
     datasets: [
       {
         label: 'Actual',
-        data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
+        data: [32670657,28571252,30721679,0,0,0,0,0,0,0,0,0],
         backgroundColor: '#00558C', // yellow
         fill: false
       },
       {
         label: 'Contracted',
-        data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+        data: [0,0,0,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
         backgroundColor: '#888B8D', // yellow
         fill: false
       },
       {
         label: 'ABNC',
-        data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+        data: [0,0,0,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
         backgroundColor: '#298FC2', // yellow
         fill: false
       },
       {
         label: 'FA',
-        data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+        data: [0,0,0,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
         backgroundColor: '#002B49', // red
         fill: false
       },
@@ -40692,13 +40693,13 @@ class ExecutiveDashBoard extends Component{
       datasets: [
         {
           label: 'Actual $',
-          data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
+          data: [1300785,1140701,1125566,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+          data: [0,0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -41049,13 +41050,13 @@ handleChange(event) {
       datasets: [
         {
           label: 'Actual %',
-          data: [3.98,3.99,0,0,0,0,0,0,0,0,0,0],
+          data: [3.98,3.99,3.66,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected %',
-          data: [0,0,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64],
+          data: [0,0,0,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64,2.64],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -41068,18 +41069,18 @@ handleChange(event) {
     this.setState({ gAndA: dataCompanyNext, gAndAvalue: event.target.value}) //, displayButton: true, currentYearLabel: selectedValue})
     //console.log("task completed")          
   }else if(this.state.yearLableValue == 2021 && event.target.value === 'gadollar'){
-    this.setState({ gAndA: {
+    this.setState({ cumulativeYTDGA: '3,567,059', projectedFYEGA: '13,406,015', gAndA: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Actual $',
-          data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
+          data: [1300785,1140701,1125566,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+          data: [0,0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -41125,13 +41126,13 @@ handleNOIChange(event) {
       datasets: [
         {
           label: 'Actual %',
-          data: [-0.40,-2.30,0,0,0,0,0,0,0,0,0,0],
+          data: [-0.40,-2.30,-2.07,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected %',
-          data: [0,0,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59],
+          data: [0,0,0,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59,0.59],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -41156,18 +41157,18 @@ handleNOIChange(event) {
       ]
     },noivalue: event.target.value})
   }else if(this.state.yearLableValue == 2021 && event.target.value === 'noidollar'){
-    this.setState({ noi: {
+    this.setState({ cumulativeYTDNOI: '(1,395,569)', projectedFYENOI: '4,154,461', noi: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Actual $',
-          data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
+          data: [-104546,-657139,-635572,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+          data: [0,0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982],
           backgroundColor: '#888B8D', // green
           fill: false
         }
@@ -41181,32 +41182,32 @@ handleYearChange(event) {
   //console.log(event.target.value)
   //console.log(event)
   if(event.target.value === 'nextYear'){
-    this.setState({ cumulativeYTDRevenue: '61,241,909', projectedFYERevenue: '503,754,692', cumulativeYTDProfit: '1,681,498',
-     projectedFYEProfit: '20,073,089', cumulativeYTDGA: '2,441,493', projectedFYEGA: '13,373,669', cumulativeYTDNOI: '(759,995)', projectedFYENOI: '6,699,420',
+    this.setState({ cumulativeYTDRevenue: '91,963,590', projectedFYERevenue: '466,831,053', cumulativeYTDProfit: '2,171,490', 
+     projectedFYEProfit: '17,560,476', cumulativeYTDGA: '3,567,059', projectedFYEGA: '13,406,015', cumulativeYTDNOI: '(1,395,569)', projectedFYENOI: '4,154,461',
      futureYear: true, futureYearProfit: true, revenue: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Actual',
-          data: [32670657,28571252,0,0,0,0,0,0,0,0,0,0],
+          data: [32670657,28571252,30721679,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // yellow
           fill: false
         },
         {
           label: 'Contracted',
-          data: [0,0,31236905,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
+          data: [0,0,0,33181775,35360218,36671593,36134545,33621380,30946996,28297559,26028052,24232153],
           backgroundColor: '#888B8D', // yellow
           fill: false
         },
         {
           label: 'ABNC',
-          data: [0,0,913670,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
+          data: [0,0,0,1809120,3105421,5513159,8980297,8908789,7410739,6348015,4874247,5135200],
           backgroundColor: '#298FC2', // yellow
           fill: false
         },
         {
           label: 'FA',
-          data: [0,0,421844,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
+          data: [0,0,0,1018655,1991571,3642049,6161645,8935889,10941850,11142539,9915396,9474430],
           backgroundColor: '#002B49', // red
           fill: false
         },
@@ -41222,25 +41223,25 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual',
-          data: [1196893,484603,0,0,0,0,0,0,0,0,0,0],
+          data: [1195746,485711,489994,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Contracted',
-          data: [0,0,1155662,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
+          data: [0,0,0,1171670,1222371,1253859,1220966,1117099,1006413,902944,832369,785423],
           backgroundColor: '#888B8D', // yellow
           fill: false
         },
         {
           label: 'ABNC',
-          data: [0,0,41115,83450,147062,243886,360354,384661,343191,283518,204546,210520],
+          data: [0,0,0,83450,147062,243886,360354,384661,343191,283518,204546,210520],
           backgroundColor: '#298FC2', // yellow
           fill: false
         },
         {
           label: 'FA',
-          data: [0,0,39016,77512,133086,238748,407938,593969,714747,666481,507984,453660],
+          data: [0,0,0,77512,133086,238748,407938,593969,714747,666481,507984,453660],
           backgroundColor: '#002B49', // red
           fill: false
         },
@@ -41256,39 +41257,39 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual $',
-          data: [1300785,1140701,0,0,0,0,0,0,0,0,0,0],
+          data: [1300785,1140701,1125566,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
+          data: [0,0,0,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516,1110516],
           backgroundColor: '#888B8D', // green
           fill: false
         }
       ]
     }, 
     qrNumbers: [
-      { name: 'QUICK RATIO', amount: '1.214' },
-      { name: 'ROA', amount: '(0.36)%' },
-      { name: 'ROE', amount: '(2.02)%' },
-      { name: 'CURRENT RATIO', amount: '1.214' },
-      { name: 'WORKING CAPITAL', amount: '$22,500,054' },
-      { name: 'EQUITY', amount: '$22,676,176' }
+      { name: 'QUICK RATIO', amount: '1.211' },
+      { name: 'ROA', amount: '(0.60)%' },
+      { name: 'ROE', amount: '(3.35)%' },
+      { name: 'CURRENT RATIO', amount: '1.211' },
+      { name: 'WORKING CAPITAL', amount: '$22,148,223' },
+      { name: 'EQUITY', amount: '$22,324,345' }
     ],
     receivablesNumbers: [
-      { name: 'Current', amount: '$42,428,247' },
-      { name: '31-60', amount: '$1,946,399' },
-      { name: '61-90', amount: '$972,308' },
-      { name: '90+', amount: '$875,540' },
-      { name: 'Total', amount: '$46,222,494'}
+      { name: 'Current', amount: '$30,732,734' },
+      { name: '31-60', amount: '$11,594,473' },
+      { name: '61-90', amount: '$1,008,512' },
+      { name: '90+', amount: '$1,846,848' },
+      { name: 'Total', amount: '$45,182,567'}
     ],
     financeBacklogYTDData: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
         {
           label: 'Backlog',
-          data: [513904626,530765956,0,0,0,0,0,0,0,0,0,0],
+          data: [513904626,530765956,544077568,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         }
@@ -41299,20 +41300,20 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Over/Under',
-          data: [15773690,19519878,0,0,0,0,0,0,0,0,0,0],
+          data: [15773690,19519878,22506466,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         }
       ]
     },
     humanResourceNumbers: [
-      { name: 'Employees', amount: '241' },
-      { name: 'PT Employees', amount: '19' },
-      { name: 'FT Employees', amount: '222' },
-      { name: 'New Hires YTD', amount: '15' },
-      { name: 'Turnover Rate', amount: '15.22%' },
-      { name: 'Voluntary Turnover', amount: '6' },
-      { name: 'Involuntary Turnover', amount: '7' },
+      { name: 'Employees', amount: '242' },
+      { name: 'PT Employees', amount: '18' },
+      { name: 'FT Employees', amount: '224' },
+      { name: 'New Hires YTD', amount: '22' },
+      { name: 'Turnover Rate', amount: '17.23%' },
+      { name: 'Voluntary Turnover', amount: '9' },
+      { name: 'Involuntary Turnover', amount: '8' },
       { name: 'People Needs', amount: '7' }
    ],
    humanResourceHeadCountData: {
@@ -41326,7 +41327,7 @@ handleYearChange(event) {
           fill: false,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [235, 241]
+          data: [235, 241, 242]
         }
       ]
     },
@@ -41340,16 +41341,16 @@ handleYearChange(event) {
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          data: [7, 8, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
       ]
     },
     safetyNumbers: [
        { name: '', amount: '2021', amount_past: '2020' },
-       { name: 'MH YTD', amount: '37,973', amount_past: '449,810' },
+       { name: 'MH YTD', amount: '122,405', amount_past: '449,810' },
        { name: 'EMR', amount: '0.68', amount_past: '0.68' },
-       { name: 'RIR', amount: '2.66', amount_past: '1.33' },
-       { name: 'Dart', amount: '0', amount_past: '0.88' },
+       { name: 'RIR', amount: '3.27', amount_past: '1.33' },
+       { name: 'Dart', amount: '0.44', amount_past: '0.88' },
        { name: 'LTIR', amount: '0', amount_past: '0.44' },
    ],
     manHoursYTD : {
@@ -41372,7 +41373,7 @@ handleYearChange(event) {
           borderWidth: 1,
           hoverBackgroundColor: '#00558C',
           hoverBorderColor: '#00558C',
-          data: [37043,37973], //0,0,0,0,0],
+          data: [37043,37973,122405], //0,0,0,0,0],
           fill: false
         }
       ]
@@ -41413,7 +41414,7 @@ handleYearChange(event) {
           fill: false,
           hoverBackgroundColor: '#005A8B',
           hoverBorderColor: '#005A8B',
-          data: [5.39,2.66]
+          data: [5.39,2.66,3.27]
         }
       ]
     },
@@ -41438,7 +41439,7 @@ handleYearChange(event) {
           fill: false,
           hoverBackgroundColor: '#005A8B',
           hoverBorderColor: '#005A8B',
-          data: [0,0,,,,,,,,,,]
+          data: [0,0,0,,,,,,,,,]
         }
       ]
     },
@@ -41447,25 +41448,25 @@ handleYearChange(event) {
       datasets: [
         {
           label: 'Actual $',
-          data: [-103892,-656098,0,0,0,0,0,0,0,0,0,0],
+          data: [-104546,-657139,-635572,0,0,0,0,0,0,0,0,0],
           backgroundColor: '#00558C', // green
           fill: false
         },
         {
           label: 'Projected $',
-          data: [0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982,246982],
+          data: [0,0,0,246982,246982,246982,246982,246982,246982,246982,246982,246982],
           backgroundColor: '#888B8D', // green
           fill: false
         }
       ]
-    },students: [{ financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$61,241,909', V: '$19,133,864', current_month: '$28,571,252', budgetFYE: '$507,000,000', projectedFYE: '$503,754,692', diff: '$(3,245,308)' },
-    { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$1,681,498', V: '$30,768', current_month: '$484,603', budgetFYE: '$20,400,000', projectedFYE: '$20,073,089', diff: '$(326,911)' },
-    { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '2.75%', V: '(1.15)%', current_month: '1.7%', budgetFYE: '4.0%', projectedFYE: '3.98%', diff: '(0.02)%' },
-    { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$2,441,493', V: '$1,330,977', current_month: '$1,140,701', budgetFYE: '$13,900,000', projectedFYE: '$13,373,669', diff: '$(526,331)' },
-    { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.99%', V: '1.39%', current_month: '3.99%', budgetFYE: '2.74%', projectedFYE: '2.65%', diff: '(0.09)%' },
-    { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(759,995)', V: '$(1,300,209)', current_month: '$(656,098)', budgetFYE: '$6,400,000', projectedFYE: '$6,699,420', diff: '$299,420' },
-    { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(1.24)%', V: '(2.54)%', current_month: '(2.30)%', budgetFYE: '1.26%', projectedFYE: '1.33%', diff: '0.07%' },
- ], yearValuePick: event.target.value, yearSelectionPick: 'nextYear', yearLableValue: '2021', yearMonthLabel: 'February', gAndAvalue: 'gadollar', noivalue: 'noidollar'})    
+    },students: [{ financial: 'Revenue', currentYTDBudget: '$42,108,045', currentYTDActual: '$91,963,590', V: '$49,855,545', current_month: '$30,721,679', budgetFYE: '$507,000,000', projectedFYE: '$466,831,053', diff: '$(40,168,947)' },
+    { financial: 'Gross Margin', currentYTDBudget: '$1,650,730', currentYTDActual: '$2,171,490', V: '$520,760', current_month: '$489,994', budgetFYE: '$20,400,000', projectedFYE: '$17,560,476', diff: '$(2,839,524)' },
+    { financial: 'Gross Margin % ', currentYTDBudget: '3.9%', currentYTDActual: '2.36%', V: '(1.54)%', current_month: '1.59%', budgetFYE: '4.0%', projectedFYE: '3.76%', diff: '(0.24)%' },
+    { financial: 'G & A', currentYTDBudget: '$1,110,516', currentYTDActual: '$3,567,059', V: '$2,456,543', current_month: '$1,125,566', budgetFYE: '$13,900,000', projectedFYE: '$13,406,015', diff: '$(493,985)' },
+    { financial: 'G & A %', currentYTDBudget: '2.6%', currentYTDActual: '3.88%', V: '1.28%', current_month: '3.66%', budgetFYE: '2.74%', projectedFYE: '2.87%', diff: '0.13%' },
+    { financial: 'NOI', currentYTDBudget: '$540,214', currentYTDActual: '$(1,395,569)', V: '$(1,935,783)', current_month: '$(635,572)', budgetFYE: '$6,400,000', projectedFYE: '$4,154,461', diff: '(2,245,539)' },
+    { financial: 'NOI %', currentYTDBudget: '1.3%', currentYTDActual: '(1.52)%', V: '(2.82)%', current_month: '(2.07)%', budgetFYE: '1.26%', projectedFYE: '0.89%', diff: '(0.37)%' },
+ ], yearValuePick: event.target.value, yearSelectionPick: 'nextYear', yearLableValue: '2021', yearMonthLabel: 'March', gAndAvalue: 'gadollar', noivalue: 'noidollar'})    
   }
   else if(event.target.value === 'currentYear'){
     this.setState({ cumulativeYTDRevenue: '442,122,728', projectedFYERevenue: '442,122,728', cumulativeYTDProfit: '27,436,641',
@@ -41760,8 +41761,8 @@ handleYearChange(event) {
       { financial: 'NOI %', currentYTDBudget: '2.27%', currentYTDActual: '3.31%', V: '1.04%', current_month: '5.65%', budgetFYE: '2.27%', projectedFYE: '3.31%', diff: '1.04%' },
    ], revenueDisplayButton: false, stackedRevenueValue: true, stackedProfitValue: true, yearValuePick: event.target.value, yearSelectionPick: 'currentYear', yearLableValue: '2020', yearMonthLabel: 'December', gAndAvalue: 'gadollar', noivalue: 'noidollar'})
   }else if(event.target.value === 'nextYearTwo'){
-    this.setState({ cumulativeYTDRevenue: '', projectedFYERevenue: '304,793,942', cumulativeYTDProfit: '', 
-    projectedFYEProfit: '12,959,518', cumulativeYTDGA: '', projectedFYEGA: '13,512,174', cumulativeYTDNOI: '', projectedFYENOI: '(552,656)',
+    this.setState({ cumulativeYTDRevenue: '', projectedFYERevenue: '324,725,524', cumulativeYTDProfit: '', 
+    projectedFYEProfit: '14,004,449', cumulativeYTDGA: '', projectedFYEGA: '13,512,174', cumulativeYTDNOI: '', projectedFYENOI: '492,274',
     futureYear: true, futureYearProfit: true, revenue: {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       datasets: [
@@ -41939,10 +41940,10 @@ handleYearChange(event) {
     },
     safetyNumbers: [
       { name: '', amount: '2022', amount_past: '2021' },
-      { name: 'MH YTD', amount: '', amount_past: '37,973' },
+      { name: 'MH YTD', amount: '', amount_past: '122,405' },
       { name: 'EMR', amount: '', amount_past: '0.68' },
-      { name: 'RIR', amount: '', amount_past: '2.66' },
-      { name: 'Dart', amount: '', amount_past: '0' },
+      { name: 'RIR', amount: '', amount_past: '3.27' },
+      { name: 'Dart', amount: '', amount_past: '0.44' },
       { name: 'LTIR', amount: '', amount_past: '0' },
   ],
     manHoursYTD : {
@@ -41955,7 +41956,7 @@ handleYearChange(event) {
           borderWidth: 1,
           hoverBackgroundColor: '#B1B3B3',
           hoverBorderColor: '#B1B3B3',
-          data: [37043,37973],
+          data: [37043,37973,122405],
           fill: false
         },
         {
@@ -41996,7 +41997,7 @@ handleYearChange(event) {
           fill: false,
           hoverBackgroundColor: '#B1B3B3',
           hoverBorderColor: '#B1B3B3',
-          data: [5.39,2.66]
+          data: [5.39,2.66,3.27]
         },
         {
           label: 'Current Year - 2022',
@@ -42021,7 +42022,7 @@ handleYearChange(event) {
           fill: false,
           hoverBackgroundColor: '#B1B3B3',
           hoverBorderColor: '#B1B3B3',
-          data: [0,0]
+          data: [0,0,0]
         },
         {
           label: 'Current Year - 2022',
@@ -42072,13 +42073,13 @@ handleYearChange(event) {
         ]
     }
     ,students: [
-      { financial: 'Revenue', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$441,500,000', projectedFYE: '$304,793,942', diff: '($136,706,058)' },
-      { financial: 'Gross Margin', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$21,412,750', projectedFYE: '$12,959,518', diff: '($8,453,232)' },
-      { financial: 'Gross Margin % ', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '4.85%', projectedFYE: '4.25%', diff: '(0.6)%' },
+      { financial: 'Revenue', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$441,500,000', projectedFYE: '$324,725,524', diff: '($116,774,476)' },
+      { financial: 'Gross Margin', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$21,412,750', projectedFYE: '$14,004,449', diff: '($7,408,301)' },
+      { financial: 'Gross Margin % ', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '4.85%', projectedFYE: '4.31%', diff: '(0.54)%' },
       { financial: 'G & A', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$13,100,000', projectedFYE: '$13,512,174', diff: '$412,174' },
-      { financial: 'G & A %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '2.97%', projectedFYE: '4.43%', diff: '1.46%' },
-      { financial: 'NOI', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$8,315,000', projectedFYE: '$(552,656)', diff: '$(8,867,656)' },
-      { financial: 'NOI %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '1.88%', projectedFYE: '(0.18)%', diff: '(2.06)%' },
+      { financial: 'G & A %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '2.97%', projectedFYE: '4.16%', diff: '1.19%' },
+      { financial: 'NOI', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '$8,315,000', projectedFYE: '$492,274', diff: '$(7,822,726)' },
+      { financial: 'NOI %', currentYTDBudget: '', currentYTDActual: '', V: '', current_month: '', budgetFYE: '1.88%', projectedFYE: '0.15%', diff: '(1.73)%' },
    ], revenueDisplayButton: false, stackedRevenueValue: true, stackedProfitValue: true, yearValuePick: event.target.value, yearSelectionPick: 'nextYearTwo', yearLableValue: '2022', yearMonthLabel: 'January', gAndAvalue: 'gadollar', noivalue: 'noidollar'})
   }
 }
